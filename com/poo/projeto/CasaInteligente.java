@@ -1,4 +1,4 @@
-package com.poo.aula6_4;
+package com.poo.projeto;
 
 /*********************************************************************************/
 /** DISCLAIMER: Este código foi criado e alterado durante as aulas práticas      */
@@ -27,7 +27,7 @@ import java.util.HashMap;
 public class CasaInteligente {
    
     private String morada;
-    private Map<String, SmartDevice> devices; // identificador -> SmartDevice
+    private Map<String, SmartDevice> devices; // identificador -> com.poo.projeto.SmartDevice
     private Map<String, List<String>> locations; // Espaço -> Lista codigo dos devices
 
     /**

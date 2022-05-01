@@ -1,4 +1,4 @@
-package com.poo.aula6_4;
+package com.poo.projeto;
 
 /*********************************************************************************/
 /** DISCLAIMER: Este código foi criado e alterado durante as aulas práticas      */
@@ -15,7 +15,7 @@ import java.util.Objects;
 
 /**
  * Uma SmartBulb é uma lâmpada inteligente que além de ligar e desligar (já que
- * é subclasse de SmartDevice) também permite escolher a intensidade da iluminação 
+ * é subclasse de com.poo.projeto.SmartDevice) também permite escolher a intensidade da iluminação
  * (a cor da mesma).
  *
  * @author (your name)
@@ -64,6 +64,11 @@ public class SmartBulb extends SmartDevice {
 
     public SmartBulb clone() {
         return new SmartBulb(this);
+    }
+
+    @Override
+    public int ConsumoDiario() {
+        return 0;
     }
 
     @Override

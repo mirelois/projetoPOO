@@ -1,5 +1,4 @@
-package com.poo.aula6_4;
-
+package com.poo.projeto;
 /*********************************************************************************/
 /** DISCLAIMER: Este código foi criado e alterado durante as aulas práticas      */
 /** de POO. Representa uma solução em construção, com base na matéria leccionada */ 
@@ -15,38 +14,51 @@ package com.poo.aula6_4;
 import java.util.Objects;
 
 /**
- * A classe SmartDevice é um contactor simples.
+ * A classe com.poo.projeto.SmartDevice é um contactor simples.
  * Permite ligar ou desligar circuitos. 
  *
  * @author (your name)
  * @version (a version number or a date)
  */
-public class SmartDevice {
+public abstract class SmartDevice {
 
-    private String id;
+    private final String id;
     private boolean on;
+    private double custoInstalacao;
+
+    public double getCustoInstalacao() {
+        return custoInstalacao;
+    }
+
+    public void setCustoInstalacao(double custoInstalacao) {
+        this.custoInstalacao = custoInstalacao;
+    }
 
     /**
-     * Constructor for objects of class SmartDevice
+     * Constructor for objects of class com.poo.projeto.SmartDevice
      */
     public SmartDevice() {
         this.id = "";
         this.on = false;
+        this.custoInstalacao = 0;
     }
 
     public SmartDevice(String s) {
         this.id = s;
         this.on = false;
+        this.custoInstalacao = 0;
     }
 
     public SmartDevice(String s, boolean b) {
         this.id = s;
         this.on = b;
+        this.custoInstalacao = 0;
     }
 
     public SmartDevice(SmartDevice d) {
         this.id = d.id;
         this.on = d.on;
+        this.custoInstalacao = d.custoInstalacao;
     }
 
     public void turnOn() {
@@ -63,9 +75,9 @@ public class SmartDevice {
     
     public String getID() {return this.id;}
 
-    public SmartDevice clone() {
-        return new SmartDevice(this);
-    }
+    public abstract SmartDevice clone();
+
+    public abstract int ConsumoDiario();
 
     @Override
     public boolean equals(Object o) {

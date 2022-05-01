@@ -1,4 +1,4 @@
-package com.poo.aula6_4;
+package com.poo.projeto;
 
 /*********************************************************************************/
 /** DISCLAIMER: Este código foi criado e alterado durante as aulas práticas      */
@@ -14,7 +14,7 @@ package com.poo.aula6_4;
 import java.util.Objects;
 
 /**
- * Um SmartSpeaker é um SmartDevice que além de ligar e desligar permite também
+ * Um SmartSpeaker é um com.poo.projeto.SmartDevice que além de ligar e desligar permite também
  * reproduzir som.
  * Consegue ligar-se a um canal (por simplificação uma rádio online) e permite
  * a regulação do seu nível de volume.
@@ -75,6 +75,11 @@ public class SmartSpeaker extends SmartDevice {
 
     public SmartSpeaker clone() {
         return new SmartSpeaker(this);
+    }
+
+    @Override
+    public int ConsumoDiario() {
+        return 0;
     }
 
     @Override
