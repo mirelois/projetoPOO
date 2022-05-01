@@ -23,11 +23,18 @@ import java.util.Objects;
  * @version (a version number or a date)
  */
 public class SmartSpeaker extends SmartDevice {
-    public static final int MAX = 20; //volume máximo
+    public static final int MAX = 100; //volume máximo
     
     private int volume;
-    private String channel;
+    private String marca, radio;
 
+    public String getRadio() {
+        return radio;
+    }
+
+    public void setRadio(String radio) {
+        this.radio = radio;
+    }
 
     /**
      * Constructor for objects of class SmartSpeaker
@@ -36,27 +43,31 @@ public class SmartSpeaker extends SmartDevice {
         // initialise instance variables
         super();
         this.volume = 0;
-        this.channel = "";
+        this.marca = "";
+        this.radio = "";
     }
 
     public SmartSpeaker(String s) {
         // initialise instance variables
         super(s);
         this.volume = 10;
-        this.channel = "";
+        this.marca = "";
+        this.radio = "";
     }
 
-    public SmartSpeaker(String cod, String channel, int i) {
+    public SmartSpeaker(String cod, String marca, String radio, int i) {
         // initialise instance variables
         super(cod);
-        this.volume = Math.min(20, Math.max(i, 0));
-        this.channel = channel;
+        this.volume = Math.min(MAX, Math.max(i, 0));
+        this.marca = marca;
+        this.radio = radio;
     }
 
     public SmartSpeaker(SmartSpeaker s) {
         super(s);
-        this.channel = s.channel;
+        this.marca = s.marca;
         this.volume = s.volume;
+        this.radio = s.radio;
     }
 
     public void volumeUp() {
@@ -68,18 +79,18 @@ public class SmartSpeaker extends SmartDevice {
     }
 
     public int getVolume() {return this.volume;}
-    
-    public String getChannel() {return this.channel;}
-    
-    public void setChannel(String c) {this.channel = c;}
+
+    public String getMarca() {return this.marca;}
+
+    public void setMarca(String c) {this.marca = c;}
 
     public SmartSpeaker clone() {
         return new SmartSpeaker(this);
     }
 
     @Override
-    public int ConsumoDiario() {
-        return 0;
+    public double ConsumoDiario() {
+        return this.getOn() ? 1+this.volume/100.0 : 0;
     }
 
     @Override
@@ -88,11 +99,11 @@ public class SmartSpeaker extends SmartDevice {
         if (o == null || getClass() != o.getClass()) return false;
         SmartSpeaker that = (SmartSpeaker) o;
         return super.equals(o) && volume == that.volume &&
-                Objects.equals(channel, that.channel);
+                Objects.equals(marca, that.marca);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(volume, channel);
+        return Objects.hash(volume, marca);
     }
 }

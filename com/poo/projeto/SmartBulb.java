@@ -26,7 +26,24 @@ public class SmartBulb extends SmartDevice {
     public static final int NEUTRAL = 1;
     public static final int COLD = 0;
     
-    private int tone;
+    private int tone, diametro;
+    private double consumoBase;
+
+    public double getConsumoBase() {
+        return consumoBase;
+    }
+
+    public void setConsumoBase(double consumoBase) {
+        this.consumoBase = consumoBase;
+    }
+
+    public int getDiametro() {
+        return diametro;
+    }
+
+    public void setDiametro(int diametro) {
+        this.diametro = diametro;
+    }
 
     /**
      * Constructor for objects of class SmartBulb
@@ -35,23 +52,31 @@ public class SmartBulb extends SmartDevice {
         // initialise instance variables
         super();
         this.tone = NEUTRAL;
+        this.diametro = 0;
+        this.consumoBase = 0;
     }
 
-    public SmartBulb(String id, int tone) {
+    public SmartBulb(String id, int tone, int diametro, double consumoBase) {
         // initialise instance variables
         super(id);
         this.tone = tone;
+        this.diametro = diametro;
+        this.consumoBase = consumoBase;
     }
 
     public SmartBulb(String id) {
         // initialise instance variables
         super(id);
         this.tone = NEUTRAL;
+        this.diametro = 1;
+        this.consumoBase = 1;
     }
 
     public SmartBulb(SmartBulb b) {
         super(b);
         this.tone = b.tone;
+        this.diametro = b.diametro;
+        this.consumoBase = b.consumoBase;
     }
 
     public void setTone(int t) {
@@ -67,8 +92,8 @@ public class SmartBulb extends SmartDevice {
     }
 
     @Override
-    public int ConsumoDiario() {
-        return 0;
+    public double ConsumoDiario() {
+        return this.getOn() ? (this.consumoBase + (this.tone+1)/3.0) : 0;
     }
 
     @Override

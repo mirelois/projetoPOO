@@ -60,7 +60,7 @@ public class SmartCamera extends SmartDevice{
         return new SmartCamera(this);
     }
 
-    public int ConsumoDiario(){
+    public double ConsumoDiario(){
         return this.dimension * this.resolution[0] * this.resolution[1];
     }
 
