@@ -24,8 +24,10 @@ import java.util.HashMap;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class CasaInteligente {
-   
+public class SmartHouse {
+
+    private String name;
+    private String nif;
     private String morada;
     private Map<String, SmartDevice> devices; // identificador -> com.poo.projeto.SmartDevice
     private Map<String, List<String>> locations; // Espaço -> Lista codigo dos devices
@@ -33,14 +35,16 @@ public class CasaInteligente {
     /**
      * Constructor for objects of class CasaInteligente
      */
-    public CasaInteligente() {
+    public SmartHouse() {
         // initialise instance variables
         this.morada = "";
         this.devices = new HashMap<>();
         this.locations = new HashMap<>();
+        this.name = "";
+        this.nif = "";
     }
 
-    public CasaInteligente(String morada) {
+    public SmartHouse(String morada) {
         // initialise instance variables
         this.morada = morada;
         this.devices = new HashMap<>();
@@ -97,5 +101,20 @@ public class CasaInteligente {
     public boolean roomHasDevice (String s1, String s2) {
         return this.locations.containsKey(s1) && this.locations.get(s1).contains(s2);
     }
-    
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNif() {
+        return nif;
+    }
+
+    public void setNif(String nif) {
+        this.nif = nif;
+    }
 }
