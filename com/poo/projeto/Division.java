@@ -35,11 +35,11 @@ public class Division {
     }
 
     public Map<String, SmartDevice> getDevices() {
-        return this.devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, valor -> valor.getValue().clone()));
+        return this.devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public void setDevices(Map<String, SmartDevice> devices) {
-        this.devices = devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, valor -> valor.getValue().clone()));
+        this.devices = devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     @Override
