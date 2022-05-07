@@ -50,7 +50,32 @@ public class SmartHouse {
         this.devices = new HashMap<>();
         this.locations = new HashMap<>();
     }
-    
+
+
+    public String getMorada() {
+        return morada;
+    }
+
+    public void setMorada(String morada) {
+        this.morada = morada;
+    }
+
+    public Map<String, SmartDevice> getDevices() {
+        return devices;
+    }
+
+    public void setDevices(Map<String, SmartDevice> devices) {
+        this.devices = devices;
+    }
+
+    public Map<String, List<String>> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(Map<String, List<String>> locations) {
+        this.locations = locations;
+    }
+
     public void setDeviceOn(String devCode) {
         this.devices.get(devCode).turnOn();
     }
