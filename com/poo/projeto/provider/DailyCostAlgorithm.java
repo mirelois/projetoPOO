@@ -1,4 +1,7 @@
-package com.poo.projeto;
+package com.poo.projeto.provider;
+
+import com.poo.projeto.SmartHouse;
+import com.poo.projeto.provider.Provider;
 
 public interface DailyCostAlgorithm {
     public Double dailyCostInterface(Provider provider, SmartHouse house);

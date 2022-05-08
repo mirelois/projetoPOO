@@ -1,4 +1,7 @@
-package com.poo.projeto;
+package com.poo.projeto.provider;
+
+import com.poo.projeto.Invoice;
+import com.poo.projeto.SmartHouse;
 
 import java.util.Map;
 import java.util.Set;
