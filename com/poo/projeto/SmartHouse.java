@@ -11,10 +11,9 @@ package com.poo.projeto;
 /** conhecimentos de POO.                                                        */
 /*********************************************************************************/
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 
 /**
@@ -26,120 +25,172 @@ import java.util.HashMap;
  */
 public class SmartHouse {
 
-    private String name;
-    private String nif;
-    private String morada;
-    private Map<String, SmartDevice> devices; // identificador -> com.poo.projeto.SmartDevice
-    private Map<String, List<String>> locations; // Espaço -> Lista codigo dos devices
+    private String address;
+    private Map<String, String> devices; // id -> string da divisão
+    private Map<String, Division> divisions; // string da divisão -> Divisão (classe)
 
     /**
      * Constructor for objects of class CasaInteligente
      */
     public SmartHouse() {
-        // initialise instance variables
-        this.morada = "";
+        this.address = "";
         this.devices = new HashMap<>();
-        this.locations = new HashMap<>();
-        this.name = "";
-        this.nif = "";
+        this.divisions = new HashMap<>();
     }
 
-    public SmartHouse(String morada) {
-        // initialise instance variables
-        this.morada = morada;
-        this.devices = new HashMap<>();
-        this.locations = new HashMap<>();
+    public SmartHouse(String address, Map<String, String> devices, Map<String, Division> divisions) {
+        this.address = address;
+        this.devices = devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        this.divisions = divisions.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, div -> div.getValue().clone()));
     }
 
-
-    public String getMorada() {
-        return morada;
+    public SmartHouse(SmartHouse smartHouse){
+        this.address = smartHouse.getAddress();
+        this.devices = smartHouse.getDevices();
+        this.divisions = smartHouse.getDivisions();
     }
 
-    public void setMorada(String morada) {
-        this.morada = morada;
+    public String getAddress() {
+        return this.address;
     }
 
-    public Map<String, SmartDevice> getDevices() {
-        return devices;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public void setDevices(Map<String, SmartDevice> devices) {
+    public Map<String, String> getDevices() {
+        return this.devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public void setDevices(Map<String, String> devices) {
         this.devices = devices;
     }
 
-    public Map<String, List<String>> getLocations() {
-        return locations;
+    public Map<String, Division> getDivisions(){
+        return this.divisions.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, value -> value.getValue().clone()));
     }
 
-    public void setLocations(Map<String, List<String>> locations) {
-        this.locations = locations;
+    public void setDivisions(Map<String, Division> divisions){
+        this.divisions = divisions;
     }
 
-    public void setDeviceOn(String devCode) {
-        this.devices.get(devCode).turnOn();
-    }
-    
-    public boolean existsDevice(String id) {
+    public boolean existsDevice(String id){
         return this.devices.containsKey(id);
     }
-    
-    public void addDevice(SmartDevice s) {
-        this.devices.put(s.getID(), s.clone());
-        if (!this.locations.containsKey("hall")) {
-            this.locations.put("hall", new ArrayList<>());
-        }
-        this.locations.get("hall").add(s.getID());
+
+    public boolean existsDivision(String division){
+        return this.divisions.containsKey(division);
     }
-    
-    public SmartDevice getDevice(String s) {
-        if (this.devices.containsKey(s))
-            return this.devices.get(s).clone();
-        else
-            return null;
+
+    public boolean existsDivisonOfDevice(String id){
+        return this.divisions.containsKey(this.devices.get(id));
     }
-    
-    public void setOn(String s, boolean b) {
-        this.devices.get(s).setOn(b);
+    public boolean deviceInDivision(String id, String division){
+        return Objects.equals(this.devices.get(id), division);
     }
-    
-    public void setAllOn(boolean b) {
-        for (SmartDevice d: this.devices.values()) {
-            d.setOn(b);
+
+    public void turnDiv(String division, Consumer<SmartDevice> smartDeviceConsumer){
+        this.divisions.get(division).interact(smartDeviceConsumer);
+    }
+
+    public void turnHouse(Consumer<SmartDevice> divisionConsumer){
+        for(Division division: this.divisions.values()){
+            turnDiv(division.getName(), divisionConsumer);
         }
     }
-    
-    public void addRoom(String s) {
-        this.locations.put(s, new ArrayList<>());
-    }
-    
-    public boolean hasRoom(String s) {
-        return this.locations.containsKey(s);
-    }
-    
-    public void addToRoom (String s1, String s2) {
-        if (!hasRoom(s1))
-            addRoom(s1);
-        this.locations.get(s1).add(s2);
-    }
-    
-    public boolean roomHasDevice (String s1, String s2) {
-        return this.locations.containsKey(s1) && this.locations.get(s1).contains(s2);
+
+    public void turnDevice(String id, Consumer<SmartDevice> smartDeviceConsumer){
+        this.divisions.get(this.devices.get(id)).turnDevice(id, smartDeviceConsumer);
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public SmartHouse clone(){
+        return new SmartHouse(this);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SmartHouse that = (SmartHouse) o;
+        return Objects.equals(address, that.address) && Objects.equals(devices, that.devices) && Objects.equals(divisions, that.divisions);
     }
 
-    public String getNif() {
-        return nif;
+    @Override
+    public String toString() {
+        return "SmartHouse{" +
+                "address='" + address + '\'' +
+                ", devices=" + devices +
+                ", divisions=" + divisions +
+                '}';
     }
 
-    public void setNif(String nif) {
-        this.nif = nif;
-    }
+
+    //public void setDeviceOn(String devCode) {
+    //    this.devices.get(devCode).turnOn();
+    //}
+    //
+    //public boolean existsDevice(String id) {
+    //    return this.devices.containsKey(id);
+    //}
+
+
+    //public void addDevice(SmartDevice s) {
+    //    this.devices.put(s.getID(), s.clone());
+    //    if (!this.locations.containsKey("hall")) {
+    //        this.locations.put("hall", new ArrayList<>());
+    //    }
+    //    this.locations.get("hall").add(s.getID());
+    //}
+    //
+    //public SmartDevice getDevice(String s) {
+    //    if (this.devices.containsKey(s))
+    //        return this.devices.get(s).clone();
+    //    else
+    //        return null;
+    //}
+    //
+    //public void setOn(String s, boolean b) {
+    //    this.devices.get(s).setOn(b);
+    //}
+    //
+    //public void setAllOn(boolean b) {
+    //    for (SmartDevice d: this.devices.values()) {
+    //        d.setOn(b);
+    //    }
+    //}
+    //
+    //public void addRoom(String s) {
+    //    this.locations.put(s, new ArrayList<>());
+    //}
+    //
+    //public boolean hasRoom(String s) {
+    //    return this.locations.containsKey(s);
+    //}
+    //
+    //public void addToRoom (String s1, String s2) {
+    //    if (!hasRoom(s1))
+    //        addRoom(s1);
+    //    this.locations.get(s1).add(s2);
+    //}
+    //
+    //public boolean roomHasDevice (String s1, String s2) {
+    //    return this.locations.containsKey(s1) && this.locations.get(s1).contains(s2);
+    //}
+//
+    //public String getName() {
+    //    return name;
+    //}
+//
+    //public void setName(String name) {
+    //    this.name = name;
+    //}
+//
+    //public String getNif() {
+    //    return nif;
+    //}
+//
+    //public void setNif(String nif) {
+    //    this.nif = nif;
+    //}
 }
