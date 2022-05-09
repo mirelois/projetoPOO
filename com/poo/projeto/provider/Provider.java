@@ -8,7 +8,7 @@ import com.poo.projeto.SmartHouse;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Provider {
+public class Provider implements Comparable<Provider>{
     private String name;
     private Map<SmartHouse, SortedSet<Invoice>> oldInvoiceMap;
     private Map<SmartHouse, Invoice> recentInvoiceMap;
@@ -115,5 +115,10 @@ public class Provider {
             }
         }
         return r;
+    }
+
+    @Override
+    public int compareTo(Provider o) {
+        return Double.compare(this.invoicingVolume(), o.invoicingVolume());
     }
 }
