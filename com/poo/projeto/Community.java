@@ -1,5 +1,7 @@
 package com.poo.projeto;
 
+import com.poo.projeto.provider.Provider;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
