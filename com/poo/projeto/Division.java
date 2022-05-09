@@ -63,6 +63,10 @@ public class Division {
         return Objects.equals(name, division.name) && Objects.equals(devices, division.devices);
     }
 
+    public void turnDevice(String id, Consumer<SmartDevice> smartDeviceConsumer){
+        smartDeviceConsumer.accept(this.devices.get(id));
+    }
+
     public void interact(Consumer<SmartDevice> smartDeviceConsumer){
         this.devices.values().forEach(devices -> smartDeviceConsumer.accept(devices));
     }
