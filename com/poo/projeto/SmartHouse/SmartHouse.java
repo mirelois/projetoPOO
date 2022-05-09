@@ -1,4 +1,4 @@
-package com.poo.projeto;
+package com.poo.projeto.SmartHouse;
 
 /*********************************************************************************/
 /** DISCLAIMER: Este código foi criado e alterado durante as aulas práticas      */

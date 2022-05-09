@@ -1,4 +1,4 @@
-package com.poo.projeto;
+package com.poo.projeto.SmartHouse;
 
 import java.util.Arrays;
 import java.util.Objects;

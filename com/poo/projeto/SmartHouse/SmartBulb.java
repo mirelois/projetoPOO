@@ -1,4 +1,4 @@
-package com.poo.projeto;
+package com.poo.projeto.SmartHouse;
 
 /*********************************************************************************/
 /** DISCLAIMER: Este código foi criado e alterado durante as aulas práticas      */
@@ -15,7 +15,7 @@ import java.util.Objects;
 
 /**
  * Uma SmartBulb é uma lâmpada inteligente que além de ligar e desligar (já que
- * é subclasse de com.poo.projeto.SmartDevice) também permite escolher a intensidade da iluminação
+ * é subclasse de com.poo.projeto.SmartHouse.SmartDevice) também permite escolher a intensidade da iluminação
  * (a cor da mesma).
  *
  * @author (your name)
