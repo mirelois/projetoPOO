@@ -14,6 +14,8 @@ public class SmartHouse {
 
     private Provider provider;
 
+    private Set<Invoice> invoices;
+
     private Owner owner;
     private Map<String, String> devices; // id -> string da divisão
     private Map<String, Division> divisions; // string da divisão -> Divisão (classe)
@@ -85,13 +87,21 @@ public class SmartHouse {
         this.owner = owner;
     }
 
+    public Set<Invoice> getInvoices(){
+        return this.invoices;
+    }
+
+    public void setInvoices(Set<Invoice> invoices){
+        return 
+    }
+
     @Override
     public SmartHouse clone(){
         return new SmartHouse(this);
     }
 
     @Override
-    public boolean equals(Object o) { // Falta chechar owners e providers mas isso faz-se no fim
+    public boolean equals(Object o) { // TODO Falta chechar owners e providers mas isso faz-se no fim
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SmartHouse that = (SmartHouse) o;
@@ -145,7 +155,8 @@ public class SmartHouse {
         return total;
     }
 
-    public Double consumptionByPeriod(LocalDate start, LocalDate end){
+    public Double consumptionByPeriod(LocalDate start)
+    {
         return 0.0;
     }
 
@@ -158,7 +169,7 @@ public class SmartHouse {
     }
 
     public Invoice invoiceEmission(LocalDate start, LocalDate end){
-        return this.provider.emitirFatura(this, start, end);
+        return this.provider.invoiceEmission(this, start, end);
     }
 
     //public void setDeviceOn(String devCode) {
