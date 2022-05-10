@@ -11,24 +11,21 @@ import java.util.stream.Collectors;
 
 public class Provider implements Comparable<Provider>{
     private String name;
-    private Map<SmartHouse, Set<Invoice>> oldInvoiceMap;
-    private Map<SmartHouse, Invoice> recentInvoiceMap;
+    private Map<SmartHouse, Set<Invoice>> invoiceMap;
     private static int baseValueKWH, taxFactor;
     private int discountFactor;
     private DailyCostAlgorithm dailyCostAlgorithm;
 
     public Provider(Provider p) {
         this.name = p.name;
-        this.oldInvoiceMap = p.getOldInvoiceMap();
-        this.recentInvoiceMap = p.getRecentInvoiceMap();
+        this.invoiceMap = p.getInvoiceMap();
         this.discountFactor = p.discountFactor;
         this.dailyCostAlgorithm = p.dailyCostAlgorithm;
     }
 
-    public Provider(String name, Map<SmartHouse, Set<Invoice>> oldInvoiceMap, int discountFactor, DailyCostAlgorithm dailyCostAlgorithm, Map<SmartHouse, Invoice> recentInvoiceMap) {
+    public Provider(String name, Map<SmartHouse, Set<Invoice>> invoiceMap, int discountFactor, DailyCostAlgorithm dailyCostAlgorithm) {
         this.name = name;
-        this.setOldInvoiceMap(oldInvoiceMap);
-        this.setRecentInvoiceMap(recentInvoiceMap);
+        this.setInvoiceMap(invoiceMap);
         this.discountFactor = discountFactor;
         this.dailyCostAlgorithm = dailyCostAlgorithm;
     }
@@ -41,16 +38,16 @@ public class Provider implements Comparable<Provider>{
         this.name = name;
     }
 
-    public Map<SmartHouse, Set<Invoice>> getOldInvoiceMap() {
+    public Map<SmartHouse, Set<Invoice>> getInvoiceMap() {
         HashMap<SmartHouse, Set<Invoice>> invoiceMap = new HashMap<>();
-        for (Map.Entry<SmartHouse, Set<Invoice>> m : oldInvoiceMap.entrySet()) {
-            this.oldInvoiceMap.put(m.getKey(), m.getValue().stream().map(Invoice::clone).collect(Collectors.toCollection(TreeSet::new)));
+        for (Map.Entry<SmartHouse, Set<Invoice>> m : this.invoiceMap.entrySet()) {
+            this.invoiceMap.put(m.getKey(), m.getValue().stream().map(Invoice::clone).collect(Collectors.toCollection(TreeSet::new)));
         }
         return invoiceMap;
     }
 
-    public void setOldInvoiceMap(Map<SmartHouse, Set<Invoice>> oldInvoiceMap) {
-        this.oldInvoiceMap = oldInvoiceMap;
+    public void setInvoiceMap(Map<SmartHouse, Set<Invoice>> invoiceMap) {
+        this.invoiceMap = invoiceMap;
     }
 
     public static int getBaseValueKWH() {
@@ -85,18 +82,6 @@ public class Provider implements Comparable<Provider>{
         this.dailyCostAlgorithm = dailyCostAlgorithm;
     }
 
-    public Map<SmartHouse, Invoice> getRecentInvoiceMap() {
-        HashMap <SmartHouse, Invoice> smartHouseInvoiceHashMap = new HashMap<>();
-        for (Map.Entry<SmartHouse, Invoice> entry : recentInvoiceMap.entrySet()) {
-            smartHouseInvoiceHashMap.put(entry.getKey(), entry.getValue().clone());
-        }
-        return smartHouseInvoiceHashMap;
-    }
-
-    public void setRecentInvoiceMap(Map<SmartHouse, Invoice> recentInvoiceMap) {
-        this.recentInvoiceMap = recentInvoiceMap;
-    }
-
     public Provider clone() {
         return new Provider(this);
     }
@@ -112,10 +97,7 @@ public class Provider implements Comparable<Provider>{
 
     public Double invoicingVolume() {
         double r = 0;
-        for (Invoice invoice : this.recentInvoiceMap.values()) {
-            r += invoice.getCost();
-        }
-        for (Set<Invoice> invoices : this.oldInvoiceMap.values()) {
+        for (Set<Invoice> invoices : this.invoiceMap.values()) {
             for (Invoice invoice : invoices) {
                 r += invoice.getCost();
             }
@@ -125,8 +107,15 @@ public class Provider implements Comparable<Provider>{
 
     public Invoice emitirFatura(SmartHouse house, LocalDate start, LocalDate end) {
         long days = ChronoUnit.DAYS.between(start, end);
-        Invoice invoice = new Invoice(start, end, house.totalConsumption()*days, this.dailyCost(house)*days);
-        this.recentInvoiceMap.put();
+        Invoice invoice = new Invoice(start, end, house.totalConsumption()*days, this.dailyCost(house)*days, house.getAddress(), this.getName());
+        Set<Invoice> set = this.invoiceMap.get(house);
+        if (set == null) {
+            set = new TreeSet<>(Comparator.comparingDouble(Invoice::getCost));
+            set.add(invoice);
+            this.invoiceMap.put(house, set);
+        } else {
+            set.add(invoice);
+        }
         return invoice.clone();
     }
 }

@@ -3,24 +3,30 @@ package com.poo.projeto;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Invoice {
+public class Invoice{
     private LocalDate start;
     private LocalDate end;
     private Double consumption;
     private Double cost;
+    private String casa;
+    private String provider;
 
     public Invoice() {
         this.start = LocalDate.EPOCH;
         this.end = LocalDate.EPOCH;
         this.consumption = 0.0;
         this.cost = 0.0;
+        this.casa = "";
+        this.provider = "";
     }
 
-    public Invoice(LocalDate start, LocalDate end, Double consumption, Double cost) {
+    public Invoice(LocalDate start, LocalDate end, Double consumption, Double cost, String casa, String provider) {
         this.start = start;
         this.end = end;
         this.consumption = consumption;
         this.cost = cost;
+        this.casa = casa;
+        this.provider = provider;
     }
 
     public Invoice(Invoice invoice){
@@ -28,6 +34,8 @@ public class Invoice {
         this.end = invoice.getEnd();
         this.consumption = invoice.getConsumption();
         this.cost = invoice.getCost();
+        this.casa = invoice.getCasa();
+        this.provider = invoice.getProvider();
     }
 
     public LocalDate getStart() {
@@ -62,6 +70,23 @@ public class Invoice {
         this.cost = cost;
     }
 
+    public String getCasa() {
+        return casa;
+    }
+
+    public void setCasa(String casa) {
+        this.casa = casa;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,5 +109,4 @@ public class Invoice {
     public Invoice clone(){
         return new Invoice(this);
     }
-
 }

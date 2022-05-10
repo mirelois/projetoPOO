@@ -10,24 +10,24 @@ import java.util.stream.Collectors;
 public class Community {
     SortedSet<Provider> providerSet;
     Map<String, SmartHouse> smartHouseMap;
-    LocalDate date;
+    LocalDate currentDate;
 
     public Community(Community c) {
         this.setProviderSet(c.providerSet);
         this.setSmartHouseMap(c.smartHouseMap);
-        this.date = c.date;
+        this.currentDate = c.currentDate;
     }
 
     public Community() {
         this.providerSet = new TreeSet<>();
         this.smartHouseMap = new HashMap<>();
-        this.date = LocalDate.EPOCH;
+        this.currentDate = LocalDate.EPOCH;
     }
 
-    public Community(Set<Provider> providerSet, Map<String, SmartHouse> smartHouseMap, LocalDate date) {
+    public Community(Set<Provider> providerSet, Map<String, SmartHouse> smartHouseMap, LocalDate currentDate) {
         this.setProviderSet(providerSet);
         this.setSmartHouseMap(smartHouseMap);
-        this.date = date;
+        this.currentDate = currentDate;
     }
 
     public SortedSet<Provider> getProviderSet() {
@@ -53,12 +53,12 @@ public class Community {
         }
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getCurrentDate() {
+        return currentDate;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setCurrentDate(LocalDate currentDate) {
+        this.currentDate = currentDate;
     }
 
     //função que avança o tempo
