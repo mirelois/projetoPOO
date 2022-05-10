@@ -11,6 +11,7 @@ package com.poo.projeto.SmartHouse;
 /** conhecimentos de POO.                                                        */
 /*********************************************************************************/
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -74,6 +75,28 @@ public class SmartHouse {
         this.divisions = divisions;
     }
 
+    @Override
+    public SmartHouse clone(){
+        return new SmartHouse(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SmartHouse that = (SmartHouse) o;
+        return Objects.equals(address, that.address) && Objects.equals(devices, that.devices) && Objects.equals(divisions, that.divisions);
+    }
+
+    @Override
+    public String toString() {
+        return "SmartHouse{" +
+                "address='" + address + '\'' +
+                ", devices=" + devices +
+                ", divisions=" + divisions +
+                '}';
+    }
+
     public boolean existsDevice(String id){
         return this.devices.containsKey(id);
     }
@@ -103,28 +126,13 @@ public class SmartHouse {
         this.divisions.get(this.devices.get(id)).turnDevice(id, smartDeviceConsumer);
     }
 
-    @Override
-    public SmartHouse clone(){
-        return new SmartHouse(this);
+    public Double totalConsumption(){
+        return 0.0;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SmartHouse that = (SmartHouse) o;
-        return Objects.equals(address, that.address) && Objects.equals(devices, that.devices) && Objects.equals(divisions, that.divisions);
+    public Double consumptionByPeriod(LocalDate start, LocalDate end){
+        return 0.0;
     }
-
-    @Override
-    public String toString() {
-        return "SmartHouse{" +
-                "address='" + address + '\'' +
-                ", devices=" + devices +
-                ", divisions=" + divisions +
-                '}';
-    }
-
 
     //public void setDeviceOn(String devCode) {
     //    this.devices.get(devCode).turnOn();
