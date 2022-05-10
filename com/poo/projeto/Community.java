@@ -1,5 +1,6 @@
 package com.poo.projeto;
 
+import com.poo.projeto.SmartHouse.SmartHouse;
 import com.poo.projeto.provider.Provider;
 
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package com.poo.projeto;
+package com.poo.projeto.SmartHouse;
 /*********************************************************************************/
 /** DISCLAIMER: Este código foi criado e alterado durante as aulas práticas      */
 /** de POO. Representa uma solução em construção, com base na matéria leccionada */ 
@@ -14,7 +14,7 @@ package com.poo.projeto;
 import java.util.Objects;
 
 /**
- * A classe com.poo.projeto.SmartDevice é um contactor simples.
+ * A classe com.poo.projeto.SmartHouse.SmartDevice é um contactor simples.
  * Permite ligar ou desligar circuitos. 
  *
  * @author (your name)
@@ -35,7 +35,7 @@ public abstract class SmartDevice {
     }
 
     /**
-     * Constructor for objects of class com.poo.projeto.SmartDevice
+     * Constructor for objects of class com.poo.projeto.SmartHouse.SmartDevice
      */
     public SmartDevice() {
         this.id = "";
@@ -77,7 +77,7 @@ public abstract class SmartDevice {
 
     public abstract SmartDevice clone();
 
-    public abstract double ConsumoDiario();
+    public abstract double dailyConsumption();
 
     @Override
     public boolean equals(Object o) {

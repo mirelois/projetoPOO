@@ -1,4 +1,4 @@
-package com.poo.projeto;
+package com.poo.projeto.SmartHouse;
 
 /*********************************************************************************/
 /** DISCLAIMER: Este código foi criado e alterado durante as aulas práticas      */
@@ -11,6 +11,7 @@ package com.poo.projeto;
 /** conhecimentos de POO.                                                        */
 /*********************************************************************************/
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -74,35 +75,6 @@ public class SmartHouse {
         this.divisions = divisions;
     }
 
-    public boolean existsDevice(String id){
-        return this.devices.containsKey(id);
-    }
-
-    public boolean existsDivision(String division){
-        return this.divisions.containsKey(division);
-    }
-
-    public boolean existsDivisonOfDevice(String id){
-        return this.divisions.containsKey(this.devices.get(id));
-    }
-    public boolean deviceInDivision(String id, String division){
-        return Objects.equals(this.devices.get(id), division);
-    }
-
-    public void turnDiv(String division, Consumer<SmartDevice> smartDeviceConsumer){
-        this.divisions.get(division).interact(smartDeviceConsumer);
-    }
-
-    public void turnHouse(Consumer<SmartDevice> divisionConsumer){
-        for(Division division: this.divisions.values()){
-            turnDiv(division.getName(), divisionConsumer);
-        }
-    }
-
-    public void turnDevice(String id, Consumer<SmartDevice> smartDeviceConsumer){
-        this.divisions.get(this.devices.get(id)).turnDevice(id, smartDeviceConsumer);
-    }
-
     @Override
     public SmartHouse clone(){
         return new SmartHouse(this);
@@ -125,6 +97,42 @@ public class SmartHouse {
                 '}';
     }
 
+    public boolean existsDevice(String id){
+        return this.devices.containsKey(id);
+    }
+
+    public boolean existsDivision(String division){
+        return this.divisions.containsKey(division);
+    }
+
+    public boolean existsDivisionOfDevice(String id){
+        return this.divisions.containsKey(this.devices.get(id));
+    }
+    public boolean deviceInDivision(String id, String division){
+        return Objects.equals(this.devices.get(id), division);
+    }
+
+    public void turnDiv(String division, Consumer<SmartDevice> smartDeviceConsumer){
+        this.divisions.get(division).interact(smartDeviceConsumer);
+    }
+
+    public void turnHouse(Consumer<SmartDevice> divisionConsumer){
+        for(Division division: this.divisions.values()){
+            turnDiv(division.getName(), divisionConsumer);
+        }
+    }
+
+    public void turnDevice(String id, Consumer<SmartDevice> smartDeviceConsumer){
+        this.divisions.get(this.devices.get(id)).turnDevice(id, smartDeviceConsumer);
+    }
+
+    public Double totalConsumption(){
+        return 0.0;
+    }
+
+    public Double consumptionByPeriod(LocalDate start, LocalDate end){
+        return 0.0;
+    }
 
     //public void setDeviceOn(String devCode) {
     //    this.devices.get(devCode).turnOn();

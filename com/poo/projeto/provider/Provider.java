@@ -2,8 +2,7 @@ package com.poo.projeto.provider;
 
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithm;
 import com.poo.projeto.Invoice;
-import com.poo.projeto.SmartDevice;
-import com.poo.projeto.SmartHouse;
+import com.poo.projeto.SmartHouse.SmartHouse;
 
 import java.time.LocalDate;
 import java.util.*;
