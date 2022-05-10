@@ -5,6 +5,7 @@ import com.poo.projeto.Invoice;
 import com.poo.projeto.SmartDevice;
 import com.poo.projeto.SmartHouse;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -80,6 +81,10 @@ public class Provider implements Comparable<Provider>{
         return dailyCostAlgorithm;
     }
 
+    public void setDailyCostAlgorithm(DailyCostAlgorithm dailyCostAlgorithm) {
+        this.dailyCostAlgorithm = dailyCostAlgorithm;
+    }
+
     public Map<SmartHouse, Invoice> getRecentInvoiceMap() {
         HashMap <SmartHouse, Invoice> smartHouseInvoiceHashMap = new HashMap<>();
         for (Map.Entry<SmartHouse, Invoice> entry : recentInvoiceMap.entrySet()) {
@@ -92,16 +97,17 @@ public class Provider implements Comparable<Provider>{
         this.recentInvoiceMap = recentInvoiceMap;
     }
 
-    public double dailyCost(SmartHouse house) {
-        return dailyCostAlgorithm.dailyCostInterface(this, house);
-    }
-
-    public void setDailyCostAlgorithm(DailyCostAlgorithm dailyCostAlgorithm) {
-        this.dailyCostAlgorithm = dailyCostAlgorithm;
-    }
-
     public Provider clone() {
         return new Provider(this);
+    }
+
+    @Override
+    public int compareTo(Provider o) {
+        return Double.compare(this.invoicingVolume(), o.invoicingVolume());
+    }
+
+    public double dailyCost(SmartHouse house) {
+        return dailyCostAlgorithm.dailyCostInterface(this, house);
     }
 
     public Double invoicingVolume() {
@@ -117,8 +123,9 @@ public class Provider implements Comparable<Provider>{
         return r;
     }
 
-    @Override
-    public int compareTo(Provider o) {
-        return Double.compare(this.invoicingVolume(), o.invoicingVolume());
+    public Invoice emitirFatura(SmartHouse house, LocalDate start, LocalDate end) {
+        Invoice invoice = new Invoice(start, end, house.totalConsumption(), this.dailyCost(house));
+        this.recentInvoiceMap.put();
+        return invoice.clone();
     }
 }

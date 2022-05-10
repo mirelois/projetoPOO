@@ -59,4 +59,7 @@ public class Community {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    //função que avança o tempo
+    //atualizar "casaMaisGostosa"
 }
