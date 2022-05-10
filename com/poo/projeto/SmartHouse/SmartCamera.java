@@ -41,6 +41,7 @@ public class SmartCamera extends SmartDevice{
         this.dimension = dimension;
     }
 
+    @Override
     public String toString() { // toString default
         return "SmartCamera{" +
                 "resolution=" + Arrays.toString(resolution) +
@@ -48,6 +49,7 @@ public class SmartCamera extends SmartDevice{
                 '}';
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -56,10 +58,12 @@ public class SmartCamera extends SmartDevice{
         return Arrays.equals(resolution, that.resolution) && Objects.equals(dimension, that.dimension);
     }
 
+    @Override
     public SmartCamera clone(){
         return new SmartCamera(this);
     }
 
+    @Override
     public double dailyConsumption(){
         return this.dimension * this.resolution[0] * this.resolution[1];
     }

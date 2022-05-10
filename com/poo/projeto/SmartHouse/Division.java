@@ -68,7 +68,16 @@ public class Division {
     }
 
     public void interact(Consumer<SmartDevice> smartDeviceConsumer){
-        this.devices.values().forEach(devices -> smartDeviceConsumer.accept(devices));
+        this.devices.values().forEach(smartDeviceConsumer); // devices -> smartDeviceConsumer.accept(devices)
+    }
+
+    public Double divisonTotalConsumption(){
+        double total = 0.0;
+        for(SmartDevice smartDevice: this.devices.values())
+            total += smartDevice.dailyConsumption();
+
+        return total;
+        //return this.devices.values().stream().map(SmartDevice::dailyConsumption).reduce(0.0, Double::sum); versão geek mas ineficiente
     }
 
     //public void turnOff(){

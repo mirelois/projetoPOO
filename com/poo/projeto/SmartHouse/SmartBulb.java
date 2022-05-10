@@ -11,8 +11,6 @@ package com.poo.projeto.SmartHouse;
 /** conhecimentos de POO.                                                        */
 /*********************************************************************************/
 
-import java.util.Objects;
-
 /**
  * Uma SmartBulb é uma lâmpada inteligente que além de ligar e desligar (já que
  * é subclasse de com.poo.projeto.SmartHouse.SmartDevice) também permite escolher a intensidade da iluminação
@@ -26,23 +24,24 @@ public class SmartBulb extends SmartDevice {
     public static final int NEUTRAL = 1;
     public static final int COLD = 0;
     
-    private int tone, diametro;
-    private double consumoBase;
+    private int tone;
+    private int diameter;
+    private double baseConsumption;
 
-    public double getConsumoBase() {
-        return consumoBase;
+    public double getBaseConsumption() {
+        return baseConsumption;
     }
 
-    public void setConsumoBase(double consumoBase) {
-        this.consumoBase = consumoBase;
+    public void setBaseConsumption(double baseConsumption) {
+        this.baseConsumption = baseConsumption;
     }
 
     public int getDiametro() {
-        return diametro;
+        return diameter;
     }
 
     public void setDiametro(int diametro) {
-        this.diametro = diametro;
+        this.diameter = diametro;
     }
 
     /**
@@ -52,31 +51,31 @@ public class SmartBulb extends SmartDevice {
         // initialise instance variables
         super();
         this.tone = NEUTRAL;
-        this.diametro = 0;
-        this.consumoBase = 0;
+        this.diameter = 0;
+        this.baseConsumption = 0;
     }
 
     public SmartBulb(String id, int tone, int diametro, double consumoBase) {
         // initialise instance variables
         super(id);
         this.tone = tone;
-        this.diametro = diametro;
-        this.consumoBase = consumoBase;
+        this.diameter = diametro;
+        this.baseConsumption = consumoBase;
     }
 
     public SmartBulb(String id) {
         // initialise instance variables
         super(id);
         this.tone = NEUTRAL;
-        this.diametro = 1;
-        this.consumoBase = 1;
+        this.diameter = 1;
+        this.baseConsumption = 1;
     }
 
     public SmartBulb(SmartBulb b) {
         super(b);
         this.tone = b.tone;
-        this.diametro = b.diametro;
-        this.consumoBase = b.consumoBase;
+        this.diameter = b.diameter;
+        this.baseConsumption = b.baseConsumption;
     }
 
     public void setTone(int t) {
@@ -87,13 +86,14 @@ public class SmartBulb extends SmartDevice {
         return this.tone;
     }
 
+    @Override
     public SmartBulb clone() {
         return new SmartBulb(this);
     }
 
     @Override
     public double dailyConsumption() {
-        return this.getOn() ? (this.consumoBase + (this.tone+1)/3.0) : 0;
+        return this.getOn() ? (this.baseConsumption + (this.tone+1)/3.0) : 0;
     }
 
     @Override
@@ -102,11 +102,6 @@ public class SmartBulb extends SmartDevice {
         if (o == null || getClass() != o.getClass()) return false;
         SmartBulb smartBulb = (SmartBulb) o;
         return super.equals(smartBulb) && tone == smartBulb.tone;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(tone);
     }
 }
 

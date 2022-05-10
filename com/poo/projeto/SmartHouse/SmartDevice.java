@@ -24,14 +24,14 @@ public abstract class SmartDevice {
 
     private final String id;
     private boolean on;
-    private double custoInstalacao;
+    private double installationCost;
 
-    public double getCustoInstalacao() {
-        return custoInstalacao;
+    public double getInstallationCost() {
+        return installationCost;
     }
 
-    public void setCustoInstalacao(double custoInstalacao) {
-        this.custoInstalacao = custoInstalacao;
+    public void setInstallationCost(double installationCost) {
+        this.installationCost = installationCost;
     }
 
     /**
@@ -40,25 +40,25 @@ public abstract class SmartDevice {
     public SmartDevice() {
         this.id = "";
         this.on = false;
-        this.custoInstalacao = 0;
+        this.installationCost = 0;
     }
 
     public SmartDevice(String s) {
         this.id = s;
         this.on = false;
-        this.custoInstalacao = 0;
+        this.installationCost = 0;
     }
 
     public SmartDevice(String s, boolean b) {
         this.id = s;
         this.on = b;
-        this.custoInstalacao = 0;
+        this.installationCost = 0;
     }
 
     public SmartDevice(SmartDevice d) {
         this.id = d.id;
         this.on = d.on;
-        this.custoInstalacao = d.custoInstalacao;
+        this.installationCost = d.installationCost;
     }
 
     public void turnOn() {
@@ -86,10 +86,5 @@ public abstract class SmartDevice {
         SmartDevice that = (SmartDevice) o;
         return on == that.on &&
                 Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, on);
     }
 }

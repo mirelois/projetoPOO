@@ -26,7 +26,8 @@ public class SmartSpeaker extends SmartDevice {
     public static final int MAX = 100; //volume máximo
     
     private int volume;
-    private String marca, radio;
+    private String brand;
+    private String radio;
 
     public String getRadio() {
         return radio;
@@ -43,7 +44,7 @@ public class SmartSpeaker extends SmartDevice {
         // initialise instance variables
         super();
         this.volume = 0;
-        this.marca = "";
+        this.brand = "";
         this.radio = "";
     }
 
@@ -51,7 +52,7 @@ public class SmartSpeaker extends SmartDevice {
         // initialise instance variables
         super(s);
         this.volume = 10;
-        this.marca = "";
+        this.brand = "";
         this.radio = "";
     }
 
@@ -59,13 +60,13 @@ public class SmartSpeaker extends SmartDevice {
         // initialise instance variables
         super(cod);
         this.volume = Math.min(MAX, Math.max(i, 0));
-        this.marca = marca;
+        this.brand = marca;
         this.radio = radio;
     }
 
     public SmartSpeaker(SmartSpeaker s) {
         super(s);
-        this.marca = s.marca;
+        this.brand = s.brand;
         this.volume = s.volume;
         this.radio = s.radio;
     }
@@ -80,10 +81,11 @@ public class SmartSpeaker extends SmartDevice {
 
     public int getVolume() {return this.volume;}
 
-    public String getMarca() {return this.marca;}
+    public String getBrand() {return this.brand;}
 
-    public void setMarca(String c) {this.marca = c;}
+    public void setBrand(String c) {this.brand = c;}
 
+    @Override
     public SmartSpeaker clone() {
         return new SmartSpeaker(this);
     }
@@ -99,11 +101,7 @@ public class SmartSpeaker extends SmartDevice {
         if (o == null || getClass() != o.getClass()) return false;
         SmartSpeaker that = (SmartSpeaker) o;
         return super.equals(o) && volume == that.volume &&
-                Objects.equals(marca, that.marca);
+                Objects.equals(brand, that.brand);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(volume, marca);
-    }
 }

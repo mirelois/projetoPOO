@@ -127,7 +127,12 @@ public class SmartHouse {
     }
 
     public Double totalConsumption(){
-        return 0.0;
+        double total = 0.0;
+
+        for(Division division: this.divisions.values())
+            total += division.divisonTotalConsumption();
+
+        return total;
     }
 
     public Double consumptionByPeriod(LocalDate start, LocalDate end){
