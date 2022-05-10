@@ -118,7 +118,8 @@ public class Community {
     }
 
     public Provider providerWithMostInvoicingVolume() {
-        return this.providerMap.get(this.providerSet.last());
+        //TODO tentar ordenar o mapa em si e não necessitar de indireção
+        return this.providerMap.get(this.providerSet.last()); //provider ordena por invoicingVolume
     }
 
     public SmartHouse houseWithMostConsumption(LocalDate period) {
