@@ -3,12 +3,12 @@ package com.poo.projeto;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Invoice{
+public class Invoice implements Comparable<Invoice>{
     private LocalDate start;
     private LocalDate end;
     private Double consumption;
     private Double cost;
-    private String casa;
+    private String smartHouse;
     private String provider;
 
     public Invoice() {
@@ -16,16 +16,16 @@ public class Invoice{
         this.end = LocalDate.EPOCH;
         this.consumption = 0.0;
         this.cost = 0.0;
-        this.casa = "";
+        this.smartHouse = "";
         this.provider = "";
     }
 
-    public Invoice(LocalDate start, LocalDate end, Double consumption, Double cost, String casa, String provider) {
+    public Invoice(LocalDate start, LocalDate end, Double consumption, Double cost, String smartHouse, String provider) {
         this.start = start;
         this.end = end;
         this.consumption = consumption;
         this.cost = cost;
-        this.casa = casa;
+        this.smartHouse = smartHouse;
         this.provider = provider;
     }
 
@@ -34,7 +34,7 @@ public class Invoice{
         this.end = invoice.getEnd();
         this.consumption = invoice.getConsumption();
         this.cost = invoice.getCost();
-        this.casa = invoice.getCasa();
+        this.smartHouse = invoice.getSmartHouse();
         this.provider = invoice.getProvider();
     }
 
@@ -70,12 +70,12 @@ public class Invoice{
         this.cost = cost;
     }
 
-    public String getCasa() {
-        return casa;
+    public String getSmartHouse() {
+        return smartHouse;
     }
 
-    public void setCasa(String casa) {
-        this.casa = casa;
+    public void setSmartHouse(String smartHouse) {
+        this.smartHouse = smartHouse;
     }
 
     public String getProvider() {
@@ -108,5 +108,10 @@ public class Invoice{
     @Override
     public Invoice clone(){
         return new Invoice(this);
+    }
+
+    @Override
+    public int compareTo(Invoice o) {
+        return Double.compare(this.getConsumption(), o.getConsumption());
     }
 }
