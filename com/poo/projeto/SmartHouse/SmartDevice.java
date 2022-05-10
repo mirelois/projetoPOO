@@ -77,7 +77,7 @@ public abstract class SmartDevice {
 
     public abstract SmartDevice clone();
 
-    public abstract double ConsumoDiario();
+    public abstract double dailyConsumption();
 
     @Override
     public boolean equals(Object o) {

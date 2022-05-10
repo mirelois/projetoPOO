@@ -89,7 +89,7 @@ public class SmartSpeaker extends SmartDevice {
     }
 
     @Override
-    public double ConsumoDiario() {
+    public double dailyConsumption() {
         return this.getOn() ? 1+this.volume/100.0 : 0;
     }
 
