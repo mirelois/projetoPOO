@@ -1,6 +1,7 @@
 package com.poo.projeto.provider;
 
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithm;
+import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithmOne;
 import com.poo.projeto.Invoice;
 import com.poo.projeto.SmartHouse.SmartHouse;
 
@@ -15,6 +16,13 @@ public class Provider implements Comparable<Provider>{
     private static int baseValueKWH, taxFactor;
     private int discountFactor;
     private DailyCostAlgorithm dailyCostAlgorithm;
+
+    public Provider() {
+        this.name = "";
+        this.invoiceMap = new HashMap<>();
+        this.discountFactor = 100;
+        this.dailyCostAlgorithm = new DailyCostAlgorithmOne();
+    }
 
     public Provider(Provider p) {
         this.name = p.name;
@@ -105,7 +113,7 @@ public class Provider implements Comparable<Provider>{
         return r;
     }
 
-    public Invoice emitirFatura(SmartHouse house, LocalDate start, LocalDate end) {
+    public Invoice invoiceEmission(SmartHouse house, LocalDate start, LocalDate end) {
         long days = ChronoUnit.DAYS.between(start, end);
         Invoice invoice = new Invoice(start, end, house.totalConsumption()*days, this.dailyCost(house)*days, house.getAddress(), this.getName());
         Set<Invoice> set = this.invoiceMap.get(house);
