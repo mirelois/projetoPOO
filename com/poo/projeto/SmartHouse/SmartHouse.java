@@ -1,5 +1,8 @@
 package com.poo.projeto.SmartHouse;
 
+import com.poo.projeto.Invoice;
+import com.poo.projeto.provider.Provider;
+
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Consumer;
@@ -8,6 +11,10 @@ import java.util.stream.Collectors;
 public class SmartHouse {
 
     private String address;
+
+    private Provider provider;
+
+    private Owner owner;
     private Map<String, String> devices; // id -> string da divisão
     private Map<String, Division> divisions; // string da divisão -> Divisão (classe)
 
@@ -18,18 +25,24 @@ public class SmartHouse {
         this.address = "";
         this.devices = new HashMap<>();
         this.divisions = new HashMap<>();
+        this.provider = new Provider();
+        this.owner = new Owner();
     }
 
-    public SmartHouse(String address, Map<String, String> devices, Map<String, Division> divisions) {
+    public SmartHouse(Owner owner, String address, Map<String, String> devices, Map<String, Division> divisions, Provider provider) {
         this.address = address;
         this.devices = devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         this.divisions = divisions.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, div -> div.getValue().clone()));
+        this.provider = provider;
+        this.owner = owner;
     }
 
     public SmartHouse(SmartHouse smartHouse){
         this.address = smartHouse.getAddress();
         this.devices = smartHouse.getDevices();
         this.divisions = smartHouse.getDivisions();
+        this.provider = smartHouse.getProvider();
+        this.owner = smartHouse.getOwner();
     }
 
     public String getAddress() {
@@ -56,13 +69,29 @@ public class SmartHouse {
         this.divisions = divisions;
     }
 
+    public Provider getProvider(){
+        return this.provider;
+    }
+
+    public void setProvider(Provider provider){
+        this.provider = provider;
+    }
+
+    public Owner getOwner(){
+        return this.owner;
+    }
+
+    public void setOwner(Owner owner){
+        this.owner = owner;
+    }
+
     @Override
     public SmartHouse clone(){
         return new SmartHouse(this);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o) { // Falta chechar owners e providers mas isso faz-se no fim
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SmartHouse that = (SmartHouse) o;
@@ -126,6 +155,10 @@ public class SmartHouse {
 
     public void addDeviceToDivision(SmartDevice smartDevice, String division){
         this.divisions.get(division).addDevice(smartDevice);
+    }
+
+    public Invoice invoiceEmission(LocalDate start, LocalDate end){
+        return this.provider.emitirFatura(this, start, end);
     }
 
     //public void setDeviceOn(String devCode) {
