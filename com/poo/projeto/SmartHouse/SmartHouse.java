@@ -29,14 +29,16 @@ public class SmartHouse {
         this.divisions = new HashMap<>();
         this.provider = new Provider();
         this.owner = new Owner();
+        this.invoices = new HashSet<>();
     }
 
-    public SmartHouse(Owner owner, String address, Map<String, String> devices, Map<String, Division> divisions, Provider provider) {
+    public SmartHouse(Owner owner, String address, Map<String, String> devices, Map<String, Division> divisions, Provider provider, Set<Invoice> invoices) {
         this.address = address;
         this.devices = devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         this.divisions = divisions.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, div -> div.getValue().clone()));
         this.provider = provider;
         this.owner = owner;
+        this.invoices = invoices;
     }
 
     public SmartHouse(SmartHouse smartHouse){
@@ -45,6 +47,7 @@ public class SmartHouse {
         this.divisions = smartHouse.getDivisions();
         this.provider = smartHouse.getProvider();
         this.owner = smartHouse.getOwner();
+        this.invoices = smartHouse.getInvoices();
     }
 
     public String getAddress() {
@@ -92,7 +95,7 @@ public class SmartHouse {
     }
 
     public void setInvoices(Set<Invoice> invoices){
-        return 
+        this.invoices = invoices;
     }
 
     @Override
