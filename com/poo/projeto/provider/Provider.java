@@ -5,12 +5,13 @@ import com.poo.projeto.Invoice;
 import com.poo.projeto.SmartHouse.SmartHouse;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Provider implements Comparable<Provider>{
     private String name;
-    private Map<SmartHouse, SortedSet<Invoice>> oldInvoiceMap;
+    private Map<SmartHouse, Set<Invoice>> oldInvoiceMap;
     private Map<SmartHouse, Invoice> recentInvoiceMap;
     private static int baseValueKWH, taxFactor;
     private int discountFactor;
@@ -24,7 +25,7 @@ public class Provider implements Comparable<Provider>{
         this.dailyCostAlgorithm = p.dailyCostAlgorithm;
     }
 
-    public Provider(String name, Map<SmartHouse, SortedSet<Invoice>> oldInvoiceMap, int discountFactor, DailyCostAlgorithm dailyCostAlgorithm, Map<SmartHouse, Invoice> recentInvoiceMap) {
+    public Provider(String name, Map<SmartHouse, Set<Invoice>> oldInvoiceMap, int discountFactor, DailyCostAlgorithm dailyCostAlgorithm, Map<SmartHouse, Invoice> recentInvoiceMap) {
         this.name = name;
         this.setOldInvoiceMap(oldInvoiceMap);
         this.setRecentInvoiceMap(recentInvoiceMap);
@@ -40,15 +41,15 @@ public class Provider implements Comparable<Provider>{
         this.name = name;
     }
 
-    public Map<SmartHouse, SortedSet<Invoice>> getOldInvoiceMap() {
-        HashMap<SmartHouse, SortedSet<Invoice>> invoiceMap = new HashMap<>();
-        for (Map.Entry<SmartHouse, SortedSet<Invoice>> m : oldInvoiceMap.entrySet()) {
+    public Map<SmartHouse, Set<Invoice>> getOldInvoiceMap() {
+        HashMap<SmartHouse, Set<Invoice>> invoiceMap = new HashMap<>();
+        for (Map.Entry<SmartHouse, Set<Invoice>> m : oldInvoiceMap.entrySet()) {
             this.oldInvoiceMap.put(m.getKey(), m.getValue().stream().map(Invoice::clone).collect(Collectors.toCollection(TreeSet::new)));
         }
         return invoiceMap;
     }
 
-    public void setOldInvoiceMap(Map<SmartHouse, SortedSet<Invoice>> oldInvoiceMap) {
+    public void setOldInvoiceMap(Map<SmartHouse, Set<Invoice>> oldInvoiceMap) {
         this.oldInvoiceMap = oldInvoiceMap;
     }
 
@@ -114,7 +115,7 @@ public class Provider implements Comparable<Provider>{
         for (Invoice invoice : this.recentInvoiceMap.values()) {
             r += invoice.getCost();
         }
-        for (SortedSet<Invoice> invoices : this.oldInvoiceMap.values()) {
+        for (Set<Invoice> invoices : this.oldInvoiceMap.values()) {
             for (Invoice invoice : invoices) {
                 r += invoice.getCost();
             }
@@ -123,7 +124,8 @@ public class Provider implements Comparable<Provider>{
     }
 
     public Invoice emitirFatura(SmartHouse house, LocalDate start, LocalDate end) {
-        Invoice invoice = new Invoice(start, end, house.totalConsumption(), this.dailyCost(house));
+        long days = ChronoUnit.DAYS.between(start, end);
+        Invoice invoice = new Invoice(start, end, house.totalConsumption()*days, this.dailyCost(house)*days);
         this.recentInvoiceMap.put();
         return invoice.clone();
     }

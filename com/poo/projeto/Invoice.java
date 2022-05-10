@@ -3,20 +3,20 @@ package com.poo.projeto;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Invoice implements Comparable<Invoice>{
+public class Invoice {
     private LocalDate start;
     private LocalDate end;
     private Double consumption;
-    private Integer cost;
+    private Double cost;
 
     public Invoice() {
         this.start = LocalDate.EPOCH;
         this.end = LocalDate.EPOCH;
         this.consumption = 0.0;
-        this.cost = 0;
+        this.cost = 0.0;
     }
 
-    public Invoice(LocalDate start, LocalDate end, Double consumption, Integer cost) {
+    public Invoice(LocalDate start, LocalDate end, Double consumption, Double cost) {
         this.start = start;
         this.end = end;
         this.consumption = consumption;
@@ -54,11 +54,11 @@ public class Invoice implements Comparable<Invoice>{
         this.consumption = consumption;
     }
 
-    public Integer getCost() {
+    public Double getCost() {
         return cost;
     }
 
-    public void setCost(Integer cost) {
+    public void setCost(Double cost) {
         this.cost = cost;
     }
 
@@ -85,8 +85,4 @@ public class Invoice implements Comparable<Invoice>{
         return new Invoice(this);
     }
 
-    @Override
-    public int compareTo(Invoice o) {
-        return Double.compare(this.consumption, o.consumption);
-    }
 }
