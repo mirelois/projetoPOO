@@ -105,7 +105,7 @@ public class SmartHouse {
         return this.divisions.containsKey(division);
     }
 
-    public boolean existsDivisonOfDevice(String id){
+    public boolean existsDivisionOfDevice(String id){
         return this.divisions.containsKey(this.devices.get(id));
     }
     public boolean deviceInDivision(String id, String division){
