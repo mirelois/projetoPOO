@@ -80,6 +80,11 @@ public class Division {
         //return this.devices.values().stream().map(SmartDevice::dailyConsumption).reduce(0.0, Double::sum); versão geek mas ineficiente
     }
 
+    public void addDevice(SmartDevice smartDevice){
+        this.devices.put(smartDevice.getID(), smartDevice);
+    }
+
+
     //public void turnOff(){
     //    for(SmartDevice smartDevice: this.devices.values()){
     //        smartDevice.turnOff();

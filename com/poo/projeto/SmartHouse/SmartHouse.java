@@ -139,6 +139,14 @@ public class SmartHouse {
         return 0.0;
     }
 
+    public void addDivision(Division division){
+        this.divisions.put(division.getName(), division);
+    }
+
+    public void addDeviceToDivision(SmartDevice smartDevice, String division){
+        this.divisions.get(division).addDevice(smartDevice);
+    }
+
     //public void setDeviceOn(String devCode) {
     //    this.devices.get(devCode).turnOn();
     //}
@@ -163,23 +171,6 @@ public class SmartHouse {
     //        return null;
     //}
     //
-    //public void setOn(String s, boolean b) {
-    //    this.devices.get(s).setOn(b);
-    //}
-    //
-    //public void setAllOn(boolean b) {
-    //    for (SmartDevice d: this.devices.values()) {
-    //        d.setOn(b);
-    //    }
-    //}
-    //
-    //public void addRoom(String s) {
-    //    this.locations.put(s, new ArrayList<>());
-    //}
-    //
-    //public boolean hasRoom(String s) {
-    //    return this.locations.containsKey(s);
-    //}
     //
     //public void addToRoom (String s1, String s2) {
     //    if (!hasRoom(s1))
