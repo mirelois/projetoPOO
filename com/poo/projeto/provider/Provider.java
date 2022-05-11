@@ -50,13 +50,16 @@ public class Provider implements Comparable<Provider>{
     public Map<SmartHouse, Set<Invoice>> getInvoiceMap() {
         HashMap<SmartHouse, Set<Invoice>> invoiceMap = new HashMap<>();
         for (Map.Entry<SmartHouse, Set<Invoice>> m : this.invoiceMap.entrySet()) {
-            this.invoiceMap.put(m.getKey(), m.getValue().stream().map(Invoice::clone).collect(Collectors.toCollection(TreeSet::new)));
+            invoiceMap.put(m.getKey(), m.getValue().stream().map(Invoice::clone).collect(Collectors.toSet()));
         }
         return invoiceMap;
     }
 
     public void setInvoiceMap(Map<SmartHouse, Set<Invoice>> invoiceMap) {
-        this.invoiceMap = invoiceMap;
+        this.invoiceMap = new HashMap<>();
+        for (Map.Entry<SmartHouse, Set<Invoice>> m : invoiceMap.entrySet()) {
+            this.invoiceMap.put(m.getKey(), m.getValue().stream().map(Invoice::clone).collect(Collectors.toSet()));
+        }
     }
 
     public static int getBaseValueKWH() {
@@ -101,7 +104,7 @@ public class Provider implements Comparable<Provider>{
     }
 
     public double dailyCost(SmartHouse house) {
-        return dailyCostAlgorithm.dailyCostInterface(this, house);
+        return dailyCostAlgorithm.apply(this, house);
     }
 
     public Double invoicingVolume() {

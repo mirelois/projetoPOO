@@ -11,16 +11,12 @@ public class Community {
     Map<String, Provider> providerMap;
     Map<String, SmartHouse> smartHouseMap;
     LocalDate currentDate;
-    ArrayList<LocalDate> periods;
-    Map<LocalDate, SortedSet<Invoice>> invoicesByPeriod;
 
     public Community(Community c) {
         this.setProviderSet(c.providerSet);
         this.setProviderMap(c.providerMap);
         this.setSmartHouseMap(c.smartHouseMap);
         this.setCurrentDate(c.currentDate);
-        this.setPeriods(c.periods);
-        this.setInvoicesByPeriod(c.invoicesByPeriod);
     }
 
     public Community() {
@@ -28,8 +24,6 @@ public class Community {
         this.setProviderMap(new HashMap<>());
         this.setSmartHouseMap(new HashMap<>());
         this.setCurrentDate(LocalDate.EPOCH);
-        this.setPeriods(new ArrayList<>());
-        this.setInvoicesByPeriod(new HashMap<>());
     }
 
     public Community(SortedSet<String> providerSet, Map<String, Provider> providerMap, Map<String, SmartHouse> smartHouseMap, LocalDate currentDate, ArrayList<LocalDate> periods, Map<LocalDate, SortedSet<Invoice>> invoicesByPeriod) {
@@ -37,8 +31,6 @@ public class Community {
         this.setProviderMap(providerMap);
         this.setSmartHouseMap(smartHouseMap);
         this.setCurrentDate(currentDate);
-        this.setPeriods(periods);
-        this.setInvoicesByPeriod(invoicesByPeriod);
     }
 
     public SortedSet<String> getProviderSet() {
@@ -71,22 +63,6 @@ public class Community {
         for (Map.Entry<String, SmartHouse> entry : smartHouseMap.entrySet()) {
             this.smartHouseMap.put(entry.getKey(), entry.getValue().clone());
         }
-    }
-
-    public ArrayList<LocalDate> getPeriods() {
-        return periods;
-    }
-
-    public void setPeriods(ArrayList<LocalDate> periods) {
-        this.periods = periods;
-    }
-
-    public Map<LocalDate, SortedSet<Invoice>> getInvoicesByPeriod() {
-        return invoicesByPeriod;
-    }
-
-    public void setInvoicesByPeriod(Map<LocalDate, SortedSet<Invoice>> invoicesByPeriod) {
-        this.invoicesByPeriod = invoicesByPeriod;
     }
 
     public LocalDate getCurrentDate() {
