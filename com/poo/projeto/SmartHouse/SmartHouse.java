@@ -91,11 +91,11 @@ public class SmartHouse {
     }
 
     public Set<Invoice> getInvoices(){
-        return this.invoices;
+        return new HashSet<>(this.invoices);
     }
 
     public void setInvoices(Set<Invoice> invoices){
-        this.invoices = invoices;
+        this.invoices = new HashSet<>(invoices);
     }
 
     @Override
