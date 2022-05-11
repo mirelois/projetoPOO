@@ -84,6 +84,9 @@ public class Division {
         this.devices.put(smartDevice.getID(), smartDevice);
     }
 
+    public int numberOfDevices(){
+        return this.devices.values().size();
+    }
 
     //public void turnOff(){
     //    for(SmartDevice smartDevice: this.devices.values()){
