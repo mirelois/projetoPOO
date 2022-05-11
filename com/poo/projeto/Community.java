@@ -109,12 +109,9 @@ public class Community {
     }
 
     public void advanceDate(LocalDate newDate) {
-        SortedSet<Invoice> invoices = new TreeSet<>((Comparator.comparingDouble(Invoice::getConsumption)));
         for(SmartHouse house : this.smartHouseMap.values()) {
-            invoices.add(house.invoiceEmission(this.currentDate, newDate));
+            house.invoiceEmission(this.currentDate, newDate);
         }
-        this.invoicesByPeriod.put(this.currentDate, invoices);
-        this.periods.add(this.currentDate);
         this.currentDate = newDate;
     }
 
