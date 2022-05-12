@@ -180,20 +180,19 @@ public class SmartHouse {
                 break;
             }
         }
-        /*
-        Iterator<Invoice> iterator = invoices.iterator();
-        Invoice invoice = iterator.next();
-        for(; !isBetween(start, invoice.getStart(), invoice.getEnd()); invoice = iterator.next());
-        cost += ((double) ChronoUnit.DAYS.between(start, invoice.getEnd()) / ChronoUnit.DAYS.between(invoice.getStart(), invoice.getEnd())) * invoice.getCost();
-        for(; !(isBetween(invoice.getStart(), start, end) && isBetween(invoice.getEnd(), start, end)); invoice = iterator.next());
-        cost += invoice.getCost();
-        invoice = iterator.next();
-        cost += ((double) ChronoUnit.DAYS.between(invoice.getStart(), end) / ChronoUnit.DAYS.between(invoice.getStart(), invoice.getEnd())) * invoice.getCost();
-        */
 
 
-
-
+        /*Iterator<Invoice> iterator = invoices.iterator();
+        Invoice invoice;
+        for(invoice = iterator.next(); iterator.hasNext() && !isBetween(start, invoice.getStart(), invoice.getEnd()); invoice = iterator.next());
+        if (isBetween(end, invoice.getStart(), invoice.getEnd())) {
+            cost += ((double) ChronoUnit.DAYS.between(start, end) / ChronoUnit.DAYS.between(invoice.getStart(), invoice.getEnd())) * invoice.getCost();
+        } else {
+            cost += ((double) ChronoUnit.DAYS.between(start, invoice.getEnd()) / ChronoUnit.DAYS.between(invoice.getStart(), invoice.getEnd())) * invoice.getCost();
+            for(invoice = iterator.next(); (iterator.hasNext() && isBetween(invoice.getStart(), start, end) && isBetween(invoice.getEnd(), start, end)); invoice = iterator.next())
+                cost += invoice.getCost();
+            cost += ((double) ChronoUnit.DAYS.between(invoice.getStart(), end) / ChronoUnit.DAYS.between(invoice.getStart(), invoice.getEnd())) * invoice.getCost();
+        }*/
         return cost;
     }
 
