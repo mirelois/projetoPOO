@@ -4,6 +4,7 @@ import com.poo.projeto.Invoice;
 import com.poo.projeto.provider.Provider;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -14,7 +15,7 @@ public class SmartHouse {
 
     private Provider provider;
 
-    private Set<Invoice> invoices;
+    private List<Invoice> invoices;
 
     private Owner owner;
     private Map<String, String> devices; // id -> string da divisão
@@ -29,10 +30,10 @@ public class SmartHouse {
         this.divisions = new HashMap<>();
         this.provider = new Provider();
         this.owner = new Owner();
-        this.invoices = new HashSet<>();
+        this.invoices = new ArrayList<>();
     }
 
-    public SmartHouse(Owner owner, String address, Map<String, String> devices, Map<String, Division> divisions, Provider provider, Set<Invoice> invoices) {
+    public SmartHouse(Owner owner, String address, Map<String, String> devices, Map<String, Division> divisions, Provider provider, List<Invoice> invoices) {
         this.address = address;
         this.devices = devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         this.divisions = divisions.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, div -> div.getValue().clone()));
@@ -90,12 +91,12 @@ public class SmartHouse {
         this.owner = owner;
     }
 
-    public Set<Invoice> getInvoices(){
-        return new HashSet<>(this.invoices);
+    public List<Invoice> getInvoices(){
+        return new ArrayList<>(this.invoices);
     }
 
-    public void setInvoices(Set<Invoice> invoices){
-        this.invoices = new HashSet<>(invoices);
+    public void setInvoices(List<Invoice> invoices){
+        this.invoices = new ArrayList<>(invoices);
     }
 
     @Override
@@ -158,9 +159,27 @@ public class SmartHouse {
         return total;
     }
 
-    public Double consumptionByPeriod(LocalDate start)
-    {
-        return 0.0;
+    private Boolean isBetween(LocalDate t, LocalDate t1, LocalDate t2) {
+        return t.compareTo(t1) >= 0 && t.compareTo(t2) <= 0;
+    }
+    public Double consumptionByPeriod() {
+        return this.invoices.get(invoices.size() - 1).getConsumption();
+    }
+
+    public Double consumptionByPeriod(LocalDate start, LocalDate end){
+        double cost = 0;
+        for(Invoice invoice : invoices){
+            if(isBetween(start, invoice.getStart(), invoice.getEnd())){
+                cost += (double)ChronoUnit.DAYS.between(start, invoice.getEnd()) / ChronoUnit.DAYS.between(invoice.getStart(), invoice.getEnd()) * invoice.getCost();
+            }
+            if(isBetween(invoice.getStart(), start, end) && isBetween(invoice.getEnd(), start, end)){
+                cost += invoice.getCost();
+            } else if (isBetween(invoice.getStart(), start, end)) {
+                cost += (double) ChronoUnit.DAYS.between(end, invoice.getEnd()) / ChronoUnit.DAYS.between(invoice.getStart(), invoice.getEnd()) * invoice.getCost();
+                break;
+            }
+        }
+        return cost;
     }
 
     public void addDivision(Division division){
