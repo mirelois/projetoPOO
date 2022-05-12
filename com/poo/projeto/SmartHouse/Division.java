@@ -88,15 +88,4 @@ public class Division {
         return this.devices.values().size();
     }
 
-    //public void turnOff(){
-    //    for(SmartDevice smartDevice: this.devices.values()){
-    //        smartDevice.turnOff();
-    //    }
-    //}
-//
-    //public void turnOn(){
-    //    for(SmartDevice smartDevice: this.devices.values()){
-    //        smartDevice.turnOn();
-    //    }
-    //}
 }
