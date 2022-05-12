@@ -73,12 +73,10 @@ public class Community {
         this.currentDate = currentDate;
     }
 
-    public List<SmartHouse> orderedHousesWithMostConsumption(LocalDate period) {
-        List<SmartHouse> smartHouses = new ArrayList<>();
-        for (Invoice invoice : this.invoicesByPeriod.get(period)) {
-            smartHouses.add(this.smartHouseMap.get(invoice.getSmartHouse()));
-        }
-        return smartHouses;
+    public SortedSet<SmartHouse> orderedHousesWithMostConsumption(LocalDate period) {
+        SortedSet<SmartHouse> sortedSet = new TreeSet<>(Comparator.comparingDouble(o -> o.consumptionByPeriod(period)));
+        sortedSet.addAll(this.smartHouseMap.values());
+        return sortedSet;
     }
 
     public Set<Invoice> invoicesFromProvider(String provider) {
@@ -99,13 +97,8 @@ public class Community {
     }
 
     public SmartHouse houseWithMostConsumption(LocalDate period) {
-        SortedSet<Invoice> invoices = this.invoicesByPeriod.get(period);
-        if (invoices == null) {
-            //TODO pode dar throw NoPeriodAdvanced exception
-            return null;
-        } else {
-            return this.smartHouseMap.get(invoices.last().getSmartHouse());
-        }
+        Optional<SmartHouse> max = this.smartHouseMap.values().stream().max(Comparator.comparingDouble(o -> o.consumptionByPeriod(period)));
+        return max.orElse(null);
     }
 
     public void advanceDate(LocalDate newDate) {
