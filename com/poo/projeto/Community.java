@@ -85,7 +85,6 @@ public class Community {
     }
 
     public Provider providerWithMostInvoicingVolume() {
-        //TODO tentar ordenar o mapa em si e não necessitar de indireção
         Optional<Provider> max = this.providerMap.values().stream().max(Comparator.comparingDouble(Provider::invoicingVolume));
         if (max.isEmpty()) {
             //TODO return NoProviders exception

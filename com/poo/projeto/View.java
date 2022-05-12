@@ -10,19 +10,25 @@ import java.util.List;
 import java.util.Scanner;
 
 public class View {
-
-
+    private Controller controller;
     private String fileName;
-    public View(){
-        this.fileName = "";
-    }
 
-    public View(String fileName){
+    public View(Controller controller, String fileName){
+        this.setController(controller);
         this.fileName = fileName;
     }
 
     public View(View view){
+        this.setController(view.controller);
         this.fileName = view.getFileName();
+    }
+
+    public Controller getController() {
+        return controller;
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     public void setFileName(String fileName){
@@ -88,7 +94,7 @@ public class View {
         //4. Ligar/Desligar Division
         //5. Mudar Fornecedor
         //6. Return
-        
+
         //. Menu Mudar Cena Fornecedor
         //1. Mudar Algoritmo
         //2. Mudar DiscountFactor

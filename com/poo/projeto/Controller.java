@@ -7,6 +7,14 @@ public class Controller {
 
     private Community model;
 
+    public Community getModel() {
+        return model;
+    }
+
+    public void setModel(Community model) {
+        this.model = model;
+    }
+
     public Controller(Community community) {
         this.setModel(community);
     }
