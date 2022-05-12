@@ -6,7 +6,15 @@ import com.poo.projeto.provider.Provider;
 
 public class DailyCostAlgorithmTwo implements DailyCostAlgorithm {
 
-    public DailyCostAlgorithmTwo() { }
+    private static DailyCostAlgorithmTwo singletonAlgorithm = null;
+
+    public DailyCostAlgorithmTwo getInstance() {
+        if (singletonAlgorithm == null)
+            singletonAlgorithm = new DailyCostAlgorithmTwo();
+        return singletonAlgorithm;
+    }
+
+    private DailyCostAlgorithmTwo() { }
 
     @Override
     public Double apply(Provider provider, SmartHouse smartHouse) {

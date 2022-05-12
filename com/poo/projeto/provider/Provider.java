@@ -12,17 +12,17 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Provider implements Comparable<Provider>{
+    private static int baseValueKWH, taxFactor;
     private String name;
     private Map<SmartHouse, Set<Invoice>> invoiceMap;
-    private static int baseValueKWH, taxFactor;
     private int discountFactor;
     private DailyCostAlgorithm dailyCostAlgorithm;
 
     public Provider() {
         this.name = "";
         this.invoiceMap = new HashMap<>();
-        this.discountFactor = 100;
-        this.dailyCostAlgorithm = new DailyCostAlgorithmOne();
+        this.discountFactor = 1;
+        this.dailyCostAlgorithm = DailyCostAlgorithmOne.getInstance();
     }
 
     public Provider(Provider p) {
@@ -94,6 +94,7 @@ public class Provider implements Comparable<Provider>{
         this.dailyCostAlgorithm = dailyCostAlgorithm;
     }
 
+    @Override
     public Provider clone() {
         return new Provider(this);
     }
