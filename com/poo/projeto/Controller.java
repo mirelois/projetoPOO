@@ -3,9 +3,12 @@ package com.poo.projeto;
 import java.util.List;
 import java.util.Map;
 
-public class Controler {
+public class Controller {
 
-    public Controler() {
+    private Community model;
+
+    public Controller(Community community) {
+        this.setModel(community);
     }
 
     public Map<String, Object> createClassMap(){
