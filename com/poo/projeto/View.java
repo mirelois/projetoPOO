@@ -11,16 +11,16 @@ import java.util.Scanner;
 
 public class View {
     private Controller controller;
-    private String fileName;
+    //private String fileName;
 
-    public View(Controller controller, String fileName){
+    public View(Controller controller){
         this.setController(controller);
-        this.fileName = fileName;
+        //this.fileName = fileName;
     }
 
     public View(View view){
         this.setController(view.controller);
-        this.fileName = view.getFileName();
+        //this.fileName = view.getFileName();
     }
 
     public Controller getController() {
@@ -31,13 +31,13 @@ public class View {
         this.controller = controller;
     }
 
-    public void setFileName(String fileName){
-        this.fileName = fileName;
-    }
+    //public void setFileName(String fileName){
+    //    this.fileName = fileName;
+    //}
 
-    public String getFileName(){
-        return this.fileName;
-    }
+    //public String getFileName(){
+    //    return this.fileName;
+    //}
 
     public List<String> readLog(String logFileName) {
         List<String> list;
