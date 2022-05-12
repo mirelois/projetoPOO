@@ -228,11 +228,11 @@ public class SmartHouse {
         interactDiv(division, SmartDevice::turnOff);
     }
 
-    public void turnHouseOn(){
+    public void setHouseOn(){
         interactHouse(SmartDevice::turnOn);
     }
 
-    public void turnHouseOff(){
+    public void setHouseOff(){
         interactHouse(SmartDevice::turnOff);
     }
 
