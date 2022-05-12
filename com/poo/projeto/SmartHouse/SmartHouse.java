@@ -196,6 +196,10 @@ public class SmartHouse {
         return cost;
     }
 
+    public Integer numberOfDevices(){
+        return this.devices.keySet().size();
+    }
+
     public void addDivision(Division division){
         this.divisions.put(division.getName(), division);
     }
