@@ -67,15 +67,15 @@ public class Community {
         this.currentDate = LocalDate.of(currentDate.getYear(), currentDate.getMonth(), currentDate.getDayOfMonth());
     }
 
-    public SortedSet<SmartHouse> orderedHousesWithMostConsumption(LocalDate period) {
-        SortedSet<SmartHouse> sortedSet = new TreeSet<>(Comparator.comparingDouble(o -> o.consumptionByPeriod(period)));
+    public SortedSet<SmartHouse> orderedHousesWithMostConsumption(LocalDate start, LocalDate end) {
+        SortedSet<SmartHouse> sortedSet = new TreeSet<>(Comparator.comparingDouble(o -> o.consumptionByPeriod(start, end)));
         sortedSet.addAll(this.smartHouseMap.values());
         return sortedSet;
     }
 
-    public Set<Invoice> invoicesFromProvider(String provider) {
+    public List<Invoice> invoicesFromProvider(String provider) {
         Provider provider1 = this.providerMap.get(provider);
-        Set<Invoice> tmp = new TreeSet<>();
+        List<Invoice> tmp = new ArrayList<>();
         if (provider1 == null) {
             //TODO pode dar throw NoProvider exception
         } else {
@@ -95,8 +95,8 @@ public class Community {
         }
     }
 
-    public SmartHouse houseWithMostConsumption(LocalDate period) {
-        Optional<SmartHouse> max = this.smartHouseMap.values().stream().max(Comparator.comparingDouble(o -> o.consumptionByPeriod(period)));
+    public SmartHouse houseWithMostConsumption(LocalDate start, LocalDate end) {
+        Optional<SmartHouse> max = this.smartHouseMap.values().stream().max(Comparator.comparingDouble(o -> o.consumptionByPeriod(start, end)));
         if (max.isEmpty()) {
             //TODO return NoHouses exception
             return null;
