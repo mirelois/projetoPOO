@@ -39,6 +39,7 @@ public class Division {
     }
 
     public void setDevices(Map<String, SmartDevice> devices) {
+        //TODO não está a clonar o device que recebe
         this.devices = devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 

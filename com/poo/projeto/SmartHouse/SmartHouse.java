@@ -34,6 +34,7 @@ public class SmartHouse {
     }
 
     public SmartHouse(Owner owner, String address, Map<String, String> devices, Map<String, Division> divisions, Provider provider, List<Invoice> invoices) {
+        //TODO não está a criar novas estruturas então de fora podem destruí-las
         this.address = address;
         this.devices = devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         this.divisions = divisions.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, div -> div.getValue().clone()));
@@ -64,6 +65,7 @@ public class SmartHouse {
     }
 
     public void setDevices(Map<String, String> devices) {
+        //TODO não está a criar uma nova estrutura então de fora podem destruí-la
         this.devices = devices;
     }
 
@@ -72,6 +74,8 @@ public class SmartHouse {
     }
 
     public void setDivisions(Map<String, Division> divisions){
+        //TODO não está a clonar as divisões
+        //TODO não está a criar uma nova estrutura então de fora podem destruí-la
         this.divisions = divisions;
     }
 
@@ -181,7 +185,6 @@ public class SmartHouse {
             }
         }
 
-
         /*Iterator<Invoice> iterator = invoices.iterator();
         Invoice invoice;
         for(invoice = iterator.next(); iterator.hasNext() && !isBetween(start, invoice.getStart(), invoice.getEnd()); invoice = iterator.next());
@@ -205,10 +208,12 @@ public class SmartHouse {
     }
 
     public void addDeviceToDivision(SmartDevice smartDevice, String division){
+        //TODO cuidado com NullPointerExceptions por não existir uma divisão
         this.divisions.get(division).addDevice(smartDevice);
     }
 
     public Invoice invoiceEmission(LocalDate start, LocalDate end){
+        //TODO é suposto a casa guardar a fatura que está a ser emitida para si
         return this.provider.invoiceEmission(this, start, end);
     }
 

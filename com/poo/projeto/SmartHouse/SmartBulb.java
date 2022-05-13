@@ -8,15 +8,6 @@ public class SmartBulb extends SmartDevice {
     
     private int tone;
     private int diameter;
-    private double baseConsumption;
-
-    public double getBaseConsumption() {
-        return baseConsumption;
-    }
-
-    public void setBaseConsumption(double baseConsumption) {
-        this.baseConsumption = baseConsumption;
-    }
 
     public int getDiametro() {
         return diameter;
@@ -34,30 +25,33 @@ public class SmartBulb extends SmartDevice {
         super();
         this.tone = NEUTRAL;
         this.diameter = 0;
-        this.baseConsumption = 0;
     }
 
-    public SmartBulb(String id, int tone, int diametro, double consumoBase) {
+    public SmartBulb(String id, double consumoBase, int tone, int diametro) {
         // initialise instance variables
-        super(id);
+        super(id, diametro * 10 + consumoBase, consumoBase);
         this.tone = tone;
         this.diameter = diametro;
-        this.baseConsumption = consumoBase;
+    }
+
+    public SmartBulb(String id, boolean on, int installationCost, double consumoBase, int tone, int diametro) {
+        // initialise instance variables
+        super(id, on, installationCost, consumoBase);
+        this.tone = tone;
+        this.diameter = diametro;
     }
 
     public SmartBulb(String id) {
         // initialise instance variables
-        super(id);
+        super(id, 10, 1);
         this.tone = NEUTRAL;
         this.diameter = 1;
-        this.baseConsumption = 1;
     }
 
     public SmartBulb(SmartBulb b) {
         super(b);
         this.tone = b.tone;
         this.diameter = b.diameter;
-        this.baseConsumption = b.baseConsumption;
     }
 
     public void setTone(int t) {
@@ -75,7 +69,7 @@ public class SmartBulb extends SmartDevice {
 
     @Override
     public double dailyConsumption() {
-        return this.getOn() ? (this.baseConsumption + (this.tone+1)/3.0) : 0;
+        return this.getOn() ? (this.getBaseConsumption() + (this.tone+1)/3.0) : 0;
     }
 
     @Override

@@ -13,8 +13,32 @@ public class SmartCamera extends SmartDevice{
         this.dimension = 0;
     }
 
+    public SmartCamera(String id, Integer[] resolution, Integer dimension) {
+        super(id, dimension * 100 + resolution[0] + resolution[1], 2);
+        this.resolution = resolution.clone();
+        this.dimension = dimension;
+    }
+
     public SmartCamera(String id, boolean on, Integer[] resolution, Integer dimension) {
-        super(id, on);
+        super(id, on,dimension * 100 + resolution[0] + resolution[1],2 );
+        this.resolution = resolution.clone();
+        this.dimension = dimension;
+    }
+
+    public SmartCamera(String id, double baseConsumption, Integer[] resolution, Integer dimension) {
+        super(id, baseConsumption, dimension * 100 + resolution[0] + resolution[1]);
+        this.resolution = resolution.clone();
+        this.dimension = dimension;
+    }
+
+    public SmartCamera(String id, boolean on, double installationCost, Integer[] resolution, Integer dimension) {
+        super(id, on, installationCost, 2);
+        this.resolution = resolution.clone();
+        this.dimension = dimension;
+    }
+
+    public SmartCamera(String id, boolean on, double installationCost, double baseConsumption, Integer[] resolution, Integer dimension) {
+        super(id, on, installationCost, baseConsumption);
         this.resolution = resolution.clone();
         this.dimension = dimension;
     }

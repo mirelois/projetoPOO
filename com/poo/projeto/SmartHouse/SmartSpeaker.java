@@ -10,17 +10,6 @@ public class SmartSpeaker extends SmartDevice {
     private String brand;
     private String radio;
 
-    public String getRadio() {
-        return radio;
-    }
-
-    public void setRadio(String radio) {
-        this.radio = radio;
-    }
-
-    /**
-     * Constructor for objects of class SmartSpeaker
-     */
     public SmartSpeaker() {
         // initialise instance variables
         super();
@@ -29,18 +18,31 @@ public class SmartSpeaker extends SmartDevice {
         this.radio = "";
     }
 
-    public SmartSpeaker(String s) {
+    public SmartSpeaker(String id) {
         // initialise instance variables
-        super(s);
+        super(id);
         this.volume = 10;
         this.brand = "";
         this.radio = "";
     }
 
-    public SmartSpeaker(String cod, String marca, String radio, int i) {
-        // initialise instance variables
-        super(cod);
-        this.volume = Math.min(MAX, Math.max(i, 0));
+    public SmartSpeaker(String id, double baseConsumption, int volume, String brand, String radio) {
+        super(id, 100, baseConsumption);
+        this.volume = Math.min(MAX, Math.max(volume, 0));
+        this.brand = brand;
+        this.radio = radio;
+    }
+
+    public SmartSpeaker(String id, double installationCost, double baseConsumption, int volume, String brand, String radio) {
+        super(id, installationCost, baseConsumption);
+        this.volume = Math.min(MAX, Math.max(volume, 0));
+        this.brand = brand;
+        this.radio = radio;
+    }
+
+    public SmartSpeaker(String id, int volume, String marca, String radio) {
+        super(id, 100, 1);
+        this.volume = Math.min(MAX, Math.max(volume, 0));
         this.brand = marca;
         this.radio = radio;
     }
@@ -65,6 +67,14 @@ public class SmartSpeaker extends SmartDevice {
     public String getBrand() {return this.brand;}
 
     public void setBrand(String c) {this.brand = c;}
+
+    public String getRadio() {
+        return radio;
+    }
+
+    public void setRadio(String radio) {
+        this.radio = radio;
+    }
 
     @Override
     public SmartSpeaker clone() {

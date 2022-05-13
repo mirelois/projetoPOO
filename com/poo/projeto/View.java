@@ -11,16 +11,13 @@ import java.util.Scanner;
 
 public class View {
     private Controller controller;
-    private String fileName;
 
     public View(Controller controller, String fileName){
         this.setController(controller);
-        this.fileName = fileName;
     }
 
     public View(View view){
         this.setController(view.controller);
-        this.fileName = view.getFileName();
     }
 
     public Controller getController() {
@@ -29,14 +26,6 @@ public class View {
 
     public void setController(Controller controller) {
         this.controller = controller;
-    }
-
-    public void setFileName(String fileName){
-        this.fileName = fileName;
-    }
-
-    public String getFileName(){
-        return this.fileName;
     }
 
     public List<String> readLog(String logFileName) {
@@ -60,6 +49,7 @@ public class View {
         //1. Carregar log text
         //2. Carregar log objetos
         //3. Começar Simulação sem Ficheiro
+        //4. Exit
 
         //. Menu Simulação
         //1. Carregar ficheiro ações automáticas -> Menu Simulação Automática
@@ -79,6 +69,7 @@ public class View {
         //1. Print Total
         //2. Print Casa
         //3. Print Fornecedor
+        //4. Return
 
         //. Menu Mudar Cenas
         //1. Menu Mudar Cena Casa -> Insira moradaCasa
