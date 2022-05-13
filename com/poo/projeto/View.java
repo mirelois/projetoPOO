@@ -7,10 +7,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class View {
     private Controller controller;
+    private List<Menu> menuMenuHandlerMap;
 
     //private String fileName;
 
@@ -66,9 +68,9 @@ public class View {
         //Introduzir data inicial
 
         //. Menu Inicial
-        //1. Carregar log text
-        //2. Carregar log objetos
-        //3. Começar Simulação sem Ficheiro
+        //1. Carregar log text -> Menu Simulação
+        //2. Carregar log objetos -> Menu Simulação
+        //3. Começar Simulação sem Ficheiro -> Menu Simulação
         //4. Exit
 
         //. Menu Simulação
