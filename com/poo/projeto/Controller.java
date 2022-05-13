@@ -1,7 +1,9 @@
 package com.poo.projeto;
 
-import java.util.List;
-import java.util.Map;
+import com.poo.projeto.SmartHouse.Division;
+
+import java.lang.reflect.Constructor;
+import java.util.*;
 
 public class Controller {
 
@@ -19,17 +21,22 @@ public class Controller {
         this.setModel(community);
     }
 
-    public Map<String, Object> createClassMap(){
-        return null;
+    public Set<String> createClassSet()
+    {
+        String[] everyClass = {"SmartDevice", "SmartBulb", "SmartCamera",
+                "SmartSpeaker", "SmartHouse", "Division", "Owner", "Provider"};
+        return new HashSet<>(Arrays.asList(everyClass));
     }
 
     public void parser(List<String> lines){
         String[] brokenLine;
-        Map<String, Object> classMap = createClassMap();
+        Set<String> classSet = createClassSet();
         for(String line: lines){
             brokenLine = line.split(":", 2);
-            if(classMap.containsKey(brokenLine[0])){
-                classMap.get(brokenLine[0]);
+            if(classSet.contains(brokenLine[0])){
+                Class<?> c = Class.forName(brokenLine[0]);
+                Constructor<?> constructor = c.getConstructor(String.class, Integer.class);
+                Object instancia = constructor.newInstance("ola", 1);
             }
         }
     }
