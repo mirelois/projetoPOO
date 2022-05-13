@@ -12,12 +12,21 @@ import java.util.Scanner;
 public class View {
     private Controller controller;
 
-    public View(Controller controller, String fileName){
+    //private String fileName;
+
+
+    public View(Controller controller){
         this.setController(controller);
+
+        //this.fileName = fileName;
+
     }
 
     public View(View view){
         this.setController(view.controller);
+
+        //this.fileName = view.getFileName();
+
     }
 
     public Controller getController() {
@@ -27,6 +36,17 @@ public class View {
     public void setController(Controller controller) {
         this.controller = controller;
     }
+
+
+
+    //public void setFileName(String fileName){
+    //    this.fileName = fileName;
+    //}
+
+    //public String getFileName(){
+    //    return this.fileName;
+    //}
+
 
     public List<String> readLog(String logFileName) {
         List<String> list;

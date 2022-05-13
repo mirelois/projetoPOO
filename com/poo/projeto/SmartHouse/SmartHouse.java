@@ -140,17 +140,17 @@ public class SmartHouse {
         return Objects.equals(this.devices.get(id), division);
     }
 
-    public void turnDiv(String division, Consumer<SmartDevice> smartDeviceConsumer){
+    public void interactDiv(String division, Consumer<SmartDevice> smartDeviceConsumer){
         this.divisions.get(division).interact(smartDeviceConsumer);
     }
 
-    public void turnHouse(Consumer<SmartDevice> divisionConsumer){
+    public void interactHouse(Consumer<SmartDevice> divisionConsumer){
         for(Division division: this.divisions.values()){
-            turnDiv(division.getName(), divisionConsumer);
+            interactDiv(division.getName(), divisionConsumer);
         }
     }
 
-    public void turnDevice(String id, Consumer<SmartDevice> smartDeviceConsumer){
+    public void interactDevice(String id, Consumer<SmartDevice> smartDeviceConsumer){
         this.divisions.get(this.devices.get(id)).turnDevice(id, smartDeviceConsumer);
     }
 
@@ -217,54 +217,28 @@ public class SmartHouse {
         return this.provider.invoiceEmission(this, start, end);
     }
 
-    //public void setDeviceOn(String devCode) {
-    //    this.devices.get(devCode).turnOn();
-    //}
-    //
-    //public boolean existsDevice(String id) {
-    //    return this.devices.containsKey(id);
-    //}
+    public void setDeviceOn(String id) {
+        interactDevice(id, SmartDevice::turnOn);
+    }
 
+    public void setDeviceOff(String id) {
+        interactDevice(id, SmartDevice::turnOff);
+    }
 
-    //public void addDevice(SmartDevice s) {
-    //    this.devices.put(s.getID(), s.clone());
-    //    if (!this.locations.containsKey("hall")) {
-    //        this.locations.put("hall", new ArrayList<>());
-    //    }
-    //    this.locations.get("hall").add(s.getID());
-    //}
-    //
-    //public SmartDevice getDevice(String s) {
-    //    if (this.devices.containsKey(s))
-    //        return this.devices.get(s).clone();
-    //    else
-    //        return null;
-    //}
-    //
-    //
-    //public void addToRoom (String s1, String s2) {
-    //    if (!hasRoom(s1))
-    //        addRoom(s1);
-    //    this.locations.get(s1).add(s2);
-    //}
-    //
-    //public boolean roomHasDevice (String s1, String s2) {
-    //    return this.locations.containsKey(s1) && this.locations.get(s1).contains(s2);
-    //}
-//
-    //public String getName() {
-    //    return name;
-    //}
-//
-    //public void setName(String name) {
-    //    this.name = name;
-    //}
-//
-    //public String getNif() {
-    //    return nif;
-    //}
-//
-    //public void setNif(String nif) {
-    //    this.nif = nif;
-    //}
+    public void setDivisionOn(String division){
+        interactDiv(division, SmartDevice::turnOn);
+    }
+
+    public void setDivisionOff(String division){
+        interactDiv(division, SmartDevice::turnOff);
+    }
+
+    public void setHouseOn(){
+        interactHouse(SmartDevice::turnOn);
+    }
+
+    public void setHouseOff(){
+        interactHouse(SmartDevice::turnOff);
+    }
+
 }
