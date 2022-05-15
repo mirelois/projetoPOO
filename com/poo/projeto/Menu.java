@@ -14,31 +14,48 @@ public class Menu {
         public boolean validate();
     }
 
+    public static Scanner is = new Scanner(System.in);
+    private String name;
     private List<String> options;
     private List<Handler> handlers;
     private List<PreCondition> preConditions;
-    private Map<String, Menu> menuMap;
+    //private Map<String, Menu> menuMap;
 
     public Menu() {
+        this.name = "";
         this.options = new ArrayList<>();
         this.handlers = new ArrayList<>();
         this.preConditions = new ArrayList<>();
+        //this.menuMap = new HashMap<>();
     }
 
     public Menu(Menu menu) {
+        this.setName(menu.name);
         this.setOptions(menu.options);
         this.setHandlers(menu.handlers);
         this.setPreConditions(menu.preConditions);
+        //this.setMenuMap(menu.menuMap);
     }
 
-    public Menu(String[] options) {
+    public Menu(String name, String[] options) {
+        this.name = name;
         this.setOptions(Arrays.asList(options.clone()));
         this.preConditions = new ArrayList<>();
         this.handlers = new ArrayList<>();
         this.options.forEach(s -> {
             this.preConditions.add(()->true);
-            this.handlers.add(() -> System.out.println("Opção não implementada."));
+            this.handlers.add(() -> {
+                System.out.println("Opção não implementada.");
+            });
         });
+    }
+
+    public Menu(String name, String[] options, Handler[] handlers, PreCondition[] preConditions) {
+        this.name = name;
+        this.setOptions(Arrays.asList(options.clone()));
+        this.setHandlers(Arrays.asList(handlers.clone()));
+        this.setPreConditions(Arrays.asList(preConditions.clone()));
+        //this.setMenuMap(menus);
     }
 
     public void execute() {
@@ -66,10 +83,19 @@ public class Menu {
     }
 
     public int readOption() {
-        Scanner scanner = new Scanner(System.in);
-        while (!scanner.hasNextInt());
-        int read = scanner.nextInt();
+        while (!is.hasNextInt());
+        int read = is.nextInt();
         return read>=0 && read<this.options.size() ? read : -1;
+    }
+
+    //public void addMenuMap
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<String> getOptions() {
@@ -81,18 +107,26 @@ public class Menu {
     }
 
     public List<Handler> getHandlers() {
-        return handlers;
+        return new ArrayList<>(this.handlers);
     }
 
     public void setHandlers(List<Handler> handlers) {
-        this.handlers = handlers;
+        this.handlers = new ArrayList<>(handlers);
     }
 
     public List<PreCondition> getPreConditions() {
-        return preConditions;
+        return new ArrayList<>(this.preConditions);
     }
 
     public void setPreConditions(List<PreCondition> preConditions) {
-        this.preConditions = preConditions;
+        this.preConditions = new ArrayList<>(preConditions);
     }
+
+    //public Map<String, Menu> getMenuMap() {
+    //    return new HashMap<>(this.menuMap);
+    //}
+
+    //public void setMenuMap(Map<String, Menu> menuMap) {
+    //    this.menuMap = new HashMap<>(menuMap);
+    //}
 }

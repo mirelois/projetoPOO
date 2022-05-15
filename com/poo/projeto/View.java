@@ -5,30 +5,24 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class View {
     private Controller controller;
-    private List<Menu> menuMenuHandlerMap;
-
-    //private String fileName;
-
+    private Map<String, Menu> menus;
 
     public View(Controller controller){
         this.setController(controller);
+        this.menus = new HashMap<>();
 
-        //this.fileName = fileName;
-
+        this.addMenu(createStartMenu());
+        this.addMenu(createSimulationMenu());
+        this.addMenu(createAutomaticSimulationMenu());
     }
 
     public View(View view){
         this.setController(view.controller);
-
-        //this.fileName = view.getFileName();
-
+        this.setMenus(view.menus);
     }
 
     public Controller getController() {
@@ -39,16 +33,16 @@ public class View {
         this.controller = controller;
     }
 
+    public Map<String, Menu> getMenus() {
+        return new HashMap<>(this.menus);
+    }
 
-
-    //public void setFileName(String fileName){
-    //    this.fileName = fileName;
-    //}
-
-    //public String getFileName(){
-    //    return this.fileName;
-    //}
-
+    public void setMenus(Map<String, Menu> menus) {
+        this.menus = new HashMap<>(menus);
+    }
+    public void addMenu(Menu menu) {
+        this.menus.put(menu.getName(), menu);
+    }
 
     public List<String> readLog(String logFileName) {
         List<String> list;
@@ -61,6 +55,49 @@ public class View {
         }
 
         return list;
+    }
+
+    public void executeMenuByName(String name) {
+        Menu menu = this.menus.get(name);
+        if (menu != null)
+            menu.execute();
+    }
+
+    public Menu createStartMenu() {
+        return  new Menu(
+                "startMenu",
+                new String[]{"Carregar Ficheiro Log (Texto)", "Carregar Ficheiro Log (Objetos)", "Começar Simulação sem Ficheiro", "Exit"}
+                );
+    }
+
+    public Menu createSimulationMenu() {
+        return  new Menu("simulationMenu",
+                new String[]{"Carregar Ficheiro das Ações Automáticas", "Menu: Alterar detalhes da simulação", "Avançar dias", "Menu: Impressão",
+                        "Gravar estado", "Sair da simulação"},
+                new Menu.Handler[]{
+                    () -> {
+                        this.controller.loadAutomaticActions();
+                        this.executeMenuByName("simulationMenu");
+                    },
+                    () -> this.executeMenuByName("alterSimulationDetails"),
+                    () -> {
+                        int dias;
+                        do {
+                            System.out.println("Quantos dias pretende avançar?");
+                            dias = Menu.is.nextInt();
+                        }while(!Menu.is.hasNextInt());
+                        this.controller.advanceDias(dias);
+                    },
+                    () -> this.executeMenuByName("printMenu"),
+                    () -> this.controller.saveState(),
+                    () -> System.out.println("Goodbye!")
+                },
+                new Menu.PreCondition[]{});
+    }
+
+    public Menu createAutomaticSimulationMenu() {
+        return  new Menu("automaticSimulationMenu",
+                new String[]{"Avançar X Ciclos de Faturação", "Avançar X Ações", "Avançar Fim Simulação Automática", "Menu: Impressão"});
     }
 
     public void run() {
