@@ -2,6 +2,7 @@ package com.poo.projeto;
 
 import com.poo.projeto.SmartHouse.AddressAlreadyUsedException;
 import com.poo.projeto.SmartHouse.Division;
+import com.poo.projeto.provider.ProviderAlreadyExistsException;
 import com.poo.projeto.provider.ProviderDoesntExistException;
 
 import java.lang.reflect.Constructor;
@@ -57,8 +58,18 @@ public class Controller {
         return true;
     }
 
-    public void createProvider(String line){
+    public boolean createProvider(String line){
+        String[] args = line.split(",");
+        if(args.length!=1)
+            return false;
+        try{
+            this.model.addProvider(args[0]);
+        }catch (ProviderAlreadyExistsException e){
+            e.printStackTrace();
+            return false;
+        }
 
+        return true;
     }
 
     public Map<String, Method> createClassMap()
