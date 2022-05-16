@@ -4,6 +4,7 @@ import com.poo.projeto.SmartHouse.AddressAlreadyUsedException;
 import com.poo.projeto.SmartHouse.Owner;
 import com.poo.projeto.SmartHouse.SmartHouse;
 import com.poo.projeto.provider.Provider;
+import com.poo.projeto.provider.ProviderAlreadyExistsException;
 import com.poo.projeto.provider.ProviderDoesntExistException;
 
 import java.time.LocalDate;
@@ -137,11 +138,19 @@ public class Community {
         this.smartHouseMap.put(address, newSmartHouse);
     }
 
+
     public boolean existsProvider(String provider) {
         return this.providerMap.containsKey(provider);
     }
 
     public boolean existsSmartHouse(String houseAddress) {
         return this.smartHouseMap.containsKey(houseAddress);
+    }
+    
+    public void addProvider(String name) throws ProviderAlreadyExistsException {
+        if (this.providerMap.containsKey(name))
+            throw new ProviderAlreadyExistsException("The provider " + name + " already exists!");
+        Provider provider = new Provider(name);
+        this.providerMap.put(name, provider);
     }
 }
