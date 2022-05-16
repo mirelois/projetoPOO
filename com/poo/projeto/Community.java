@@ -153,4 +153,8 @@ public class Community {
         Provider provider = new Provider(name);
         this.providerMap.put(name, provider);
     }
+
+    public void addSmartDevice(String address, String name){
+
+    }
 }

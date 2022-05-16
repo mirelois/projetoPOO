@@ -1,6 +1,6 @@
 package com.poo.projeto.SmartHouse;
 
-
+//TODO há cenas em português
 public class SmartBulb extends SmartDevice {
     public static final int WARM = 2;
     public static final int NEUTRAL = 1;
@@ -52,6 +52,13 @@ public class SmartBulb extends SmartDevice {
         super(b);
         this.tone = b.tone;
         this.diameter = b.diameter;
+    }
+
+    // TODO código
+    public SmartBulb(String tone, String diameter, String baseConsumption){
+        //super(id, );
+        //this.tone =
+        this.diameter = Integer.parseInt(diameter);
     }
 
     public void setTone(int t) {
