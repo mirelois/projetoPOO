@@ -121,12 +121,12 @@ public class View {
                                 return 1;
                             },
                             () -> {
-                                int dias;
+                                int days;
                                 do {
                                     System.out.println("Quantos dias pretende avançar?");
                                 }while(!is.hasNextInt());
-                                dias = is.nextInt();
-                                this.controller.advanceDias(dias);
+                                days = is.nextInt();
+                                this.controller.advanceDays(days);
                                 return 1;
                             },
                             () -> {

@@ -208,8 +208,11 @@ public class SmartHouse {
     }
 
     public void addDeviceToDivision(SmartDevice smartDevice, String division){
-        //TODO cuidado com NullPointerExceptions por não existir uma divisão
-        this.divisions.get(division).addDevice(smartDevice);
+        if(divisions.containsKey(division)){
+            //TODO cuidado com NullPointerExceptions por não existir uma divisão
+            this.divisions.get(division).addDevice(smartDevice);
+        }
+
     }
 
     public Invoice invoiceEmission(LocalDate start, LocalDate end){

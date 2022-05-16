@@ -3,6 +3,7 @@ package com.poo.projeto;
 import com.poo.projeto.SmartHouse.Division;
 
 import java.lang.reflect.Constructor;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class Controller {
@@ -28,6 +29,9 @@ public class Controller {
         return new HashSet<>(Arrays.asList(everyClass));
     }
 
+    public void advanceDays(Integer days) {
+        this.model.advanceDate(ChronoUnit.DAYS.addTo(this.model.getCurrentDate(), days));
+    }
     public void parser(List<String> lines){
         String[] brokenLine;
         Set<String> classSet = createClassSet();
