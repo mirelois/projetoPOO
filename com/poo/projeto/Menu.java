@@ -6,7 +6,7 @@ public class Menu {
 
     /** Functional interface para handlers. */
     public interface Handler {  // método de tratamento
-        public void execute();
+        public int execute();
     }
 
     /** Functional interface para pré-condições. */
@@ -14,7 +14,7 @@ public class Menu {
         public boolean validate();
     }
 
-    public static Scanner is = new Scanner(System.in);
+    private static Scanner is = new Scanner(System.in);
     private String name;
     private List<String> options;
     private List<Handler> handlers;
@@ -46,6 +46,7 @@ public class Menu {
             this.preConditions.add(()->true);
             this.handlers.add(() -> {
                 System.out.println("Opção não implementada.");
+                return 0;
             });
         });
     }
@@ -59,18 +60,24 @@ public class Menu {
     }
 
     public void execute() {
-        int op;
+        int op, r = 0;
+        //TODO cuidado com a stack isto enche rápido
+        //optimização seria o handler avisar o menu para continuar... como?
+        //em vez de ser void podia ser int e depois o return
         do {
             showMenu();
             op = readOption();
             // testar pré-condição
-            if (op>0 && !this.preConditions.get(op-1).validate()) {
-                System.out.println("Opção indisponível! Tente novamente.");
-            } else if (op>0) {
-                // executar handler
-                this.handlers.get(op-1).execute();
+            if (op > 0) {
+                if (this.preConditions.get(op-1).validate()) {
+                    r = this.handlers.get(op-1).execute();
+                } else {
+                    System.out.println("Opção indisponível no momento! Tente novamente.");
+                }
+            } else {
+                System.out.println("Opção inválida");
             }
-        }while(op == -1);
+        }while(op == -1 || r != 0);
     }
 
     public void showMenu() {

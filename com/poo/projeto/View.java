@@ -1,6 +1,7 @@
 package com.poo.projeto;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,6 +9,8 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class View {
+
+    private static final Scanner is = new Scanner(System.in);
     private Controller controller;
     private Map<String, Menu> menus;
 
@@ -18,6 +21,8 @@ public class View {
         this.addMenu(createStartMenu());
         this.addMenu(createSimulationMenu());
         this.addMenu(createAutomaticSimulationMenu());
+        this.addMenu(createPrintMenu());
+        this.addMenu(createAlterSimulationDetailsMenu());
     }
 
     public View(View view){
@@ -66,38 +71,161 @@ public class View {
     public Menu createStartMenu() {
         return  new Menu(
                 "startMenu",
-                new String[]{"Carregar Ficheiro Log (Texto)", "Carregar Ficheiro Log (Objetos)", "Começar Simulação sem Ficheiro", "Exit"}
+                new String[]{"Carregar Ficheiro Log (Texto)", "Carregar Ficheiro Log (Objetos)", "Começar Simulação sem Ficheiro", "Exit"},
+                new Menu.Handler[]{
+                        () -> {
+                            System.out.println("Introduza nome do ficheiro de texto");
+                            String filename = is.nextLine();
+                            List<String> lines = readLog(filename);
+                            this.controller.parser(lines);
+                            this.executeMenuByName("simulationMenu");
+                            return 0;
+                        },
+                        () -> {
+                            System.out.println("Introduza nome do ficheiro de objetos");
+                            String filename = is.nextLine();
+                            this.controller.parseObjectFile(filename);
+                            this.executeMenuByName("simulationMenu");
+                            return 0;
+                        },
+                        () -> {
+                            this.executeMenuByName("simulationMenu");
+                            return 0;
+                        },
+                        () -> {
+                            System.out.println("Bye bye");
+                            return 0;
+                        }
+                },
+                new Menu.PreCondition[]{
+                        () -> true,
+                        () -> true,
+                        () -> true,
+                        () -> true
+                }
                 );
     }
 
     public Menu createSimulationMenu() {
         return  new Menu("simulationMenu",
-                new String[]{"Carregar Ficheiro das Ações Automáticas", "Menu: Alterar detalhes da simulação", "Avançar dias", "Menu: Impressão",
-                        "Gravar estado", "Sair da simulação"},
-                new Menu.Handler[]{
-                    () -> {
-                        this.controller.loadAutomaticActions();
-                        this.executeMenuByName("simulationMenu");
+                    new String[]{"Carregar Ficheiro das Ações Automáticas", "Menu: Alterar detalhes da simulação",
+                            "Avançar dias", "Menu: Impressão", "Gravar estado", "Sair da simulação"},
+                    new Menu.Handler[]{
+                            () -> {
+                                this.controller.loadAutomaticActions();
+                                this.executeMenuByName("automaticSimulationMenu");
+                                return 1;
+                            },
+                            () -> {
+                                this.executeMenuByName("alterSimulationDetailsMenu");
+                                return 1;
+                            },
+                            () -> {
+                                int dias;
+                                do {
+                                    System.out.println("Quantos dias pretende avançar?");
+                                }while(!is.hasNextInt());
+                                dias = is.nextInt();
+                                this.controller.advanceDias(dias);
+                                return 1;
+                            },
+                            () -> {
+                                this.executeMenuByName("printMenu");
+                                return 1;
+                            },
+                            () -> {
+                                this.controller.saveState();
+                                return 1;
+                            },
+                            () -> {
+                                System.out.println("Goodbye!");
+                                return 0;
+                            }
                     },
-                    () -> this.executeMenuByName("alterSimulationDetails"),
-                    () -> {
-                        int dias;
-                        do {
-                            System.out.println("Quantos dias pretende avançar?");
-                            dias = Menu.is.nextInt();
-                        }while(!Menu.is.hasNextInt());
-                        this.controller.advanceDias(dias);
-                    },
-                    () -> this.executeMenuByName("printMenu"),
-                    () -> this.controller.saveState(),
-                    () -> System.out.println("Goodbye!")
-                },
-                new Menu.PreCondition[]{});
+                    new Menu.PreCondition[]{
+                        () -> true,
+                        () -> true,
+                        () -> true,
+                        () -> true,
+                        () -> true,
+                        () -> true
+                    }
+                );
     }
 
     public Menu createAutomaticSimulationMenu() {
         return  new Menu("automaticSimulationMenu",
-                new String[]{"Avançar X Ciclos de Faturação", "Avançar X Ações", "Avançar Fim Simulação Automática", "Menu: Impressão"});
+                new String[]{"Avançar X Ciclos de Faturação", "Avançar X Ações", "Avançar Fim Simulação Automática", "Menu: Impressão"},
+                new Menu.Handler[]{
+                        () -> {
+                            do {
+                                System.out.println("Quantos ciclos?");
+                            }while(is.hasNextInt());
+                            this.controller.advanceXCicles(is.nextInt());
+                            //this.executeMenuByName("automaticSimulationMenu");
+                            return this.controller.isSimulationOver() ? 0 : 1;
+                        },
+                        () -> {
+                            do {
+                                System.out.println("Quantos ciclos?");
+                            }while(is.hasNextInt());
+                            this.controller.advanceXActions(is.nextInt());
+                            return this.controller.isSimulationOver() ? 0 : 1;
+                        },
+                        () -> {
+                            this.controller.advanceFullSimulation();
+                            return 0;
+                        },
+                        () -> {
+                            this.executeMenuByName("printMenu");
+                            return 1;
+                        }
+                },
+                new Menu.PreCondition[]{
+                        () -> true,
+                        () -> true,
+                        () -> true,
+                        () -> this.controller.isSimulationEmpty()
+                });
+    }
+
+    public Menu createPrintMenu() {
+        return  new Menu("printMenu",
+                new String[]{"Imprime Tudo", "Imprime Casa", "Imprime Fornecedor", "Menu Anterior"},
+                new Menu.Handler[]{
+                        ()->{},
+                        ()->{},
+                        ()->{},
+                        ()->{}
+                },
+                new Menu.PreCondition[]{
+                        ()->true,
+                        ()->true,
+                        ()->true,
+                        ()->true
+                });
+    }
+
+    //TODO ainda inacabado
+    public Menu createAlterSimulationDetailsMenu() {
+        return  new Menu("alterSimulationDetails",
+                new String[]{"Alterar Detalhes Casa", "Alterar Detalhes Fornecedor", "Adicionar Fornecedor", "Adicionar Casa"},
+                new Menu.Handler[]{},
+                new Menu.PreCondition[]{});
+    }
+
+    public Menu createAlterSimulationDetailsHouseMenu() {
+        return  new Menu("alterSimulationDetailsHouse",
+                new String[]{"Adiciona SmartDevice", "Adiciona Divisão", "Ligar/Desligar SmartDevice", "Ligar/Desligar Divisão", "Mudar de Fornecedor", "Menu Anterior"},
+                new Menu.Handler[]{},
+                new Menu.PreCondition[]{});
+    }
+
+    public Menu createAlterSimulationDetailsProviderMenu() {
+        return  new Menu("alterSimulationDetailsProvider",
+                new String[]{"Mudar de Algoritmo", "Mudar Valor de desconto", "Menu Anterior"},
+                new Menu.Handler[]{},
+                new Menu.PreCondition[]{});
     }
 
     public void run() {
