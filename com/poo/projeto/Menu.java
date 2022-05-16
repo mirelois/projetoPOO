@@ -60,24 +60,20 @@ public class Menu {
     }
 
     public void execute() {
-        int op, r = 0;
-        //TODO cuidado com a stack isto enche rápido
-        //optimização seria o handler avisar o menu para continuar... como?
-        //em vez de ser void podia ser int e depois o return
+        int op;
         do {
             showMenu();
             op = readOption();
-            // testar pré-condição
             if (op > 0) {
                 if (this.preConditions.get(op-1).validate()) {
-                    r = this.handlers.get(op-1).execute();
+                    op = this.handlers.get(op-1).execute();
                 } else {
                     System.out.println("Opção indisponível no momento! Tente novamente.");
                 }
             } else {
                 System.out.println("Opção inválida");
             }
-        }while(op == -1 || r != 0);
+        }while(op != 0);
     }
 
     public void showMenu() {
@@ -92,7 +88,7 @@ public class Menu {
     public int readOption() {
         while (!is.hasNextInt());
         int read = is.nextInt();
-        return read>=0 && read<this.options.size() ? read : -1;
+        return read>=0 && read<=this.options.size() ? read : -1;
     }
 
     //public void addMenuMap
