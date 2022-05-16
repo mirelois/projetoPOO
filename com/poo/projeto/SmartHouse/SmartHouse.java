@@ -266,5 +266,10 @@ public class SmartHouse {
         interactHouse(SmartDevice::turnOff);
     }
 
-
+    public boolean isSmartDeviceOn(String smartDevice) {
+        String division = this.devices.get(smartDevice);
+        if (division == null)
+            throw new DivisionDoesntExistException();
+        return this.divisions.get(division).isSmartDeviceOn(smartDevice);
+    }
 }

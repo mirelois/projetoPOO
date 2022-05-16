@@ -287,15 +287,12 @@ public class View {
                             System.out.println("Introduza o id do SmartDevice:");
                             String smartDevice = is.nextLine();
                             if (this.controller.existsSmartDevice(args[0], smartDevice)) {
-                                if (this.controller.smartDeviceIsOn(args[0], smartDevice)) {
-                                    System.out.println("O SmartDevice está ligado.");
-                                } else {
-                                    System.out.println("O SmartDevice está desligado.");
-                                }
-                                System.out.println("Pretende alterar o estado? (y/n)");
+                                System.out.println("Pretende ligar(y) ou desligar(n)?");
                                 String response = is.nextLine();
                                 if (response.equals("y")) {
-                                    this.controller.toggleSmartDevice(args[0], smartDevice);
+                                    this.controller.turnSmartDevice(args[0], smartDevice, true);
+                                } else if (response.equals("n")) {
+                                    this.controller.turnSmartDevice(args[0], smartDevice, false);
                                 }
                             } else {
                                 System.out.println("ID inválido");

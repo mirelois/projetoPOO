@@ -89,4 +89,10 @@ public class Division {
         return this.devices.values().size();
     }
 
+    public boolean isSmartDeviceOn(String smartDevice) {
+        SmartDevice device = this.devices.get(smartDevice);
+        if (device == null)
+            throw new DeviceDoesntExistException();
+        return device.getOn();
+    }
 }

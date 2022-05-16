@@ -1,7 +1,7 @@
 package com.poo.projeto;
 
-import com.poo.projeto.SmartHouse.AddressAlreadyUsedException;
-import com.poo.projeto.SmartHouse.Owner;
+import com.poo.projeto.SmartHouse.AddressAlreadyExistsException;
+import com.poo.projeto.SmartHouse.AddressDoesntExistException;
 import com.poo.projeto.SmartHouse.SmartHouse;
 import com.poo.projeto.provider.Provider;
 import com.poo.projeto.provider.ProviderAlreadyExistsException;
@@ -127,9 +127,9 @@ public class Community {
             this.providerMap.put(provider.getName(), provider.clone());
     }
 
-    public void addSmartHouse(String address, String name, String nif, String provider) throws AddressAlreadyUsedException, ProviderDoesntExistException {
+    public void addSmartHouse(String address, String name, String nif, String provider) throws AddressAlreadyExistsException, ProviderDoesntExistException {
         if(this.smartHouseMap.containsKey(address)){
-            throw new AddressAlreadyUsedException("The address " + address + " already exists!");
+            throw new AddressAlreadyExistsException("The address " + address + " already exists!");
         }
         if(!(this.providerMap.containsKey(provider))){
             throw new ProviderDoesntExistException("The provider " + provider + " doesn't exist!");
@@ -138,7 +138,6 @@ public class Community {
         this.smartHouseMap.put(address, newSmartHouse);
     }
 
-
     public boolean existsProvider(String provider) {
         return this.providerMap.containsKey(provider);
     }
@@ -146,11 +145,38 @@ public class Community {
     public boolean existsSmartHouse(String houseAddress) {
         return this.smartHouseMap.containsKey(houseAddress);
     }
-    
+
     public void addProvider(String name) throws ProviderAlreadyExistsException {
         if (this.providerMap.containsKey(name))
             throw new ProviderAlreadyExistsException("The provider " + name + " already exists!");
         Provider provider = new Provider(name);
         this.providerMap.put(name, provider);
+    }
+
+    public int numberOfProviders() {
+        return this.providerMap.size();
+    }
+
+    public int numberOfHouses() {
+        return this.smartHouseMap.size();
+    }
+
+    public boolean existsDivision(String address, String division) throws AddressDoesntExistException {
+        return this.getSmartHouseByAddress(address).existsDivision(division);
+    }
+
+    public boolean existsSmartDevice(String address, String smartDevice) throws AddressDoesntExistException {
+        return this.getSmartHouseByAddress(address).existsDevice(smartDevice);
+    }
+
+    public boolean isSmartDeviceOn(String address, String smartDevice) throws AddressDoesntExistException {
+        return this.getSmartHouseByAddress(address).isSmartDeviceOn(smartDevice);
+    }
+
+    public SmartHouse getSmartHouseByAddress(String address) throws AddressDoesntExistException{
+        SmartHouse house = this.smartHouseMap.get(address);
+        if (house == null)
+            throw new AddressDoesntExistException("Failed to find: " + address);
+        return house;
     }
 }

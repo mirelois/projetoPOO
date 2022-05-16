@@ -1,11 +1,9 @@
 package com.poo.projeto;
 
-import com.poo.projeto.SmartHouse.AddressAlreadyUsedException;
-import com.poo.projeto.SmartHouse.Division;
+import com.poo.projeto.SmartHouse.AddressAlreadyExistsException;
 import com.poo.projeto.provider.ProviderAlreadyExistsException;
 import com.poo.projeto.provider.ProviderDoesntExistException;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -48,7 +46,7 @@ public class Controller {
         String provider = args[3];
         try {
             this.model.addSmartHouse(address, name, nif, provider);
-        }catch (AddressAlreadyUsedException e){
+        }catch (AddressAlreadyExistsException e){
             e.printStackTrace();
             return false;
         }catch (ProviderDoesntExistException e){
@@ -127,12 +125,14 @@ public class Controller {
     }
 
     public boolean existsSmartDevice(String address, String smartDevice) {
-        return this. 
+        return this.model.existsSmartDevice(address, smartDevice);
     }
 
-    public boolean smartDeviceIsOn(String address, String smartDevice) {
+    public boolean isSmartDeviceOn(String address, String smartDevice) {
+        return this.model.isSmartDeviceOn(address, smartDevice);
     }
 
-    public void toggleSmartDevice(String address, String smartDevice) {
+    public void turnSmartDevice(String arg, String smartDevice, boolean b) {
+        this.model.
     }
 }
