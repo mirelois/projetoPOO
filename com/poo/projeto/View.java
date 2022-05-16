@@ -194,8 +194,14 @@ public class View {
                 new String[]{"Imprime Tudo", "Imprime Casa", "Imprime Fornecedor", "Menu Anterior"},
                 new Menu.Handler[]{
                         ()->{},
-                        ()->{},
-                        ()->{},
+                        ()->{
+                            System.out.println(this.controller.getModel().getSmartHouseMap().toString());
+                            return 0;
+                            },
+                        ()->{
+                            System.out.println(this.controller.getModel().getProviderMap().toString());
+                            return 0;
+                            },
                         ()->{}
                 },
                 new Menu.PreCondition[]{
