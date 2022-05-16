@@ -37,6 +37,7 @@ public class Controller {
                 Class<?> c = Class.forName(brokenLine[0]);
                 Constructor<?> constructor = c.getConstructor(String.class, Integer.class);
                 Object instancia = constructor.newInstance("ola", 1);
+                this.model.addProvider(instancia);
             }
         }
     }

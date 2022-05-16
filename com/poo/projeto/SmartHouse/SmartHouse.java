@@ -40,7 +40,7 @@ public class SmartHouse {
         this.divisions = divisions.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, div -> div.getValue().clone()));
         this.provider = provider;
         this.owner = owner;
-        this.invoices = invoices;
+        this.invoices = new ArrayList<>(invoices);
     }
 
     public SmartHouse(SmartHouse smartHouse){
@@ -65,8 +65,8 @@ public class SmartHouse {
     }
 
     public void setDevices(Map<String, String> devices) {
-        //TODO não está a criar uma nova estrutura então de fora podem destruí-la
-        this.devices = devices;
+        //Feito: não está a criar uma nova estrutura então de fora podem destruí-la
+        this.devices = devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public Map<String, Division> getDivisions(){
@@ -74,9 +74,9 @@ public class SmartHouse {
     }
 
     public void setDivisions(Map<String, Division> divisions){
-        //TODO não está a clonar as divisões
-        //TODO não está a criar uma nova estrutura então de fora podem destruí-la
-        this.divisions = divisions;
+        //Feito: não está a clonar as divisões
+        //Feito: não está a criar uma nova estrutura então de fora podem destruí-la
+        this.divisions = divisions.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e->e.getValue().clone()));
     }
 
     public Provider getProvider(){
@@ -109,7 +109,7 @@ public class SmartHouse {
     }
 
     @Override
-    public boolean equals(Object o) { // TODO Falta chechar owners e providers mas isso faz-se no fim
+    public boolean equals(Object o) { // TODO Falta chechar owners e providers mas isso faz-se no fim (ya concordo -- carlos)
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SmartHouse that = (SmartHouse) o;
@@ -214,7 +214,9 @@ public class SmartHouse {
 
     public Invoice invoiceEmission(LocalDate start, LocalDate end){
         //TODO é suposto a casa guardar a fatura que está a ser emitida para si
-        return this.provider.invoiceEmission(this, start, end);
+        Invoice newInvoice = this.provider.invoiceEmission(this, start, end);
+        this.invoices.add(newInvoice);
+        return newInvoice;
     }
 
     public void setDeviceOn(String id) {
