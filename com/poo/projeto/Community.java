@@ -173,10 +173,13 @@ public class Community {
         return this.getSmartHouseByAddress(address).isSmartDeviceOn(smartDevice);
     }
 
-    public SmartHouse getSmartHouseByAddress(String address) throws AddressDoesntExistException{
+    public SmartHouse getSmartHouseByAddress(String address) throws AddressDoesntExistException {
         SmartHouse house = this.smartHouseMap.get(address);
         if (house == null)
             throw new AddressDoesntExistException("Failed to find: " + address);
         return house;
+    }
+    public void addSmartDevice(String address, String name){
+
     }
 }

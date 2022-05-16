@@ -12,6 +12,8 @@ public class Controller {
 
     private Community model;
 
+    private String lastAddress;
+
     public Community getModel() {
         return model;
     }
@@ -20,12 +22,28 @@ public class Controller {
         this.model = model;
     }
 
+    public String getLastAddress() {
+        return lastAddress;
+    }
+
+    public void setLastAddress(String lastAddress) {
+        this.lastAddress = lastAddress;
+    }
+
     public Controller(Community community) {
         this.setModel(community);
     }
 
-    public void createSmartBulb(String line){
+    public boolean createSmartBulb(String line){
+        String[] args = line.split(",");
+        if(args.length!=3)
+            return false;
+        String tone = args[0];
+        String diameter = args[1];
+        String baseConsumption = args[2];
+        this.model.addSmartDevice(this.lastAddress, tone, diameter, baseConsumption);
 
+        return true;
     }
 
     public void createSmartCamera(String line){
@@ -53,6 +71,8 @@ public class Controller {
             e.printStackTrace();
             return false;
         }
+
+        this.setLastAddress(address);
         return true;
     }
 
