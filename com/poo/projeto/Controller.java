@@ -95,4 +95,33 @@ public class Controller {
         }
     }
 
+    public boolean existsProvider(String providerName) {
+        return this.model.existsProvider(providerName);
+    }
+
+    public boolean existsSmartHouse(String houseAddress) {
+        return this.model.existsSmartHouse(houseAddress);
+    }
+
+    public boolean isSimulationEmptyProvider() {
+        return this.model.numberOfProviders() == 0;
+    }
+
+    public boolean isSimulationEmptyHouse() {
+        return this.model.numberOfHouses() == 0;
+    }
+
+    public boolean existsDivision(String address, String division) {
+        return this.model.existsDivision(address, division);
+    }
+
+    public boolean existsSmartDevice(String address, String smartDevice) {
+        return this. 
+    }
+
+    public boolean smartDeviceIsOn(String address, String smartDevice) {
+    }
+
+    public void toggleSmartDevice(String address, String smartDevice) {
+    }
 }

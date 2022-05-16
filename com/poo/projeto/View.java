@@ -219,7 +219,6 @@ public class View {
                 });
     }
 
-    //TODO ainda inacabado
     public Menu createAlterSimulationDetailsMenu() {
         return  new Menu("alterSimulationDetails",
                 new String[]{"Alterar Detalhes Casa", "Alterar Detalhes Fornecedor", "Adicionar Fornecedor", "Adicionar Casa", "Menu anterior"},
@@ -235,10 +234,10 @@ public class View {
                             return 1;
                         },
                         (args) -> {
-                            System.out.println("Introduza nome da casa:");
-                            String houseName = is.nextLine();
-                            if (this.controller.existsSmartHouse(houseName)) {
-                                this.executeMenuByName("alterSimulationDetails", new String[]{houseName});
+                            System.out.println("Introduza a morada da casa:");
+                            String houseAddress = is.nextLine();
+                            if (this.controller.existsSmartHouse(houseAddress)) {
+                                this.executeMenuByName("alterSimulationDetails", new String[]{houseAddress});
                             } else {
                                 System.out.println("Nome da casa inválida");
                             }
@@ -255,8 +254,8 @@ public class View {
                         (args) -> 0
                 },
                 new Menu.PreCondition[]{
-                        () -> this.controller.isSimulationEmptyProvider,
-                        () -> this.controller.isSimulationEmptyHouse,
+                        () -> this.controller.isSimulationEmptyProvider(),
+                        () -> this.controller.isSimulationEmptyHouse(),
                         () -> true,
                         () -> true,
                         () -> true

@@ -21,7 +21,7 @@ public class Provider implements Comparable<Provider>{
     public Provider() {
         this.name = "";
         this.invoiceMap = new HashMap<>();
-        this.discountFactor = 1;
+        this.discountFactor = 0;
         this.dailyCostAlgorithm = DailyCostAlgorithmOne.getInstance();
     }
 

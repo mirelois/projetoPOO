@@ -136,4 +136,12 @@ public class Community {
         SmartHouse newSmartHouse = new SmartHouse(address, name, nif, this.providerMap.get(provider));
         this.smartHouseMap.put(address, newSmartHouse);
     }
+
+    public boolean existsProvider(String provider) {
+        return this.providerMap.containsKey(provider);
+    }
+
+    public boolean existsSmartHouse(String houseAddress) {
+        return this.smartHouseMap.containsKey(houseAddress);
+    }
 }
