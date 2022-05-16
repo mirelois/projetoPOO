@@ -207,7 +207,7 @@ public class SmartHouse {
         this.divisions.put(division.getName(), division);
     }
 
-    public void addDeviceToDivision(SmartDevice smartDevice, String division){
+    public void addDeviceToDivision(SmartDevice smartDevice, String division){//TODO o custo de instalaçao deve entrar aqui tipo aparecer na fatura quanto custou adicionar os devices
         if(divisions.containsKey(division)){
             //TODO cuidado com NullPointerExceptions por não existir uma divisão
             this.divisions.get(division).addDevice(smartDevice);

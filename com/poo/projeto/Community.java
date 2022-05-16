@@ -7,9 +7,9 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Community {
-    Map<String, Provider> providerMap;
-    Map<String, SmartHouse> smartHouseMap;
-    LocalDate currentDate;
+    private Map<String, Provider> providerMap; //name -> provider
+    private Map<String, SmartHouse> smartHouseMap; //adress -> SmartHouse??
+    private LocalDate currentDate;
 
     public Community(Community c) {
         this.setProviderMap(c.providerMap);
