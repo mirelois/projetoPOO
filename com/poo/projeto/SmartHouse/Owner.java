@@ -2,6 +2,8 @@ package com.poo.projeto.SmartHouse;
 
 import java.util.Objects;
 
+
+// Esta classe não está a ser usada
 public class Owner {
     private String name;
     private String nif;

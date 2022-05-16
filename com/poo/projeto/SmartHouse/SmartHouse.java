@@ -15,12 +15,16 @@ public class SmartHouse {
 
     private Provider provider;
 
+    private String name;
+
+    private String nif;
     private List<Invoice> invoices;
 
-    private Owner owner;
     private Map<String, String> devices; // id -> string da divisão
     private Map<String, Division> divisions; // string da divisão -> Divisão (classe)
 
+
+    //TODO novas intancias nome e nif
     /**
      * Constructor for objects of class CasaInteligente
      */
@@ -29,7 +33,6 @@ public class SmartHouse {
         this.devices = new HashMap<>();
         this.divisions = new HashMap<>();
         this.provider = new Provider();
-        this.owner = new Owner();
         this.invoices = new ArrayList<>();
     }
 
@@ -39,7 +42,6 @@ public class SmartHouse {
         this.devices = devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         this.divisions = divisions.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, div -> div.getValue().clone()));
         this.provider = provider;
-        this.owner = owner;
         this.invoices = new ArrayList<>(invoices);
     }
 
@@ -48,8 +50,17 @@ public class SmartHouse {
         this.devices = smartHouse.getDevices();
         this.divisions = smartHouse.getDivisions();
         this.provider = smartHouse.getProvider();
-        this.owner = smartHouse.getOwner();
         this.invoices = smartHouse.getInvoices();
+    }
+
+    public SmartHouse(String address, String name, String nif, Provider provider){
+        this.address = address;
+        this.name = name;
+        this.nif = nif;
+        this.provider = provider;
+        this.invoices = new ArrayList<>();
+        this.divisions = new HashMap<>();
+        this.devices = new HashMap<>();
     }
 
     public String getAddress() {
@@ -87,13 +98,6 @@ public class SmartHouse {
         this.provider = provider;
     }
 
-    public Owner getOwner(){
-        return this.owner;
-    }
-
-    public void setOwner(Owner owner){
-        this.owner = owner;
-    }
 
     public List<Invoice> getInvoices(){
         return new ArrayList<>(this.invoices);
@@ -101,6 +105,22 @@ public class SmartHouse {
 
     public void setInvoices(List<Invoice> invoices){
         this.invoices = new ArrayList<>(invoices);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNif() {
+        return nif;
+    }
+
+    public void setNif(String nif) {
+        this.nif = nif;
     }
 
     @Override
@@ -245,5 +265,6 @@ public class SmartHouse {
     public void setHouseOff(){
         interactHouse(SmartDevice::turnOff);
     }
+
 
 }
