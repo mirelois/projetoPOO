@@ -6,7 +6,7 @@ public class Menu {
 
     /** Functional interface para handlers. */
     public interface Handler {  // método de tratamento
-        public int execute();
+        public int execute(String[] args);
     }
 
     /** Functional interface para pré-condições. */
@@ -44,7 +44,7 @@ public class Menu {
         this.handlers = new ArrayList<>();
         this.options.forEach(s -> {
             this.preConditions.add(()->true);
-            this.handlers.add(() -> {
+            this.handlers.add((args) -> {
                 System.out.println("Opção não implementada.");
                 return 0;
             });
@@ -59,14 +59,14 @@ public class Menu {
         //this.setMenuMap(menus);
     }
 
-    public void execute() {
+    public void execute(String[] args) {
         int op;
         do {
             showMenu();
             op = readOption();
             if (op > 0) {
                 if (this.preConditions.get(op-1).validate()) {
-                    op = this.handlers.get(op-1).execute();
+                    op = this.handlers.get(op-1).execute(args);
                 } else {
                     System.out.println("Opção indisponível no momento! Tente novamente.");
                 }

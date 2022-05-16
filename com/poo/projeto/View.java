@@ -62,10 +62,10 @@ public class View {
         return list;
     }
 
-    public void executeMenuByName(String name) {
+    public void executeMenuByName(String name, String[] args) {
         Menu menu = this.menus.get(name);
         if (menu != null)
-            menu.execute();
+            menu.execute(args);
     }
 
     public Menu createStartMenu() {
@@ -73,26 +73,26 @@ public class View {
                 "startMenu",
                 new String[]{"Carregar Ficheiro Log (Texto)", "Carregar Ficheiro Log (Objetos)", "Começar Simulação sem Ficheiro", "Exit"},
                 new Menu.Handler[]{
-                        () -> {
+                        (args) -> {
                             System.out.println("Introduza nome do ficheiro de texto");
                             String filename = is.nextLine();
                             List<String> lines = readLog(filename);
                             this.controller.parser(lines);
-                            this.executeMenuByName("simulationMenu");
+                            this.executeMenuByName("simulationMenu", new String[]{});
                             return 0;
                         },
-                        () -> {
+                        (args) -> {
                             System.out.println("Introduza nome do ficheiro de objetos");
                             String filename = is.nextLine();
                             this.controller.parseObjectFile(filename);
-                            this.executeMenuByName("simulationMenu");
+                            this.executeMenuByName("simulationMenu", new String[]{});
                             return 0;
                         },
-                        () -> {
-                            this.executeMenuByName("simulationMenu");
+                        (args) -> {
+                            this.executeMenuByName("simulationMenu", new String[]{});
                             return 0;
                         },
-                        () -> {
+                        (args) -> {
                             System.out.println("Bye bye");
                             return 0;
                         }
@@ -111,16 +111,16 @@ public class View {
                     new String[]{"Carregar Ficheiro das Ações Automáticas", "Menu: Alterar detalhes da simulação",
                             "Avançar dias", "Menu: Impressão", "Gravar estado", "Sair da simulação"},
                     new Menu.Handler[]{
-                            () -> {
+                            (args) -> {
                                 this.controller.loadAutomaticActions();
-                                this.executeMenuByName("automaticSimulationMenu");
+                                this.executeMenuByName("automaticSimulationMenu", new String[]{});
                                 return 1;
                             },
-                            () -> {
-                                this.executeMenuByName("alterSimulationDetailsMenu");
+                            (args) -> {
+                                this.executeMenuByName("alterSimulationDetailsMenu", new String[]{});
                                 return 1;
                             },
-                            () -> {
+                            (args) -> {
                                 int days;
                                 do {
                                     System.out.println("Quantos dias pretende avançar?");
@@ -129,15 +129,15 @@ public class View {
                                 this.controller.advanceDays(days);
                                 return 1;
                             },
-                            () -> {
-                                this.executeMenuByName("printMenu");
+                            (args) -> {
+                                this.executeMenuByName("printMenu", new String[]{});
                                 return 1;
                             },
-                            () -> {
+                            (args) -> {
                                 this.controller.saveState();
                                 return 1;
                             },
-                            () -> {
+                            (args) -> {
                                 System.out.println("Goodbye!");
                                 return 0;
                             }
@@ -157,7 +157,7 @@ public class View {
         return  new Menu("automaticSimulationMenu",
                 new String[]{"Avançar X Ciclos de Faturação", "Avançar X Ações", "Avançar Fim Simulação Automática", "Menu: Impressão"},
                 new Menu.Handler[]{
-                        () -> {
+                        (args) -> {
                             do {
                                 System.out.println("Quantos ciclos?");
                             }while(is.hasNextInt());
@@ -165,19 +165,19 @@ public class View {
                             //this.executeMenuByName("automaticSimulationMenu");
                             return this.controller.isSimulationOver() ? 0 : 1;
                         },
-                        () -> {
+                        (args) -> {
                             do {
                                 System.out.println("Quantos ciclos?");
                             }while(is.hasNextInt());
                             this.controller.advanceXActions(is.nextInt());
                             return this.controller.isSimulationOver() ? 0 : 1;
                         },
-                        () -> {
+                        (args) -> {
                             this.controller.advanceFullSimulation();
                             return 0;
                         },
-                        () -> {
-                            this.executeMenuByName("printMenu");
+                        (args) -> {
+                            this.executeMenuByName("printMenu", new String[]{});
                             return 1;
                         }
                 },
@@ -193,16 +193,23 @@ public class View {
         return  new Menu("printMenu",
                 new String[]{"Imprime Tudo", "Imprime Casa", "Imprime Fornecedor", "Menu Anterior"},
                 new Menu.Handler[]{
-                        ()->{},
-                        ()->{
-                            System.out.println(this.controller.getModel().getSmartHouseMap().toString());
-                            return 0;
+                        (args)->{
+                            this.controller.printAll();
+                            return 1;
+                        },
+                        (args)->{
+                            System.out.println("Introduza nome da casa:");
+                            String houseName = is.nextLine();
+                            this.controller.printHouse(houseName);
+                            return 1;
                             },
-                        ()->{
-                            System.out.println(this.controller.getModel().getProviderMap().toString());
-                            return 0;
+                        (args)->{
+                            System.out.println("Introduza nome do fornecedor:");
+                            String providerName = is.nextLine();
+                            this.controller.printProvider(providerName);
+                            return 1;
                             },
-                        ()->{}
+                        (args)->0
                 },
                 new Menu.PreCondition[]{
                         ()->true,
@@ -215,21 +222,155 @@ public class View {
     //TODO ainda inacabado
     public Menu createAlterSimulationDetailsMenu() {
         return  new Menu("alterSimulationDetails",
-                new String[]{"Alterar Detalhes Casa", "Alterar Detalhes Fornecedor", "Adicionar Fornecedor", "Adicionar Casa"},
-                new Menu.Handler[]{},
-                new Menu.PreCondition[]{});
+                new String[]{"Alterar Detalhes Casa", "Alterar Detalhes Fornecedor", "Adicionar Fornecedor", "Adicionar Casa", "Menu anterior"},
+                new Menu.Handler[]{
+                        (args) -> {
+                            System.out.println("Introduza nome do fornecedor:");
+                            String providerName = is.nextLine();
+                            if (this.controller.existsProvider(providerName)) {
+                                this.executeMenuByName("alterSimulationDetailsHouse", new String[]{providerName});
+                            } else {
+                                System.out.println("Nome da casa inválida");
+                            }
+                            return 1;
+                        },
+                        (args) -> {
+                            System.out.println("Introduza nome da casa:");
+                            String houseName = is.nextLine();
+                            if (this.controller.existsSmartHouse(houseName)) {
+                                this.executeMenuByName("alterSimulationDetails", new String[]{houseName});
+                            } else {
+                                System.out.println("Nome da casa inválida");
+                            }
+                            return 1;
+                        },
+                        (args) -> {
+                            addProviderView();
+                            return 1;
+                        },
+                        (args) -> {
+                            addSmartHouseView();
+                            return 1;
+                        },
+                        (args) -> 0
+                },
+                new Menu.PreCondition[]{
+                        () -> this.controller.isSimulationEmptyProvider,
+                        () -> this.controller.isSimulationEmptyHouse,
+                        () -> true,
+                        () -> true,
+                        () -> true
+                });
     }
 
     public Menu createAlterSimulationDetailsHouseMenu() {
         return  new Menu("alterSimulationDetailsHouse",
-                new String[]{"Adiciona SmartDevice", "Adiciona Divisão", "Ligar/Desligar SmartDevice", "Ligar/Desligar Divisão", "Mudar de Fornecedor", "Menu Anterior"},
-                new Menu.Handler[]{},
-                new Menu.PreCondition[]{});
+                new String[]{"Adiciona SmartDevice", "Adiciona Divisão", "Ligar/Desligar SmartDevice",
+                        "Ligar/Desligar Divisão", "Mudar de Fornecedor", "Menu Anterior"},
+                new Menu.Handler[]{
+                        (args) -> {
+                            System.out.println("Introduza o nome da divisão onde adicionar.");
+                            String division = is.nextLine();
+                            if (this.controller.existsDivision(args[0], division)) {
+                                this.addSmartDeviceView(args[0], division);
+                            } else {
+                                System.out.println("Nome inválido");
+                            }
+                            return 1;
+                        },
+                        (args) -> {
+                            System.out.println("Introduza o nome da divisão.");
+                            String divisionName = is.nextLine();
+                            this.addDivisionView(args[0], divisionName);
+                            return 1;
+                        },
+                        (args) -> {
+                            System.out.println("Introduza o id do SmartDevice:");
+                            String smartDevice = is.nextLine();
+                            if (this.controller.existsSmartDevice(args[0], smartDevice)) {
+                                if (this.controller.smartDeviceIsOn(args[0], smartDevice)) {
+                                    System.out.println("O SmartDevice está ligado.");
+                                } else {
+                                    System.out.println("O SmartDevice está desligado.");
+                                }
+                                System.out.println("Pretende alterar o estado? (y/n)");
+                                String response = is.nextLine();
+                                if (response.equals("y")) {
+                                    this.controller.toggleSmartDevice(args[0], smartDevice);
+                                }
+                            } else {
+                                System.out.println("ID inválido");
+                            }
+                            return 1;
+                        },
+                        (args) -> {
+                            System.out.println("Introduza o nome da Divisão:");
+                            String division = is.nextLine();
+                            if (this.controller.existsDivision(args[0], division)) {
+                                System.out.println("Digite ON para ligar, OFF para desligar");
+                                String response = is.nextLine();
+                                if (response.equals("ON")) {
+                                    this.controller.turnONDivision(args[0], division);
+                                } else {
+                                    this.controller.turnOFFDivision(args[0], division);
+                                }
+                            } else {
+                                System.out.println("Nome inválido");
+                            }
+                            return 1;
+                        },
+                        (args) -> {
+                            System.out.println("Introduza o nome do Fornecedor");
+                            String provider = is.nextLine();
+                            if (this.controller.existsProvider(provider)) {
+                                this.controller.changeProvider(args[0], provider);
+                            } else {
+                                System.out.println("Nome inválido");
+                            }
+                            return 1;
+                        },
+                        (args) -> 0
+                },
+                new Menu.PreCondition[]{
+                        () -> true,
+                        () -> true,
+                        () -> true,
+                        () -> true,
+                        () -> true,
+                        () -> true
+                });
     }
 
     public Menu createAlterSimulationDetailsProviderMenu() {
         return  new Menu("alterSimulationDetailsProvider",
                 new String[]{"Mudar de Algoritmo", "Mudar Valor de desconto", "Menu Anterior"},
+                new Menu.Handler[]{
+                        args -> {
+                            this.executeMenuByName("alterProviderAlgorithmMenu", args);
+                            return 1;
+                        },
+                        args -> {
+                            System.out.println("Introduza o novo fator de desconto em percentagem.");
+                            if (is.hasNextInt()) {
+                                int discountFactor = is.nextInt();
+                                this.controller.changeDiscountFactor(args[0], discountFactor);
+                            } else {
+                                System.out.println("Valor inválido.");
+                            }
+                            return 1;
+                        },
+                        args -> 0
+                },
+                new Menu.PreCondition[]{
+                        () -> true,
+                        () -> true,
+                        () -> true
+                });
+    }
+
+    public Menu createAlterProviderAlgorithmMenu() {
+        return  new Menu("alterProviderAlgorithmMenu",
+                new String[]{"Algoritmo 1", "Algoritmo 2"},
                 new Menu.Handler[]{},
                 new Menu.PreCondition[]{});
     }

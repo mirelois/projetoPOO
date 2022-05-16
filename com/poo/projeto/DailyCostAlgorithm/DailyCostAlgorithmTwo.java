@@ -19,7 +19,7 @@ public class DailyCostAlgorithmTwo implements DailyCostAlgorithm {
     @Override
     public Double apply(Provider provider, SmartHouse smartHouse) {
         double r =  Provider.getBaseValueKWH() * smartHouse.totalConsumption() * (1 + Provider.getTaxFactor());
-        r *= smartHouse.numberOfDevices() > 10 ? (1 - provider.getDiscountFactor()): 1;
+        r *= smartHouse.numberOfDevices() > 10 ? Math.min(1 - provider.getDiscountFactor(), 0): 1;
         return r;
     }
 }
