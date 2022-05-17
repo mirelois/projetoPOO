@@ -108,86 +108,39 @@ public class Community {
         }
     }
 
-    public void advanceDate(LocalDate newDate) {
-        for(SmartHouse house : this.smartHouseMap.values()) {
-            house.invoiceEmission(this.currentDate, newDate);
-        }
-        this.currentDate = newDate;
-    }
-
-    public void addSmartHouse(SmartHouse house) {
-        //TODO throw HouseNull
-        if (house != null)
-            this.smartHouseMap.put(house.getAddress(), house.clone());
-    }
-
-    public void addProvider(Provider provider) {
-        //TODO throw ProviderNull
-        if (provider != null)
-            this.providerMap.put(provider.getName(), provider.clone());
-    }
-
-    public void addSmartHouse(String address, String name, String nif, String provider) throws AddressAlreadyExistsException, ProviderDoesntExistException {
-        if(this.smartHouseMap.containsKey(address)){
-            throw new AddressAlreadyExistsException("The address " + address + " already exists!");
-        }
-        if(!(this.providerMap.containsKey(provider))){
-            throw new ProviderDoesntExistException("The provider " + provider + " doesn't exist!");
-        }
-        SmartHouse newSmartHouse = new SmartHouse(address, name, nif, this.providerMap.get(provider));
-        this.smartHouseMap.put(address, newSmartHouse);
-    }
-
-    public boolean existsProvider(String provider) {
-        return this.providerMap.containsKey(provider);
-    }
-
-    public boolean existsSmartHouse(String houseAddress) {
-        return this.smartHouseMap.containsKey(houseAddress);
-    }
-
-    public void addProvider(String name) throws ProviderAlreadyExistsException {
-        if (this.providerMap.containsKey(name))
-            throw new ProviderAlreadyExistsException("The provider " + name + " already exists!");
-        Provider provider = new Provider(name);
-        this.providerMap.put(name, provider);
-    }
-
-    public int numberOfProviders() {
-        return this.providerMap.size();
-    }
-
-    public int numberOfHouses() {
-        return this.smartHouseMap.size();
-    }
-
-    public boolean existsDivision(String address, String division) throws AddressDoesntExistException {
-        return this.getSmartHouseByAddress(address).existsDivision(division);
-    }
-
-    public boolean existsSmartDevice(String address, String smartDevice) throws AddressDoesntExistException {
-        return this.getSmartHouseByAddress(address).existsDevice(smartDevice);
-    }
-
-    public boolean isSmartDeviceOn(String address, String smartDevice) throws AddressDoesntExistException {
-        return this.getSmartHouseByAddress(address).isSmartDeviceOn(smartDevice);
-    }
-
     public SmartHouse getSmartHouseByAddress(String address) throws AddressDoesntExistException {
         SmartHouse house = this.smartHouseMap.get(address);
         if (house == null)
             throw new AddressDoesntExistException("Failed to find: " + address);
         return house;
     }
-    public void addSmartDevice(String address, String name){
 
+    public boolean existsProvider(String provider) {
     }
 
-    public void turnSmartDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException {
-        SmartHouse house = this.getSmartHouseByAddress(address);
-        if (b)
-            house.setDeviceOn(smartDevice);
-        else
-            house.setDeviceOff(smartDevice);
+    public boolean existsSmartHouse(String houseAddress) {
+    }
+
+    public int numberOfProviders() {
+    }
+
+    public int numberOfHouses() {
+    }
+
+    public void addSmartHouse(SmartHouse house, String provider) throws AddressAlreadyExistsException, ProviderDoesntExistException {
+        if(this.smartHouseMap.containsKey(house.getAddress())){
+            throw new AddressAlreadyExistsException("The address " + house.getAddress() + " already exists!");
+        }
+        if(!(this.providerMap.containsKey(provider))){
+            throw new ProviderDoesntExistException("The provider " + provider + " doesn't exist!");
+        }
+        house.setProvider(this.providerMap.get(provider));
+        this.smartHouseMap.put(house.getAddress(), house);
+    }
+
+    public void addProvider(Provider provider) throws ProviderAlreadyExistsException {
+        if (this.providerMap.containsKey(provider.getName()))
+            throw new ProviderAlreadyExistsException("The provider " + provider.getName() + " already exists!");
+        this.providerMap.put(provider.getName(), provider);
     }
 }

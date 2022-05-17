@@ -1,10 +1,8 @@
 package com.poo.projeto;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -109,7 +107,7 @@ public class View {
     public Menu createSimulationMenu() {
         return  new Menu("simulationMenu",
                     new String[]{"Carregar Ficheiro das Ações Automáticas", "Menu: Alterar detalhes da simulação",
-                            "Avançar dias", "Menu: Impressão", "Gravar estado", "Sair da simulação"},
+                            "Avançar dias", "Menu: Impressão de Estatísticas", "Gravar estado", "Sair da simulação"},
                     new Menu.Handler[]{
                             (args) -> {
                                 this.controller.loadAutomaticActions();
@@ -158,22 +156,27 @@ public class View {
                 new String[]{"Avançar X Ciclos de Faturação", "Avançar X Ações", "Avançar Fim Simulação Automática", "Menu: Impressão"},
                 new Menu.Handler[]{
                         (args) -> {
-                            do {
-                                System.out.println("Quantos ciclos?");
-                            }while(is.hasNextInt());
-                            this.controller.advanceXCicles(is.nextInt());
-                            //this.executeMenuByName("automaticSimulationMenu");
-                            return this.controller.isSimulationOver() ? 0 : 1;
+                            System.out.println("Quantos ciclos?");
+                            if (is.hasNextInt()) {
+                                this.controller.advanceXCicles(is.nextInt());
+                                return this.controller.isAutomaticSimulationOver() ? 0 : 1;
+                            } else {
+                                System.out.println("Número inválido.");
+                                return 1;
+                            }
                         },
                         (args) -> {
-                            do {
-                                System.out.println("Quantos ciclos?");
-                            }while(is.hasNextInt());
-                            this.controller.advanceXActions(is.nextInt());
-                            return this.controller.isSimulationOver() ? 0 : 1;
+                            System.out.println("Quantos ciclos?");
+                            if (is.hasNextInt()) {
+                                this.controller.advanceXActions(is.nextInt());
+                                return this.controller.isAutomaticSimulationOver() ? 0 : 1;
+                            } else {
+                                System.out.println("Número inválido.");
+                                return 1;
+                            }
                         },
                         (args) -> {
-                            this.controller.advanceFullSimulation();
+                            this.controller.advanceFullAutomaticSimulation();
                             return 0;
                         },
                         (args) -> {
@@ -191,27 +194,39 @@ public class View {
 
     public Menu createPrintMenu() {
         return  new Menu("printMenu",
-                new String[]{"Imprime Tudo", "Imprime Casa", "Imprime Fornecedor", "Menu Anterior"},
+                new String[]{"Imprime Tudo", "Imprime Casa", "Imprime Fornecedor", "Casa que mais gastou",
+                        "Fornecedor com maior volume de faturação", "Faturas emitidas por um fornecedor",
+                        "Oredenação dos maiores consumidores de energia", "Menu Anterior"},
                 new Menu.Handler[]{
                         (args)->{
-                            this.controller.printAll();
+                            System.out.println(this.controller.printAll());
                             return 1;
                         },
                         (args)->{
                             System.out.println("Introduza nome da casa:");
                             String houseName = is.nextLine();
-                            this.controller.printHouse(houseName);
+                            System.out.println(this.controller.printHouse(houseName));
                             return 1;
-                            },
+                        },
                         (args)->{
                             System.out.println("Introduza nome do fornecedor:");
                             String providerName = is.nextLine();
-                            this.controller.printProvider(providerName);
+                            System.out.println(this.controller.printProvider(providerName));
                             return 1;
-                            },
+                        },
+                        (args)->{
+                            this.controller.
+                        },
+                        (args)->0,
+                        (args)->0,
+                        (args)->0,
                         (args)->0
                 },
                 new Menu.PreCondition[]{
+                        ()->true,
+                        ()->true,
+                        ()->true,
+                        ()->true,
                         ()->true,
                         ()->true,
                         ()->true,

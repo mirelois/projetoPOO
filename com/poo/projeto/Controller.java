@@ -11,15 +11,15 @@ import java.util.*;
 
 public class Controller {
 
-    private Community model;
-
+    private CommunityApp model;
     private String lastAddress;
+    //lista de comandos que pode estar vazia
 
-    public Community getModel() {
+    public CommunityApp getModel() {
         return model;
     }
 
-    public void setModel(Community model) {
+    public void setModel(CommunityApp model) {
         this.model = model;
     }
 
@@ -31,7 +31,7 @@ public class Controller {
         this.lastAddress = lastAddress;
     }
 
-    public Controller(Community community) {
+    public Controller(CommunityApp community) {
         this.setModel(community);
     }
 
@@ -165,10 +165,39 @@ public class Controller {
         return isSimulationEmptyHouse() && isSimulationEmptyProvider();
     }
 
-    public void turnONDivision(String arg, String division) {
-        this.model.turnDivision
+    public void turnONDivision(String address, String division) throws AddressDoesntExistException {
+        this.model.turnDivision(address, division, true);
     }
 
-    public void turnOFFDivision(String arg, String division) {
+    public void turnOFFDivision(String address, String division) throws AddressDoesntExistException {
+        this.model.turnDivision(address, division, false);
+    }
+
+    public void advanceXCicles(int numberOfCicles) {
+
+    }
+
+    public void advanceXActions(int numberOfActions) {
+
+    }
+
+    public boolean isAutomaticSimulationOver() {
+
+    }
+
+    public void advanceFullAutomaticSimulation() {
+    }
+
+    public String printHouse(String houseName) {
+        return this.model.houseToString(houseName);
+    }
+
+    public boolean printProvider(String providerName) {
+        return this.model.providerToString(providerName);
+    }
+
+
+    public String printAll() {
+        return this.model.toString();
     }
 }

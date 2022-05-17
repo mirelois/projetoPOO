@@ -53,6 +53,16 @@ public class SmartHouse {
         this.invoices = smartHouse.getInvoices();
     }
 
+    public SmartHouse(String address, String name, String nif){
+        this.address = address;
+        this.name = name;
+        this.nif = nif;
+        this.provider = null;
+        this.invoices = new ArrayList<>();
+        this.divisions = new HashMap<>();
+        this.devices = new HashMap<>();
+    }
+
     public SmartHouse(String address, String name, String nif, Provider provider){
         this.address = address;
         this.name = name;
@@ -140,8 +150,8 @@ public class SmartHouse {
     public String toString() {
         return "SmartHouse{" +
                 "address='" + address + '\'' +
-                ", devices=" + devices +
-                ", divisions=" + divisions +
+                ", devices=" + devices.toString() +
+                ", divisions=" + divisions.toString() +
                 '}';
     }
 
