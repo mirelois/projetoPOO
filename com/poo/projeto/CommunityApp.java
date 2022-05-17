@@ -46,7 +46,7 @@ public class CommunityApp {
         return community.getSmartHouseByAddress(address).existsDevice(smartDevice);
     }
 
-    public boolean isSmartDeviceOn(String address, String smartDevice) throws AddressDoesntExistException {
+    public boolean isSmartDeviceOn(String address, String smartDevice) throws AddressDoesntExistException, DeviceDoesntExistException {
         return community.getSmartHouseByAddress(address).isSmartDeviceOn(smartDevice);
     }
     public void addSmartDevice(String address, String name){
@@ -94,5 +94,22 @@ public class CommunityApp {
     public void addSmartCamera(String address, String resolution, String dimension, String baseConsumption){
         SmartCamera smartCamera = new SmartCamera();
         this.community.addSmartDevice(address, smartCamera);
+    }
+
+
+    //TODO mudar este toString pensando em como mostraar a app toda
+    @Override
+    public String toString() {
+        return "CommunityApp{" +
+                "community=" + community.toString() +
+                '}';
+    }
+
+    public String houseToString(String houseName) throws AddressDoesntExistException {
+        return this.community.getSmartHouseByAddress(houseName).toString();
+    }
+
+    public String providerToString(String providerName) throws ProviderDoesntExistException {
+        return this.community.getProviderByName(providerName).toString();
     }
 }

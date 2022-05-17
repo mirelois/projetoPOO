@@ -2,6 +2,7 @@ package com.poo.projeto;
 
 import com.poo.projeto.SmartHouse.AddressAlreadyExistsException;
 import com.poo.projeto.SmartHouse.AddressDoesntExistException;
+import com.poo.projeto.SmartHouse.DeviceDoesntExistException;
 import com.poo.projeto.provider.ProviderAlreadyExistsException;
 import com.poo.projeto.provider.ProviderDoesntExistException;
 
@@ -157,7 +158,7 @@ public class Controller {
         return this.model.existsSmartDevice(address, smartDevice);
     }
 
-    public boolean isSmartDeviceOn(String address, String smartDevice) throws AddressDoesntExistException {
+    public boolean isSmartDeviceOn(String address, String smartDevice) throws AddressDoesntExistException, DeviceDoesntExistException {
         return this.model.isSmartDeviceOn(address, smartDevice);
     }
 
@@ -194,16 +195,16 @@ public class Controller {
     }
 
     public void advanceFullAutomaticSimulation() {
+
     }
 
-    public String printHouse(String houseName) {
+    public String printHouse(String houseName) throws AddressDoesntExistException {
         return this.model.houseToString(houseName);
     }
 
-    public boolean printProvider(String providerName) {
+    public String printProvider(String providerName) throws ProviderDoesntExistException {
         return this.model.providerToString(providerName);
     }
-
 
     public String printAll() {
         return this.model.toString();

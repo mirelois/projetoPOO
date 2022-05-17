@@ -117,15 +117,19 @@ public class Community {
     }
 
     public boolean existsProvider(String provider) {
+        return this.providerMap.containsKey(provider);
     }
 
     public boolean existsSmartHouse(String houseAddress) {
+        return this.smartHouseMap.containsKey(houseAddress);
     }
 
     public int numberOfProviders() {
+        return this.providerMap.size();
     }
 
     public int numberOfHouses() {
+        return this.smartHouseMap.size();
     }
 
     public void addSmartHouse(SmartHouse house, String provider) throws AddressAlreadyExistsException, ProviderDoesntExistException {
@@ -147,5 +151,11 @@ public class Community {
 
     public void addSmartDevice(String address, String divisionName, SmartDevice smartDevice){
         this.smartHouseMap.get(address).addSmartDevice(divisionName, smartDevice);
+    }
+
+    public Provider getProviderByName(String providerName) throws ProviderDoesntExistException {
+        if (!this.providerMap.containsKey(providerName))
+            throw new ProviderDoesntExistException("The provider " + providerName + " doesn't exist.");
+        return this.providerMap.get(providerName);
     }
 }
