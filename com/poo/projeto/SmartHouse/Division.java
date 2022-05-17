@@ -89,10 +89,10 @@ public class Division {
         return this.devices.values().size();
     }
 
-    public boolean isSmartDeviceOn(String smartDevice) {
+    public boolean isSmartDeviceOn(String smartDevice) throws DeviceDoesntExistException {
         SmartDevice device = this.devices.get(smartDevice);
         if (device == null)
-            throw new DeviceDoesntExistException();
+            throw new DeviceDoesntExistException("Não existe device com o id " + smartDevice);
         return device.getOn();
     }
 }

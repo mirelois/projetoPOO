@@ -276,10 +276,10 @@ public class SmartHouse {
         interactHouse(SmartDevice::turnOff);
     }
 
-    public boolean isSmartDeviceOn(String smartDevice) {
+    public boolean isSmartDeviceOn(String smartDevice) throws DivisionDoesntExistException, DeviceDoesntExistException {
         String division = this.devices.get(smartDevice);
         if (division == null)
-            throw new DivisionDoesntExistException();
+            throw new DivisionDoesntExistException("Não existe divisão com o device " + smartDevice.toString());
         return this.divisions.get(division).isSmartDeviceOn(smartDevice);
     }
 }
