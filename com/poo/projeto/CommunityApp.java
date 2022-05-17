@@ -1,8 +1,6 @@
 package com.poo.projeto;
 
-import com.poo.projeto.SmartHouse.AddressAlreadyExistsException;
-import com.poo.projeto.SmartHouse.AddressDoesntExistException;
-import com.poo.projeto.SmartHouse.SmartHouse;
+import com.poo.projeto.SmartHouse.*;
 import com.poo.projeto.provider.Provider;
 import com.poo.projeto.provider.ProviderAlreadyExistsException;
 import com.poo.projeto.provider.ProviderDoesntExistException;
@@ -82,5 +80,19 @@ public class CommunityApp {
 
     public void addProvider(String provider) throws ProviderAlreadyExistsException {
         this.community.addProvider(new Provider(provider));
+    }
+
+    public void addSmartBulb(String address){
+        SmartBulb smartBulb = new SmartBulb();
+        this.community.addSmartDevice(address, smartBulb);
+    }
+
+    public void addSmartSpeaker(){
+        this.community.addSmartDevice();
+    }
+
+    public void addSmartCamera(String address, String resolution, String dimension, String baseConsumption){
+        SmartCamera smartCamera = new SmartCamera();
+        this.community.addSmartDevice(address, smartCamera);
     }
 }

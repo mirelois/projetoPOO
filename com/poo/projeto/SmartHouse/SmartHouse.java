@@ -282,4 +282,8 @@ public class SmartHouse {
             throw new DivisionDoesntExistException("Não existe divisão com o device " + smartDevice.toString());
         return this.divisions.get(division).isSmartDeviceOn(smartDevice);
     }
+
+    public void addSmartDevice(String divisionName, SmartDevice smartDevice){
+        this.divisions.get(divisionName).addDevice(smartDevice);
+    }
 }

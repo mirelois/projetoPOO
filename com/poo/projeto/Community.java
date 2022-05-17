@@ -2,6 +2,7 @@ package com.poo.projeto;
 
 import com.poo.projeto.SmartHouse.AddressAlreadyExistsException;
 import com.poo.projeto.SmartHouse.AddressDoesntExistException;
+import com.poo.projeto.SmartHouse.SmartDevice;
 import com.poo.projeto.SmartHouse.SmartHouse;
 import com.poo.projeto.provider.Provider;
 import com.poo.projeto.provider.ProviderAlreadyExistsException;
@@ -142,5 +143,9 @@ public class Community {
         if (this.providerMap.containsKey(provider.getName()))
             throw new ProviderAlreadyExistsException("The provider " + provider.getName() + " already exists!");
         this.providerMap.put(provider.getName(), provider);
+    }
+
+    public void addSmartDevice(String address, String divisionName, SmartDevice smartDevice){
+        this.smartHouseMap.get(address).addSmartDevice(divisionName, smartDevice);
     }
 }

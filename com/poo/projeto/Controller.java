@@ -42,16 +42,24 @@ public class Controller {
         String tone = args[0];
         String diameter = args[1];
         String baseConsumption = args[2];
-        this.model.addSmartDevice(this.lastAddress, tone, diameter, baseConsumption);
+        this.model.addSmartBulb(this.lastAddress, tone, diameter, baseConsumption);
 
         return true;
     }
 
-    public void createSmartCamera(String line){
+    public boolean createSmartCamera(String line){
+        String[] args = line.split(",");
+        if(args.length!=3)
+            return false;
+        String resolution = args[0];
+        String dimention = args[1];
+        String baseConsumption = args[2];
+        this.model.addSmartCamera(this.lastAddress, resolution, dimention, baseConsumption);
 
+        return true;
     }
 
-    public void createSmartSpearker(String line){
+    public void createSmartSpeaker(String line){
 
     }
 
