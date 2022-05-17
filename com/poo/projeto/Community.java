@@ -182,4 +182,12 @@ public class Community {
     public void addSmartDevice(String address, String name){
 
     }
+
+    public void turnSmartDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException {
+        SmartHouse house = this.getSmartHouseByAddress(address);
+        if (b)
+            house.setDeviceOn(smartDevice);
+        else
+            house.setDeviceOff(smartDevice);
+    }
 }

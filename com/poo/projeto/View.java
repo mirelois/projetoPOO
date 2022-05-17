@@ -290,9 +290,9 @@ public class View {
                                 System.out.println("Pretende ligar(y) ou desligar(n)?");
                                 String response = is.nextLine();
                                 if (response.equals("y")) {
-                                    this.controller.turnSmartDevice(args[0], smartDevice, true);
+                                    this.controller.turnSmartDeviceON(args[0], smartDevice);
                                 } else if (response.equals("n")) {
-                                    this.controller.turnSmartDevice(args[0], smartDevice, false);
+                                    this.controller.turnSmartDeviceOFF(args[0], smartDevice);
                                 }
                             } else {
                                 System.out.println("ID inválido");

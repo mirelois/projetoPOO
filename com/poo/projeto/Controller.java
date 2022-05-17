@@ -1,6 +1,7 @@
 package com.poo.projeto;
 
 import com.poo.projeto.SmartHouse.AddressAlreadyExistsException;
+import com.poo.projeto.SmartHouse.AddressDoesntExistException;
 import com.poo.projeto.provider.ProviderAlreadyExistsException;
 import com.poo.projeto.provider.ProviderDoesntExistException;
 
@@ -140,19 +141,34 @@ public class Controller {
         return this.model.numberOfHouses() == 0;
     }
 
-    public boolean existsDivision(String address, String division) {
+    public boolean existsDivision(String address, String division) throws AddressDoesntExistException {
         return this.model.existsDivision(address, division);
     }
 
-    public boolean existsSmartDevice(String address, String smartDevice) {
+    public boolean existsSmartDevice(String address, String smartDevice) throws AddressDoesntExistException {
         return this.model.existsSmartDevice(address, smartDevice);
     }
 
-    public boolean isSmartDeviceOn(String address, String smartDevice) {
+    public boolean isSmartDeviceOn(String address, String smartDevice) throws AddressDoesntExistException {
         return this.model.isSmartDeviceOn(address, smartDevice);
     }
 
-    public void turnSmartDevice(String arg, String smartDevice, boolean b) {
-        this.model.
+    public void turnSmartDeviceON(String address, String smartDevice) throws AddressDoesntExistException {
+        this.model.turnSmartDevice(address, smartDevice, true);
+    }
+
+    public void turnSmartDeviceOFF(String address, String smartDevice) throws AddressDoesntExistException {
+        this.model.turnSmartDevice(address, smartDevice, false);
+    }
+
+    public boolean isSimulationEmpty() {
+        return isSimulationEmptyHouse() && isSimulationEmptyProvider();
+    }
+
+    public void turnONDivision(String arg, String division) {
+        this.model.turnDivision
+    }
+
+    public void turnOFFDivision(String arg, String division) {
     }
 }
