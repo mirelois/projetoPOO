@@ -10,6 +10,8 @@ import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 import com.poo.projeto.SmartHouse.Exceptions.DivisionAlreadyExistsException;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -30,6 +32,10 @@ public class Controller {
 
     public Controller(CommunityApp community) {
         this.setModel(community);
+    }
+
+    public void saveState(String fileName) throws FileNotFoundException, IOException {
+        this.model.saveState(fileName);
     }
 
     public boolean createSmartBulb(String line){

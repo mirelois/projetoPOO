@@ -149,7 +149,11 @@ public class View {
                             (args) -> {
                                 System.out.println("Introduza o nome de ficheiro para guardar.");
                                 String filename = is.nextLine();
-                                this.controller.saveState(filename);
+                                try {
+                                    this.controller.saveState(filename);
+                                }catch (IOException e){
+                                    e.printStackTrace();
+                                }
                                 return 1;
                             },
                             (args) -> {
