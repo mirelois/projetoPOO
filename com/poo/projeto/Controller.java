@@ -17,9 +17,6 @@ import java.util.*;
 public class Controller {
 
     private CommunityApp model;
-    private String lastAddress;
-
-    private String lastDivision;
 
     //lista de comandos que pode estar vazia
 
@@ -29,22 +26,6 @@ public class Controller {
 
     public void setModel(CommunityApp model) {
         this.model = model;
-    }
-
-    public String getLastAddress() {
-        return lastAddress;
-    }
-
-    public void setLastAddress(String lastAddress) {
-        this.lastAddress = lastAddress;
-    }
-
-    public String getLastDivision() {
-        return lastDivision;
-    }
-
-    public void setLastDivision(String lastDivision) {
-        this.lastDivision = lastDivision;
     }
 
     public Controller(CommunityApp community) {
@@ -58,7 +39,7 @@ public class Controller {
         String tone = args[0];
         String diameter = args[1];
         String baseConsumption = args[2];
-        this.model.addSmartBulb(this.lastAddress, this.lastDivision, tone, diameter, baseConsumption);
+        this.model.addSmartBulb(tone, diameter, baseConsumption);
 
         return true;
     }
@@ -70,7 +51,7 @@ public class Controller {
         String resolution = args[0];
         String dimention = args[1];
         String baseConsumption = args[2];
-        this.model.addSmartCamera(this.lastAddress, this.lastDivision, resolution, dimention, baseConsumption);
+        this.model.addSmartCamera(resolution, dimention, baseConsumption);
 
         return true;
     }
@@ -83,22 +64,20 @@ public class Controller {
         String brand = args[1];
         String radio = args[2];
         String baseConsumption = args[3];
-        this.model.addSmartSpeaker(this.lastAddress, this.lastDivision, volume, brand, radio, baseConsumption);
+        this.model.addSmartSpeaker(volume, brand, radio, baseConsumption);
 
         return true;
     }
 
     public Boolean createSmartHouse(String line){
         String[] args = line.split(",");
-        if(args.length!=4)
+        if(args.length!=3)
             return false;
-        String address = args[0];
-        String name = args[1];
-        String nif = args[2];
-        String provider = args[3];
+        String name = args[0];
+        String nif = args[1];
+        String provider = args[2];
         try {
-            this.model.addSmartHouse(address, name, nif, provider);
-            this.lastAddress = args[0];
+            this.model.addSmartHouse(name, nif, provider);
         }catch (AddressAlreadyExistsException e){
             e.printStackTrace();
             return false;
@@ -107,7 +86,6 @@ public class Controller {
             return false;
         }
 
-        this.setLastAddress(address);
         return true;
     }
 
@@ -130,8 +108,7 @@ public class Controller {
         if(args.length!=1)
             return false;
         try {
-            this.model.addDivision(this.lastAddress, args[0]);
-            this.lastDivision = args[0];
+            this.model.addDivision(args[0]);
         }catch (DivisionAlreadyExistsException e){
             e.printStackTrace();
             return false;

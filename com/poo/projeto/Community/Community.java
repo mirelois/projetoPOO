@@ -13,11 +13,12 @@ import com.poo.projeto.Provider.Provider;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Community {
+public class Community implements Serializable {
     private Map<String, Provider> providerMap; //name -> provider
     private Map<String, SmartHouse> smartHouseMap; //adress -> SmartHouse??
     private LocalDate currentDate;

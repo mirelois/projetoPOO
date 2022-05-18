@@ -5,12 +5,13 @@ import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithmOne;
 import com.poo.projeto.Invoice;
 import com.poo.projeto.SmartHouse.SmartHouse;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Provider implements Comparable<Provider>{
+public class Provider implements Comparable<Provider>, Serializable {
     private static int baseValueKWH, taxFactor;
     private String name;
     private Map<SmartHouse, Set<Invoice>> invoiceMap;

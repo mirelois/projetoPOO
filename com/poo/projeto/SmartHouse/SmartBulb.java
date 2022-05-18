@@ -1,7 +1,8 @@
 package com.poo.projeto.SmartHouse;
 
-//TODO há cenas em português
-public class SmartBulb extends SmartDevice {
+import java.io.Serializable;
+
+public class SmartBulb extends SmartDevice implements Serializable {
     public static final int WARM = 2;
     public static final int NEUTRAL = 1;
     public static final int COLD = 0;
@@ -9,12 +10,12 @@ public class SmartBulb extends SmartDevice {
     private int tone;
     private int diameter;
 
-    public int getDiametro() {
+    public int getDiameter() {
         return diameter;
     }
 
-    public void setDiametro(int diametro) {
-        this.diameter = diametro;
+    public void setDiameter(int diameter) {
+        this.diameter = diameter;
     }
 
     /**
@@ -27,23 +28,23 @@ public class SmartBulb extends SmartDevice {
         this.diameter = 0;
     }
 
-    public SmartBulb(String id, double consumoBase, int tone, int diametro) {
+    public SmartBulb(String id, double baseConsumption, int tone, int diameter) {
         // initialise instance variables
-        super(id, diametro * 10 + consumoBase, consumoBase);
+        super(id, diameter * 10 + baseConsumption, baseConsumption);
         this.tone = tone;
-        this.diameter = diametro;
+        this.diameter = diameter;
     }
 
     // TODO Deve haver melhor maneira
-    public SmartBulb(String id, boolean on, double installationCost, double consumoBase, String tone, int diametro) {
+    public SmartBulb(String id, boolean on, double installationCost, double baseConsumption, String tone, int diameter) {
         // initialise instance variables
-        super(id, on, installationCost, consumoBase);
+        super(id, on, installationCost, baseConsumption);
         switch (tone) {
             case "WARM" -> this.tone = 2;
             case "COLD" -> this.tone = 0;
             case "NEUTRAL" -> this.tone = 1;
         }
-        this.diameter = diametro;
+        this.diameter = diameter;
     }
 
     public SmartBulb(String id) {

@@ -1,10 +1,11 @@
 package com.poo.projeto.SmartHouse;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 
 // Esta classe não está a ser usada
-public class Owner {
+public class Owner implements Serializable {
     private String name;
     private String nif;
 
