@@ -2,13 +2,14 @@ package com.poo.projeto.SmartHouse;
 
 import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class Division {
+public class Division implements Serializable {
     private String name;
     private Map<String, SmartDevice> devices;
 

@@ -1,6 +1,8 @@
 package com.poo.projeto.SmartHouse;
 
-public class SmartBulb extends SmartDevice {
+import java.io.Serializable;
+
+public class SmartBulb extends SmartDevice implements Serializable {
     public static final int WARM = 2;
     public static final int NEUTRAL = 1;
     public static final int COLD = 0;

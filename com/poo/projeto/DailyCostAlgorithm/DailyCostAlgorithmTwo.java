@@ -3,8 +3,10 @@ package com.poo.projeto.DailyCostAlgorithm;
 import com.poo.projeto.SmartHouse.SmartHouse;
 import com.poo.projeto.Provider.Provider;
 
+import java.io.Serializable;
 
-public class DailyCostAlgorithmTwo extends DailyCostAlgorithm {
+
+public class DailyCostAlgorithmTwo extends DailyCostAlgorithm implements Serializable {
 
     private static DailyCostAlgorithmTwo singletonAlgorithm = null;
 

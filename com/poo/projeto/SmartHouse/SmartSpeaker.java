@@ -1,9 +1,10 @@
 package com.poo.projeto.SmartHouse;
 
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class SmartSpeaker extends SmartDevice {
+public class SmartSpeaker extends SmartDevice implements Serializable {
     public static final int MAX = 100; //volume máximo
     
     private int volume;

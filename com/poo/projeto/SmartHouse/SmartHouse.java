@@ -4,13 +4,14 @@ import com.poo.projeto.Invoice;
 import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
 import com.poo.projeto.Provider.Provider;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class SmartHouse {
+public class SmartHouse implements Serializable {
 
     private String address;
 

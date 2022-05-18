@@ -1,8 +1,9 @@
 package com.poo.projeto.SmartHouse;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class SmartDevice {
+public abstract class SmartDevice implements Serializable {
 
     private final String id;
     private boolean on;

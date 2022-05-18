@@ -1,9 +1,10 @@
 package com.poo.projeto.SmartHouse;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class SmartCamera extends SmartDevice{
+public class SmartCamera extends SmartDevice implements Serializable {
     private Integer[] resolution;
     private Integer dimension;
 
