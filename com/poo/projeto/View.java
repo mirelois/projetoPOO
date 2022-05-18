@@ -334,8 +334,14 @@ public class View {
 
     private void addSmartHouseView() {
         //TODO adicionar nova casa (receber input e mandar para o controller)
-        System.out.println("Introduza a morada da casa:");
-        
+        System.out.println("Introduza o nome do dono:");
+        String name = is.nextLine();
+        System.out.println("Introduza o nif do dono:");
+        String nif = is.nextLine();
+        System.out.println("Introduza o nome do fornecedor:");
+        String provider = is.nextLine();
+        this.addSmartHouse(name, nif, provider);
+        this.executeMenuByName("alterSimulationDetailsHouse", new String[]{});
         //Esta função tem de ser buffered
     }
 

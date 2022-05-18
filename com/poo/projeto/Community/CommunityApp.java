@@ -131,11 +131,12 @@ public class CommunityApp implements Serializable {
         return this.community.getCurrentDate();
     }
 
-    public void addSmartHouse(String name, String nif, String provider) throws AddressAlreadyExistsException, ProviderDoesntExistException {
+    public String addSmartHouse(String name, String nif, String provider) throws AddressAlreadyExistsException, ProviderDoesntExistException {
         this.lastAddress = this.addressGenerate.toString();
         SmartHouse house = new SmartHouse(this.lastAddress, name, nif);
         this.addressGenerate++;
         this.community.addSmartHouse(house, provider);
+        return this.lastAddress;
     }
 
     public void addProvider(String provider) throws ProviderAlreadyExistsException {
