@@ -75,24 +75,14 @@ public class Controller {
         return true;
     }
 
-    public Boolean createSmartHouse(String line){
+    public String createSmartHouse(String line) throws AddressAlreadyExistsException, ProviderDoesntExistException {
         String[] args = line.split(",");
-        if(args.length!=3)
-            return false;
+        //if(args.length!=3)
+        //    return false;
         String name = args[0];
         String nif = args[1];
         String provider = args[2];
-        try {
-            this.model.addSmartHouse(name, nif, provider);
-        }catch (AddressAlreadyExistsException e){
-            e.printStackTrace();
-            return false;
-        }catch (ProviderDoesntExistException e){
-            e.printStackTrace();
-            return false;
-        }
-
-        return true;
+        return this.model.addSmartHouse(name, nif, provider);
     }
 
     public boolean createProvider(String line){
@@ -193,40 +183,20 @@ public class Controller {
         return this.model.isSmartDeviceOn(address, smartDevice);
     }
 
-    public void turnSmartDeviceON(String address, String smartDevice) {
-        try {
-            this.model.turnSmartDevice(address, smartDevice, true);
-        } catch (AddressDoesntExistException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void turnSmartDeviceOFF(String address, String smartDevice) {
-        try {
-            this.model.turnSmartDevice(address, smartDevice, false);
-        } catch (AddressDoesntExistException e) {
-            e.printStackTrace();
-        }
+    public void turnSmartDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException {
+        this.model.turnSmartDevice(address, smartDevice, b);
     }
 
     public boolean isSimulationEmpty() {
         return isSimulationEmptyHouse() && isSimulationEmptyProvider();
     }
 
-    public void turnONDivision(String address, String division) {
-        try {
-            this.model.turnDivision(address, division, true);
-        } catch (AddressDoesntExistException e) {
-            e.printStackTrace();
-        }
+    public void turnONDivision(String address, String division) throws AddressDoesntExistException {
+        this.model.turnDivision(address, division, true);
     }
 
-    public void turnOFFDivision(String address, String division) {
-        try {
-            this.model.turnDivision(address, division, false);
-        } catch (AddressDoesntExistException e) {
-            e.printStackTrace();
-        }
+    public void turnOFFDivision(String address, String division) throws AddressDoesntExistException {
+        this.model.turnDivision(address, division, false);
     }
 
     public void advanceXCicles(int numberOfCicles) {
@@ -261,24 +231,12 @@ public class Controller {
         return this.model.houseWithMostConsumption(start, end);
     }
 
-    public String providerWithMostInvoicingVolume() {
-        String string;
-        try {
-            string = this.model.providerWithMostInvoicingVolume();
-        } catch (NoProvidersException e) {
-            return e.toString();
-        }
-        return string;
+    public String providerWithMostInvoicingVolume() throws NoProvidersException {
+        return this.model.providerWithMostInvoicingVolume();
     }
 
-    public String invoicesByProvider(String providerName){
-        List<String> list;
-        try {
-            list = this.model.invoicesByProvider(providerName);
-        } catch (ProviderDoesntExistException e) {
-            return e.toString();
-        }
-
+    public String invoicesByProvider(String providerName) throws ProviderDoesntExistException {
+        List<String> list = this.model.invoicesByProvider(providerName);
         StringBuilder ret = new StringBuilder();
         for (String string : list) {
             ret.append(string).append("\n");
@@ -286,14 +244,8 @@ public class Controller {
         return ret.toString();
     }
 
-    public String orderedHousesByConsumption(String start, String end) {
-        List<String> list;
-        try {
-            list = this.model.orderedHousesByConsumption(start, end);
-        } catch (NoHouseInPeriodException e) {
-            return e.toString();
-        }
-
+    public String orderedHousesByConsumption(String start, String end) throws NoHouseInPeriodException {
+        List<String> list = this.model.orderedHousesByConsumption(start, end);
         StringBuilder ret = new StringBuilder();
         for (String string : list) {
             ret.append(string).append("\n");
@@ -313,7 +265,7 @@ public class Controller {
         //Esta função tem de ser buffered
     }
 
-    public void parseActions(List<String> lines) throws AddressDoesntExistException, NumberFormatException, ProviderDoesntExistException {
+    public void parseActions(List<String> lines) throws AddressDoesntExistException, NumberFormatException, ProviderDoesntExistException, DeviceDoesntExistException {
 
         String[] brokenLine;
         for (String line : lines) {
@@ -329,7 +281,7 @@ public class Controller {
                             break;
                         case "changeBaseConsumption":
                             //TODO porcaria
-                            Integer baseConsumption = Integer.parseInt(brokenLine[4]);
+                            Double baseConsumption = Double.parseDouble(brokenLine[4]);
                             this.model.setBaseConsumption(brokenLine[1], brokenLine[2], baseConsumption);
                             break;
                     }

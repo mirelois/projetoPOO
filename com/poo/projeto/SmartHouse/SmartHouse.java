@@ -3,6 +3,7 @@ package com.poo.projeto.SmartHouse;
 import com.poo.projeto.Invoice;
 import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
 import com.poo.projeto.Provider.Provider;
+import com.poo.projeto.SmartHouse.Exceptions.DivisionDoesntExistException;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -173,7 +174,10 @@ public class SmartHouse implements Serializable {
         }
     }
 
-    public void interactDevice(String id, Consumer<SmartDevice> smartDeviceConsumer){
+    public void interactDevice(String id, Consumer<SmartDevice> smartDeviceConsumer) throws DeviceDoesntExistException {
+        String division = this.devices.get(id);
+        if (division == null)
+            throw new DeviceDoesntExistException("Device with id " + id + " doesn't exist");
         this.divisions.get(this.devices.get(id)).turnDevice(id, smartDeviceConsumer);
     }
 
@@ -245,11 +249,11 @@ public class SmartHouse implements Serializable {
         return newInvoice;
     }
 
-    public void setDeviceOn(String id) {
+    public void setDeviceOn(String id) throws DeviceDoesntExistException {
         interactDevice(id, SmartDevice::turnOn);
     }
 
-    public void setDeviceOff(String id) {
+    public void setDeviceOff(String id) throws DeviceDoesntExistException {
         interactDevice(id, SmartDevice::turnOff);
     }
 
@@ -292,5 +296,9 @@ public class SmartHouse implements Serializable {
                 //", devices=" + devices +
                 ", divisions=" + divisions.values().stream().map(Division::toString).collect(Collectors.joining("\n     ")) +
                 '}';
+    }
+
+    public void setBaseConsumption(String device, Double baseConsumption) throws DeviceDoesntExistException {
+        interactDevice(device, d -> d.setBaseConsumption(baseConsumption));
     }
 }

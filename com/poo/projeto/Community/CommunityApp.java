@@ -1,6 +1,9 @@
 package com.poo.projeto.Community;
 
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
+import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithm;
+import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithmOne;
+import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithmTwo;
 import com.poo.projeto.Invoice;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
 import com.poo.projeto.SmartHouse.*;
@@ -12,6 +15,7 @@ import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 import com.poo.projeto.SmartHouse.Exceptions.DivisionAlreadyExistsException;
 
+import java.awt.geom.Arc2D;
 import java.io.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -97,31 +101,23 @@ public class CommunityApp implements Serializable {
     }
 
     public boolean existsDivision(String address, String division) throws AddressDoesntExistException {
-        return community.getSmartHouseByAddress(address).existsDivision(division);
+        return community.existsDivision(address, division);
     }
 
     public boolean existsSmartDevice(String address, String smartDevice) throws AddressDoesntExistException {
-        return community.getSmartHouseByAddress(address).existsDevice(smartDevice);
+        return community.existsSmartDevice(address, smartDevice);
     }
 
     public boolean isSmartDeviceOn(String address, String smartDevice) throws AddressDoesntExistException, DeviceDoesntExistException {
-        return community.getSmartHouseByAddress(address).isSmartDeviceOn(smartDevice);
+        return community.isSmartDeviceOn(address, smartDevice);
     }
 
-    public void turnSmartDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException {
-        SmartHouse house = community.getSmartHouseByAddress(address);
-        if (b)
-            house.setDeviceOn(smartDevice);
-        else
-            house.setDeviceOff(smartDevice);
+    public void turnSmartDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException, DeviceDoesntExistException {
+        community.turnDevice(address, smartDevice, b);
     }
 
     public void turnDivision(String address, String division, boolean b) throws AddressDoesntExistException {
-        SmartHouse house = community.getSmartHouseByAddress(address);
-        if (b)
-            house.setDeviceOn(division);
-        else
-            house.setDeviceOff(division);
+        community.turnDivision(address, division, b);
     }
 
     public LocalDate getCurrentDate() {
@@ -232,14 +228,28 @@ public class CommunityApp implements Serializable {
     }
 
     public void setProviderDiscountFactor(String providerName, Double discountFactor) throws ProviderDoesntExistException {
-        this.community.getProviderByName(providerName).setDiscountFactor(discountFactor);
+        this.community.setDiscountFactor(providerName, discountFactor);
     }
 
-    public void setProviderAlgorithm(String providerName, int algorithm){
+    public void setProviderAlgorithm(String providerName, int algorithm) throws ProviderDoesntExistException {
+        DailyCostAlgorithm dailyCostAlgorithm;
+        switch (algorithm) {
+            case 2:
+                dailyCostAlgorithm = DailyCostAlgorithmTwo.getInstance();
+                break;
+            default:
+                dailyCostAlgorithm = DailyCostAlgorithmOne.getInstance();
+                break;
+        }
+        this.community.setProviderAlgorithm(providerName, dailyCostAlgorithm);
      //TODO fazer isto if u can
     }
 
     public void setSmartHouseProvider(String address, String provider) throws AddressDoesntExistException, ProviderDoesntExistException {
-        this.community.getSmartHouseByAddress(address).setProvider(this.community.getProviderByName(provider));
+        this.community.setSmartHouseProvider(address, provider);
+    }
+
+    public void setBaseConsumption(String address, String device, Double baseConsumption) throws AddressDoesntExistException, DeviceDoesntExistException {
+        this.community.setBaseConsumption(address, device, baseConsumption);
     }
 }

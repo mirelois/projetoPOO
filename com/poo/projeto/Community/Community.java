@@ -1,11 +1,13 @@
 package com.poo.projeto.Community;
 
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
+import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithm;
 import com.poo.projeto.Invoice;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
 import com.poo.projeto.SmartHouse.Division;
 import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
 import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
+import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
 import com.poo.projeto.SmartHouse.Exceptions.DivisionAlreadyExistsException;
 import com.poo.projeto.SmartHouse.SmartDevice;
 import com.poo.projeto.SmartHouse.SmartHouse;
@@ -115,7 +117,7 @@ public class Community implements Serializable {
         return max.get().clone();
     }
 
-    public SmartHouse getSmartHouseByAddress(String address) throws AddressDoesntExistException {
+    private SmartHouse getSmartHouseByAddress(String address) throws AddressDoesntExistException {
         SmartHouse house = this.smartHouseMap.get(address);
         if (house == null)
             throw new AddressDoesntExistException("Failed to find: " + address);
@@ -159,7 +161,7 @@ public class Community implements Serializable {
         this.smartHouseMap.get(address).addSmartDevice(divisionName, smartDevice);
     }
 
-    public Provider getProviderByName(String providerName) throws ProviderDoesntExistException {
+    private Provider getProviderByName(String providerName) throws ProviderDoesntExistException {
         if (!this.providerMap.containsKey(providerName))
             throw new ProviderDoesntExistException("The provider " + providerName + " doesn't exist.");
         return this.providerMap.get(providerName);
@@ -178,5 +180,25 @@ public class Community implements Serializable {
                 ", smartHouseMap=" + smartHouseMap.values().stream().map(SmartHouse::toString).collect(Collectors.joining("\n   ")) +
                 ", currentDate=" + currentDate.toString() +
                 '}';
+    }
+
+    public void setDiscountFactor(String providerName, Double discountFactor) throws ProviderDoesntExistException {
+        this.getProviderByName(providerName).setDiscountFactor(discountFactor);
+    }
+
+    public void setProviderAlgorithm(String providerName, DailyCostAlgorithm dailyCostAlgorithm) throws ProviderDoesntExistException {
+        this.getProviderByName(providerName).setDailyCostAlgorithm(dailyCostAlgorithm);
+    }
+
+    public void setSmartHouseProvider(String address, String providerName) throws AddressDoesntExistException, ProviderDoesntExistException {
+        this.getSmartHouseByAddress(address).setProvider(this.getProviderByName(providerName));
+    }
+
+    public void setBaseConsumption(String address, String device, Double baseConsumption) throws AddressDoesntExistException, DeviceDoesntExistException {
+        this.getSmartHouseByAddress(address).setBaseConsumption(device, baseConsumption);
+    }
+
+    public void turnDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException, DeviceDoesntExistException {
+        this.getSmartHouseByAddress(address).interactDevice(smartDevice, d -> d.setOn(b));
     }
 }

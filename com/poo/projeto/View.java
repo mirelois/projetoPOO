@@ -2,8 +2,10 @@ package com.poo.projeto;
 
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
+import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
 import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
+import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -124,7 +126,7 @@ public class View {
                                 try {
                                     this.controller.parseActions(lines);
                                     this.executeMenuByName("automaticSimulationMenu", new String[]{});
-                                } catch (NumberFormatException | AddressDoesntExistException | ProviderDoesntExistException e) {
+                                } catch (DeviceDoesntExistException | NumberFormatException | AddressDoesntExistException | ProviderDoesntExistException e) {
                                     e.printStackTrace();
                                 }
                                 return 1;
@@ -257,13 +259,21 @@ public class View {
                             return 1;
                         },
                         (args)-> { //fornecedor com maior volume de faturação
-                            System.out.println("O fornecedor com maior volume de faturação é: " + this.controller.providerWithMostInvoicingVolume());
+                            try {
+                                System.out.println("O fornecedor com maior volume de faturação é: " + this.controller.providerWithMostInvoicingVolume());
+                            } catch (NoProvidersException e) {
+                                e.printStackTrace();
+                            }
                             return 1;
                         },
                         (args)-> { //faturas de um fornecedor
                             System.out.println("Introduza nome do fornecedor:");
                             String providerName = is.nextLine();
-                            System.out.println(this.controller.invoicesByProvider(providerName));
+                            try {
+                                System.out.println(this.controller.invoicesByProvider(providerName));
+                            } catch (ProviderDoesntExistException e) {
+                                e.printStackTrace();
+                            }
                             return 1;
                         },
                         (args)-> { //ordenação de consumidores de energia
@@ -272,7 +282,11 @@ public class View {
                             start = is.nextLine();
                             System.out.println("Introduza a data de fim:");
                             end = is.nextLine();
-                            System.out.println(this.controller.orderedHousesByConsumption(start, end));
+                            try {
+                                System.out.println(this.controller.orderedHousesByConsumption(start, end));
+                            } catch (NoHouseInPeriodException e) {
+                                e.printStackTrace();
+                            }
                             return 1;
                         },
                         (args)->0
@@ -333,27 +347,33 @@ public class View {
     }
 
     private void addSmartHouseView() {
-        //TODO adicionar nova casa (receber input e mandar para o controller)
         System.out.println("Introduza o nome do dono:");
         String name = is.nextLine();
         System.out.println("Introduza o nif do dono:");
         String nif = is.nextLine();
         System.out.println("Introduza o nome do fornecedor:");
         String provider = is.nextLine();
-        this.addSmartHouse(name, nif, provider);
-        this.executeMenuByName("alterSimulationDetailsHouse", new String[]{});
-        //Esta função tem de ser buffered
+        String address = null;
+        try {
+            address = this.controller.createSmartHouse(name + "," + nif + "," + provider);
+        } catch (ProviderDoesntExistException | AddressAlreadyExistsException e) {
+            e.printStackTrace();
+        }
+        if (address != null)
+            this.executeMenuByName("alterSimulationDetailsHouse", new String[]{address});
     }
 
     private void addProviderView() {
-        //TODO adicionar provider (receber input e mandar para o controller)
-        //Esta função tem de ser buffered
+        System.out.println("Introduza o nome do fornecedor:");
+        String name = is.nextLine();
+        this.controller.createProvider(name);
+        this.executeMenuByName("alterSimulationDetailsProvider", new String[]{name});
     }
 
     public Menu createAlterSimulationDetailsHouseMenu() {
         return  new Menu("alterSimulationDetailsHouse",
                 new String[]{"Adiciona SmartDevice", "Adiciona Divisão", "Ligar/Desligar SmartDevice",
-                        "Ligar/Desligar Divisão", "Mudar de Fornecedor", "Menu Anterior"},
+                        "Ligar/Desligar Divisão", "Mudar de Fornecedor", "Imprimir", "Menu Anterior"},
                 new Menu.Handler[]{
                         (args) -> {
                             System.out.println("Introduza o nome da divisão onde adicionar.");
@@ -382,10 +402,14 @@ public class View {
                             if (this.controller.existsSmartDevice(args[0], smartDevice)) {
                                 System.out.println("Pretende ligar(y) ou desligar(n)?");
                                 String response = is.nextLine();
-                                if (response.equals("y")) {
-                                    this.controller.turnSmartDeviceON(args[0], smartDevice);
-                                } else if (response.equals("n")) {
-                                    this.controller.turnSmartDeviceOFF(args[0], smartDevice);
+                                try {
+                                    if (response.equals("y")) {
+                                        this.controller.turnSmartDevice(args[0], smartDevice, true);
+                                    } else if (response.equals("n")) {
+                                        this.controller.turnSmartDevice(args[0], smartDevice, false);
+                                    }
+                                } catch (AddressDoesntExistException e) {
+                                    e.printStackTrace();
                                 }
                             } else {
                                 System.out.println("ID inválido");
@@ -398,10 +422,14 @@ public class View {
                             if (this.controller.existsDivision(args[0], division)) {
                                 System.out.println("Digite ON para ligar, OFF para desligar");
                                 String response = is.nextLine();
-                                if (response.equals("ON")) {
-                                    this.controller.turnONDivision(args[0], division);
-                                } else {
-                                    this.controller.turnOFFDivision(args[0], division);
+                                try {
+                                    if (response.equals("ON")) {
+                                        this.controller.turnONDivision(args[0], division);
+                                    } else {
+                                        this.controller.turnOFFDivision(args[0], division);
+                                    }
+                                } catch (AddressDoesntExistException e) {
+                                    e.printStackTrace();
                                 }
                             } else {
                                 System.out.println("Nome inválido");
@@ -418,9 +446,18 @@ public class View {
                             }
                             return 1;
                         },
+                        (args) -> {
+                            try{
+                                this.controller.printHouse(args[0]);
+                            } catch (AddressDoesntExistException e) {
+                                e.printStackTrace();
+                            }
+                            return 1;
+                        },
                         (args) -> 0
                 },
                 new Menu.PreCondition[]{
+                        () -> true,
                         () -> true,
                         () -> true,
                         () -> true,
@@ -442,7 +479,7 @@ public class View {
 
     public Menu createAlterSimulationDetailsProviderMenu() {
         return  new Menu("alterSimulationDetailsProvider",
-                new String[]{"Mudar de Algoritmo", "Mudar Valor de desconto", "Menu Anterior"},
+                new String[]{"Mudar de Algoritmo", "Mudar Valor de desconto", "Imprimir Fornecedor", "Menu Anterior"},
                 new Menu.Handler[]{
                         args -> {
                             this.executeMenuByName("alterProviderAlgorithmMenu", args);
@@ -458,9 +495,18 @@ public class View {
                             }
                             return 1;
                         },
+                        (args) -> {
+                            try{
+                                this.controller.printProvider(args[0]);
+                            } catch (ProviderDoesntExistException e) {
+                                e.printStackTrace();
+                            }
+                            return 1;
+                        },
                         args -> 0
                 },
                 new Menu.PreCondition[]{
+                        () -> true,
                         () -> true,
                         () -> true,
                         () -> true
@@ -493,52 +539,6 @@ public class View {
         //Introduzir data inicial
         //TODO ao carregar do ficheiro log de texto/objetos fazer os adds em buffer como se faz durante a simulação
         //TODO Para colocar a data inicial faz-se um avança data de 0 dias ou algo do género para fazer com que as mudanças surtam efeito
-
-        //. Menu Inicial
-        //1. Carregar log text -> Menu Simulação
-        //2. Carregar log objetos -> Menu Simulação
-        //3. Começar Simulação sem Ficheiro -> Menu Simulação
-        //4. Exit
-
-        //. Menu Simulação
-        //1. Carregar ficheiro ações automáticas -> Menu Simulação Automática
-        //2. Menu Mudar Cenas
-        //3. Avançar para dia -> Insira Dia para avançar -> Menu Simuçação
-        //4. Save -> Insira nome do ficheiro -> Menu Simulação
-        //5. Exit -> Save? -> Insira nome do Ficheiro -> byebye
-        //6. Menu Print
-
-        //. Menu Simulação Automática
-        //1. Avançar X Ciclos de Faturação
-        //2. Avançar X Ações
-        //3. Avançar Fim Simulação Automática
-        //4. Menu Print
-
-        //. Menu "Print"
-        //1. Print Total
-        //2. Print Casa
-        //3. Print Fornecedor
-        //4. Return
-
-        //. Menu Mudar Cenas
-        //1. Menu Mudar Cena Casa -> Insira moradaCasa
-        //2. Menu Mudar Cena Fornecedor -> Insira nomeFornecedor
-        //3. Adicionar Fornecedor
-        //4. Adicionar Casa
-        //5. Return
-
-        //. Menu Mudar Cena Casa
-        //1. Adicionar SmartDevice -> Division?
-        //2. Adicionar Divison
-        //3. Ligar/Desligar SmartDevices
-        //4. Ligar/Desligar Division
-        //5. Mudar Fornecedor
-        //6. Return
-
-        //. Menu Mudar Cena Fornecedor
-        //1. Mudar Algoritmo
-        //2. Mudar DiscountFactor
-        //3. Return
     }
 
 }

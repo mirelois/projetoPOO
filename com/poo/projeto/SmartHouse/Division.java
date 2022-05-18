@@ -103,4 +103,5 @@ public class Division implements Serializable {
                 ", devices=" + devices.values().stream().map(SmartDevice::toString).collect(Collectors.joining("\n  ")) +
                 '}';
     }
+
 }

@@ -12,7 +12,7 @@ public class DailyCostAlgorithmTwo extends DailyCostAlgorithm implements Seriali
 
     private DailyCostAlgorithmTwo() { }
 
-    public DailyCostAlgorithmTwo getInstance() {
+    public static DailyCostAlgorithmTwo getInstance() {
         if (singletonAlgorithm == null)
             singletonAlgorithm = new DailyCostAlgorithmTwo();
         return singletonAlgorithm;

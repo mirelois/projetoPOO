@@ -126,7 +126,7 @@ class setProviderAlgorthmCommand extends Command {
         this.algorithm = algorithm;
     }
 
-    public void execute(CommunityApp app){
+    public void execute(CommunityApp app) throws ProviderDoesntExistException {
         app.setProviderAlgorithm(providerName, algorithm);
     }
 }
