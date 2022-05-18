@@ -1,4 +1,4 @@
-package Command;
+package com.poo.projeto.Command;
 
 import com.poo.projeto.Community.CommunityApp;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
