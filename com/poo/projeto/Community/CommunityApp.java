@@ -11,6 +11,7 @@ import com.poo.projeto.Provider.Provider;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 
+import java.io.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CommunityApp {
+public class CommunityApp implements Serializable {
 
     private Community community;
 
@@ -171,5 +172,22 @@ public class CommunityApp {
         }
 
         return this.community.orderedHousesByConsumption(s, e).stream().map(SmartHouse::getAddress).collect(Collectors.toList());
+    }
+
+    public void saveState(String fileName) throws FileNotFoundException, IOException {
+        FileOutputStream fos = new FileOutputStream(fileName);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(this);
+
+        oos.flush();
+        oos.close();
+    }
+
+    public static CommunityApp loadState(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException{
+        FileInputStream fis = new FileInputStream(fileName);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        CommunityApp newComunityApp = (CommunityApp) ois.readObject();
+        ois.close();
+        return newComunityApp;
     }
 }
