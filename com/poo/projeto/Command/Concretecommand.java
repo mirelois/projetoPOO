@@ -7,9 +7,14 @@ import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
 import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
 import com.poo.projeto.SmartHouse.Exceptions.DivisionAlreadyExistsException;
 
-class addProviderCommand implements Command {
-    String name;
-    public addProviderCommand(String name){
+import java.time.LocalDate;
+
+class addProviderCommand extends Command {
+
+    private String name;
+
+    public addProviderCommand(LocalDate executionTime, String name){
+        this.executionTime = executionTime;
         this.name = name;
     }
     public void execute(CommunityApp app) throws ProviderAlreadyExistsException {
@@ -17,25 +22,26 @@ class addProviderCommand implements Command {
     }
 }
 
-class addSmarthouseCommand implements Command {
-    String address, name, NIF, provider;
-    public addSmarthouseCommand(String address, String name, String NIF, String provider) {
-        this.address = address;
+class addSmarthouseCommand extends Command {
+    String name, NIF, provider;
+
+    public addSmarthouseCommand(LocalDate executionTime, String name, String NIF, String provider) {
+        this.executionTime = executionTime;
         this.name = name;
         this.NIF = NIF;
         this.provider = provider;
     }
     @Override
     public void execute(CommunityApp app) throws AddressAlreadyExistsException, ProviderDoesntExistException {
-        app.addSmartHouse(address, name, NIF, provider);
+        app.addSmartHouse(name, NIF, provider);
     }
 }
 
-class addSmatBulbCommand implements Command {
-    String adress, divisionName, tone, diameter, baseconsumption;
+class addSmatBulbCommand extends Command {
+    String divisionName, tone, diameter, baseconsumption;
 
-    public addSmatBulbCommand(String adress, String divisionName, String tone, String diameter, String baseconsumption) {
-        this.adress = adress;
+    public addSmatBulbCommand(LocalDate executionTime, String divisionName, String tone, String diameter, String baseconsumption) {
+        this.executionTime = executionTime;
         this.divisionName = divisionName;
         this.tone = tone;
         this.diameter = diameter;
@@ -43,15 +49,15 @@ class addSmatBulbCommand implements Command {
     }
 
     public void execute(CommunityApp app) throws ProviderAlreadyExistsException {
-        app.addSmartBulb(adress, divisionName, tone, diameter, baseconsumption);
+        app.addSmartBulb(tone, diameter, baseconsumption);
     }
 }
 
-class addSmatSpeakerCommand implements Command {
-    String adress, divisionName, volume, brand, radio, baseconsumption;
+class addSmatSpeakerCommand extends Command {
+    String divisionName, volume, brand, radio, baseconsumption;
 
-    public addSmatSpeakerCommand(String adress, String divisionName, String volume, String brand, String radio, String baseconsumption) {
-        this.adress = adress;
+    public addSmatSpeakerCommand(LocalDate executionTime, String divisionName, String volume, String brand, String radio, String baseconsumption) {
+        this.executionTime = executionTime;
         this.divisionName = divisionName;
         this.volume = volume;
         this.brand = brand;
@@ -60,15 +66,15 @@ class addSmatSpeakerCommand implements Command {
     }
 
     public void execute(CommunityApp app) throws ProviderAlreadyExistsException {
-        app.addSmartSpeaker(adress, divisionName, volume, brand, radio, baseconsumption);
+        app.addSmartSpeaker(volume, brand, radio, baseconsumption);
     }
 }
 
-class addSmatCameraCommand implements Command {
-    String adress, divisionName, resolutio, dimention, baseconsumption;
+class addSmatCameraCommand extends Command {
+    String divisionName, resolutio, dimention, baseconsumption;
 
-    public addSmatCameraCommand(String adress, String divisionName, String resolutio, String dimention, String baseconsumption) {
-        this.adress = adress;
+    public addSmatCameraCommand(LocalDate executionTime, String divisionName, String resolutio, String dimention, String baseconsumption) {
+        this.executionTime = executionTime;
         this.divisionName = divisionName;
         this.resolutio = resolutio;
         this.dimention = dimention;
@@ -76,29 +82,30 @@ class addSmatCameraCommand implements Command {
     }
 
     public void execute(CommunityApp app) throws ProviderAlreadyExistsException {
-        app.addSmartCamera(adress, divisionName, resolutio, dimention, baseconsumption);
+        app.addSmartCamera(resolutio, dimention, baseconsumption);
     }
 }
 
-class addDivisionCommand implements Command {
-    String address, divisionName;
+class addDivisionCommand extends Command {
+    String divisionName;
 
-    public addDivisionCommand(String address, String divisionName) {
-        this.address = address;
+    public addDivisionCommand(LocalDate executionTime, String divisionName) {
+        this.executionTime = executionTime;
         this.divisionName = divisionName;
     }
 
     @Override
     public void execute(CommunityApp app) throws DivisionAlreadyExistsException {
-        app.addDivision(address, divisionName);
+        app.addDivision(divisionName);
     }
 }
 
-class setProviderDiscountFactorCommand implements Command {
+class setProviderDiscountFactorCommand extends Command {
     String providerName;
     Double discountFactor;
 
-    public setProviderDiscountFactorCommand(String providerName, Double discountFactor) {
+    public setProviderDiscountFactorCommand(LocalDate executionTime, String providerName, Double discountFactor) {
+        this.executionTime = executionTime;
         this.providerName = providerName;
         this.discountFactor = discountFactor;
     }
@@ -109,11 +116,12 @@ class setProviderDiscountFactorCommand implements Command {
     }
 }
 
-class setProviderAlgorthmCommand implements Command {
+class setProviderAlgorthmCommand extends Command {
     String providerName;
     int algorithm;
 
-    public setProviderAlgorthmCommand(String providerName, int algorithm) {
+    public setProviderAlgorthmCommand(LocalDate executionTime, String providerName, int algorithm) {
+        this.executionTime = executionTime;
         this.providerName = providerName;
         this.algorithm = algorithm;
     }
@@ -123,10 +131,11 @@ class setProviderAlgorthmCommand implements Command {
     }
 }
 
-class setSmartHousaProviderCommand implements Command{
+class setSmartHousaProviderCommand extends Command {
     String address, provider;
 
-    public setSmartHousaProviderCommand(String address, String provider) {
+    public setSmartHousaProviderCommand(LocalDate executionTime, String address, String provider) {
+        this.executionTime = executionTime;
         this.address = address;
         this.provider = provider;
     }
@@ -137,11 +146,12 @@ class setSmartHousaProviderCommand implements Command{
     }
 }
 
-class turnSmartDeviceCommand implements Command{
+class turnSmartDeviceCommand extends Command {
     String address, smartDevice;
     boolean b;
 
-    public turnSmartDeviceCommand(String address, String smartDevice, boolean b) {
+    public turnSmartDeviceCommand(LocalDate executionTime, String address, String smartDevice, boolean b) {
+        this.executionTime = executionTime;
         this.address = address;
         this.smartDevice = smartDevice;
         this.b = b;
@@ -153,11 +163,12 @@ class turnSmartDeviceCommand implements Command{
     }
 }
 
-class turnDivisionCommand implements Command{
+class turnDivisionCommand extends Command {
     String address, division;
     boolean b;
 
-    public turnDivisionCommand(String address, String division, boolean b) {
+    public turnDivisionCommand(LocalDate executionTime, String address, String division, boolean b) {
+        this.executionTime = executionTime;
         this.address = address;
         this.division = division;
         this.b = b;
