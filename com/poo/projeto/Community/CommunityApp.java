@@ -23,8 +23,19 @@ public class CommunityApp {
 
     private Community community;
 
+    private Integer idDevice;
+
     public CommunityApp() {
         this.community = new Community();
+        this.idDevice = 0;
+    }
+
+    public Integer getIdDevice() {
+        return idDevice;
+    }
+
+    public void setIdDevice(Integer idDevice) {
+        this.idDevice = idDevice;
     }
 
     public void advanceDate(LocalDate newDate) {
@@ -94,18 +105,29 @@ public class CommunityApp {
         this.community.addProvider(new Provider(provider));
     }
 
-    public void addSmartBulb(String address){
-        SmartBulb smartBulb = new SmartBulb();
-        this.community.addSmartDevice(address, smartBulb);
+    public void addSmartBulb(String address, String divisionName, String tone, String diameter, String baseConsumption){
+        double installationCost = 5.99;
+        SmartBulb smartBulb = new SmartBulb(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), tone, Integer.parseInt(diameter));
+        this.idDevice++;
+        this.community.addSmartDevice(address, divisionName, smartBulb);
     }
 
-    public void addSmartSpeaker(){
-        this.community.addSmartDevice();
+    public void addSmartSpeaker(String address, String divisionName, String volume, String brand, String radio, String baseConsumption){
+        double installationCost = 20.99;
+        SmartSpeaker smartSpeaker = new SmartSpeaker(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), Integer.parseInt(volume), brand, radio);
+        this.idDevice++;
+        this.community.addSmartDevice(address, divisionName, smartSpeaker);
     }
-
-    public void addSmartCamera(String address, String resolution, String dimension, String baseConsumption){
-        SmartCamera smartCamera = new SmartCamera();
-        this.community.addSmartDevice(address, smartCamera);
+    // TODO idDevice++?
+    public void addSmartCamera(String address, String divisionName, String resolution, String dimension, String baseConsumption){
+        Integer[] resolutionInt = new Integer[2];
+        String[] temp = resolution.split("x");
+        resolutionInt[0] = Integer.parseInt(temp[0].substring(1));
+        resolutionInt[1] = Integer.parseInt(temp[1].substring(0, temp[1].length()-1));
+        double installationCost = 50.99;
+        SmartCamera smartCamera = new SmartCamera(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), resolutionInt, Integer.parseInt(dimension));
+        this.idDevice++;
+        this.community.addSmartDevice(address, divisionName, smartCamera);
     }
 
     //TODO mudar este toString pensando em como mostrar a app toda

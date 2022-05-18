@@ -34,10 +34,15 @@ public class SmartBulb extends SmartDevice {
         this.diameter = diametro;
     }
 
-    public SmartBulb(String id, boolean on, int installationCost, double consumoBase, int tone, int diametro) {
+    // TODO Deve haver melhor maneira
+    public SmartBulb(String id, boolean on, double installationCost, double consumoBase, String tone, int diametro) {
         // initialise instance variables
         super(id, on, installationCost, consumoBase);
-        this.tone = tone;
+        switch (tone) {
+            case "WARM" -> this.tone = 2;
+            case "COLD" -> this.tone = 0;
+            case "NEUTRAL" -> this.tone = 1;
+        }
         this.diameter = diametro;
     }
 

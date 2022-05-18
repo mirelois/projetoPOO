@@ -17,6 +17,9 @@ public class Controller {
 
     private CommunityApp model;
     private String lastAddress;
+
+    private String lastDivision;
+
     //lista de comandos que pode estar vazia
 
     public CommunityApp getModel() {
@@ -35,6 +38,14 @@ public class Controller {
         this.lastAddress = lastAddress;
     }
 
+    public String getLastDivision() {
+        return lastDivision;
+    }
+
+    public void setLastDivision(String lastDivision) {
+        this.lastDivision = lastDivision;
+    }
+
     public Controller(CommunityApp community) {
         this.setModel(community);
     }
@@ -46,7 +57,7 @@ public class Controller {
         String tone = args[0];
         String diameter = args[1];
         String baseConsumption = args[2];
-        this.model.addSmartBulb(this.lastAddress, tone, diameter, baseConsumption);
+        this.model.addSmartBulb(this.lastAddress, this.lastDivision, tone, diameter, baseConsumption);
 
         return true;
     }
@@ -58,13 +69,22 @@ public class Controller {
         String resolution = args[0];
         String dimention = args[1];
         String baseConsumption = args[2];
-        this.model.addSmartCamera(this.lastAddress, resolution, dimention, baseConsumption);
+        this.model.addSmartCamera(this.lastAddress, this.lastDivision, resolution, dimention, baseConsumption);
 
         return true;
     }
 
-    public void createSmartSpeaker(String line){
+    public boolean createSmartSpeaker(String line){
+        String[] args = line.split(",");
+        if(args.length!=4)
+            return false;
+        String volume = args[0];
+        String brand = args[1];
+        String radio = args[2];
+        String baseConsumption = args[3];
+        this.model.addSmartSpeaker(this.lastAddress, this.lastDivision, volume, brand, radio, baseConsumption);
 
+        return true;
     }
 
     public Boolean createSmartHouse(String line){

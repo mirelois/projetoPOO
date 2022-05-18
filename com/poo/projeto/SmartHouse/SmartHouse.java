@@ -276,6 +276,7 @@ public class SmartHouse {
     }
 
     public void addSmartDevice(String divisionName, SmartDevice smartDevice){
+        this.devices.put(smartDevice.getID(), divisionName);
         this.divisions.get(divisionName).addDevice(smartDevice);
     }
 

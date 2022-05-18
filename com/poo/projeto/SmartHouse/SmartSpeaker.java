@@ -33,8 +33,8 @@ public class SmartSpeaker extends SmartDevice {
         this.radio = radio;
     }
 
-    public SmartSpeaker(String id, double installationCost, double baseConsumption, int volume, String brand, String radio) {
-        super(id, installationCost, baseConsumption);
+    public SmartSpeaker(String id, boolean on, double installationCost, double baseConsumption, int volume, String brand, String radio) {
+        super(id, on, installationCost, baseConsumption);
         this.volume = Math.min(MAX, Math.max(volume, 0));
         this.brand = brand;
         this.radio = radio;
