@@ -329,4 +329,10 @@ public class Controller {
     public void changeProviderAlgorithm(String provider, int i) {
         //Esta função tem de ser buffered
     }
+
+    public void parseActions(List<String> lines) {
+        for (String line : lines) {
+            
+        }
+    }
 }

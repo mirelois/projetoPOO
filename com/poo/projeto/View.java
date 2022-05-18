@@ -118,7 +118,10 @@ public class View {
                             "Avançar dias", "Menu: Impressão de Estatísticas", "Gravar estado", "Sair da simulação"},
                     new Menu.Handler[]{
                             (args) -> {
-                                this.controller.loadAutomaticActions();
+                                System.out.println("Introduza o nome do ficheiro das ações automáticas.");
+                                String filename = is.nextLine();
+                                List<String> lines = this.readActions(filename);
+                                this.controller.parseActions(lines);
                                 this.executeMenuByName("automaticSimulationMenu", new String[]{});
                                 return 1;
                             },
@@ -157,6 +160,17 @@ public class View {
                         () -> true
                     }
                 );
+    }
+
+    private List<String> readActions(String filename) {
+        List<String> list;
+        try {
+            list = Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            list = new ArrayList<>();
+        }
+        return list;
     }
 
     public Menu createAutomaticSimulationMenu() {
