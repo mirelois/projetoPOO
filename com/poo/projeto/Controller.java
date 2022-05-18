@@ -10,6 +10,8 @@ import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 import com.poo.projeto.SmartHouse.Exceptions.DivisionAlreadyExistsException;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -30,6 +32,10 @@ public class Controller {
 
     public Controller(CommunityApp community) {
         this.setModel(community);
+    }
+
+    public void saveState(String fileName) throws FileNotFoundException, IOException {
+        this.model.saveState(fileName);
     }
 
     public boolean createSmartBulb(String line){
@@ -224,7 +230,7 @@ public class Controller {
     }
 
     public void advanceXCicles(int numberOfCicles) {
-
+        
     }
 
     public void advanceXActions(int numberOfActions) {
@@ -307,9 +313,50 @@ public class Controller {
         //Esta função tem de ser buffered
     }
 
-    public void parseActions(List<String> lines) {
+    public void parseActions(List<String> lines) throws AddressDoesntExistException, NumberFormatException, ProviderDoesntExistException {
+
+        String[] brokenLine;
         for (String line : lines) {
-            
+            brokenLine = line.split(", ");
+            if (this.model.existsSmartHouse(brokenLine[1])) {
+                if (this.model.existsSmartDevice(brokenLine[1], brokenLine[2])) {
+                    switch (brokenLine[3]) {
+                        case "setOn":
+                            this.model.turnSmartDevice(brokenLine[1], brokenLine[2], true);
+                            break;
+                        case "setOff":
+                            this.model.turnSmartDevice(brokenLine[1], brokenLine[2], false);
+                            break;
+                        case "changeBaseConsumption":
+                            //TODO porcaria
+                            Integer baseConsumption = Integer.parseInt(brokenLine[4]);
+                            this.model.setBaseConsumption(brokenLine[1], brokenLine[2], baseConsumption);
+                            break;
+                    }
+                } else if (this.model.existsProvider(brokenLine[2])) {
+                    this.model.setSmartHouseProvider(brokenLine[1], brokenLine[2]);
+                } else if (this.model.existsDivision(brokenLine[1], brokenLine[2])) {
+                    switch (brokenLine[3]) {
+                        case "setOn":
+                            this.model.turnDivision(brokenLine[1], brokenLine[3], true);
+                            break;
+                        case "setOff":
+                            this.model.turnDivision(brokenLine[1], brokenLine[3], false);
+                            break;
+                    }
+                }
+            } else if (this.model.existsProvider(brokenLine[1])) {
+                switch (brokenLine[2]) {
+                    case "alteraValorDesconto":
+                        Double newDiscount = Double.parseDouble(brokenLine[3]);
+                        this.model.setProviderDiscountFactor(brokenLine[1], newDiscount);
+                        break;
+                    case "alteraAlgoritmo":
+                        int numAlgorithm = Integer.parseInt(brokenLine[3]);
+                        this.model.setProviderAlgorithm(brokenLine[1], numAlgorithm);
+                        break;
+                }
+            }
         }
     }
 }

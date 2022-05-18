@@ -120,9 +120,13 @@ public class View {
                             (args) -> {
                                 System.out.println("Introduza o nome do ficheiro das ações automáticas.");
                                 String filename = is.nextLine();
-                                List<String> lines = this.readActions(filename);
-                                this.controller.parseActions(lines);
-                                this.executeMenuByName("automaticSimulationMenu", new String[]{});
+                                List<String> lines = this.readLog(filename);
+                                try {
+                                    this.controller.parseActions(lines);
+                                    this.executeMenuByName("automaticSimulationMenu", new String[]{});
+                                } catch (NumberFormatException | AddressDoesntExistException | ProviderDoesntExistException e) {
+                                    e.printStackTrace();
+                                }
                                 return 1;
                             },
                             (args) -> {
@@ -143,7 +147,13 @@ public class View {
                                 return 1;
                             },
                             (args) -> {
-                                this.controller.saveState();
+                                System.out.println("Introduza o nome de ficheiro para guardar.");
+                                String filename = is.nextLine();
+                                try {
+                                    this.controller.saveState(filename);
+                                }catch (IOException e){
+                                    e.printStackTrace();
+                                }
                                 return 1;
                             },
                             (args) -> {
@@ -160,17 +170,6 @@ public class View {
                         () -> true
                     }
                 );
-    }
-
-    private List<String> readActions(String filename) {
-        List<String> list;
-        try {
-            list = Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-            list = new ArrayList<>();
-        }
-        return list;
     }
 
     public Menu createAutomaticSimulationMenu() {
