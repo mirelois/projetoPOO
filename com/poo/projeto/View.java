@@ -147,7 +147,9 @@ public class View {
                                 return 1;
                             },
                             (args) -> {
-                                this.controller.saveState();
+                                System.out.println("Introduza o nome de ficheiro para guardar.");
+                                String filename = is.nextLine();
+                                this.controller.saveState(filename);
                                 return 1;
                             },
                             (args) -> {
