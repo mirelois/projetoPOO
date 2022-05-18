@@ -1,7 +1,8 @@
 package com.poo.projeto.SmartHouse;
 
 import com.poo.projeto.Invoice;
-import com.poo.projeto.provider.Provider;
+import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
+import com.poo.projeto.Provider.Provider;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

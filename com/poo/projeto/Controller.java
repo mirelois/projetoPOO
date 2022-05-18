@@ -1,10 +1,12 @@
 package com.poo.projeto;
 
-import com.poo.projeto.SmartHouse.AddressAlreadyExistsException;
-import com.poo.projeto.SmartHouse.AddressDoesntExistException;
-import com.poo.projeto.SmartHouse.DeviceDoesntExistException;
-import com.poo.projeto.provider.ProviderAlreadyExistsException;
-import com.poo.projeto.provider.ProviderDoesntExistException;
+import com.poo.projeto.Community.CommunityApp;
+import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
+import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
+import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
+import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
+import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
+import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 
 import java.lang.reflect.Method;
 import java.time.temporal.ChronoUnit;
@@ -208,5 +210,9 @@ public class Controller {
 
     public String printAll() {
         return this.model.toString();
+    }
+
+    public String houseWithMostConsumption(String start, String end) throws NoHouseInPeriodException {
+        return this.model.houseWithMostConsumption(start, end);
     }
 }

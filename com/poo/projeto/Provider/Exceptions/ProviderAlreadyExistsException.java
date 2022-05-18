@@ -1,4 +1,4 @@
-package com.poo.projeto.provider;
+package com.poo.projeto.Provider.Exceptions;
 
 public class ProviderAlreadyExistsException extends Exception{
     public ProviderAlreadyExistsException(String msg){

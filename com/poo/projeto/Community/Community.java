@@ -1,12 +1,15 @@
-package com.poo.projeto;
+package com.poo.projeto.Community;
 
-import com.poo.projeto.SmartHouse.AddressAlreadyExistsException;
-import com.poo.projeto.SmartHouse.AddressDoesntExistException;
+import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
+import com.poo.projeto.Invoice;
+import com.poo.projeto.Provider.Exceptions.NoProvidersException;
+import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
+import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
 import com.poo.projeto.SmartHouse.SmartDevice;
 import com.poo.projeto.SmartHouse.SmartHouse;
-import com.poo.projeto.provider.Provider;
-import com.poo.projeto.provider.ProviderAlreadyExistsException;
-import com.poo.projeto.provider.ProviderDoesntExistException;
+import com.poo.projeto.Provider.Provider;
+import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
+import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -78,35 +81,31 @@ public class Community {
         return sortedSet;
     }
 
-    public List<Invoice> invoicesFromProvider(String provider) {
+    public List<Invoice> invoicesFromProvider(String provider) throws ProviderDoesntExistException {
         Provider provider1 = this.providerMap.get(provider);
         List<Invoice> tmp = new ArrayList<>();
         if (provider1 == null) {
-            //TODO pode dar throw NoProvider exception
-        } else {
-            provider1.getInvoiceMap().values().forEach(tmp::addAll);
+            throw new ProviderDoesntExistException("Nenhum fornecedor chamado " + provider + " na simulação.");
         }
+        provider1.getInvoiceMap().values().forEach(tmp::addAll);
         return tmp;
     }
 
-    public Provider providerWithMostInvoicingVolume() {
+    public Provider providerWithMostInvoicingVolume() throws NoProvidersException {
         Optional<Provider> max = this.providerMap.values().stream().max(Comparator.comparingDouble(Provider::invoicingVolume));
         if (max.isEmpty()) {
-            //TODO return NoProviders exception
-            return null;
-        } else {
-            return max.get().clone();
+            throw new NoProvidersException("Nenhum fornecedor na simulação.");
         }
+        return max.get().clone();
     }
 
-    public SmartHouse houseWithMostConsumption(LocalDate start, LocalDate end) {
+    public SmartHouse houseWithMostConsumption(LocalDate start, LocalDate end) throws NoHouseInPeriodException {
         Optional<SmartHouse> max = this.smartHouseMap.values().stream().max(Comparator.comparingDouble(o -> o.consumptionByPeriod(start, end)));
         if (max.isEmpty()) {
             //TODO return NoHouses exception
-            return null;
-        } else {
-            return max.get().clone();
+            throw new NoHouseInPeriodException("No houses with faturation in period " + start.toString() + " to " + end.toString());
         }
+        return max.get().clone();
     }
 
     public SmartHouse getSmartHouseByAddress(String address) throws AddressDoesntExistException {

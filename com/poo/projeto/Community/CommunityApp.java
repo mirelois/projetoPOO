@@ -1,11 +1,16 @@
-package com.poo.projeto;
+package com.poo.projeto.Community;
 
+import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
 import com.poo.projeto.SmartHouse.*;
-import com.poo.projeto.provider.Provider;
-import com.poo.projeto.provider.ProviderAlreadyExistsException;
-import com.poo.projeto.provider.ProviderDoesntExistException;
+import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
+import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
+import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
+import com.poo.projeto.Provider.Provider;
+import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
+import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class CommunityApp {
 
@@ -96,7 +101,6 @@ public class CommunityApp {
         this.community.addSmartDevice(address, smartCamera);
     }
 
-
     //TODO mudar este toString pensando em como mostraar a app toda
     @Override
     public String toString() {
@@ -111,5 +115,12 @@ public class CommunityApp {
 
     public String providerToString(String providerName) throws ProviderDoesntExistException {
         return this.community.getProviderByName(providerName).toString();
+    }
+
+    public String houseWithMostConsumption(String start, String end) throws NoHouseInPeriodException {
+        LocalDate s = LocalDate.parse(start, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate e = LocalDate.parse(end, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        SmartHouse house = this.community.houseWithMostConsumption(s, e);
+        return house.toString();
     }
 }

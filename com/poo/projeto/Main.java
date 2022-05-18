@@ -1,5 +1,7 @@
 package com.poo.projeto;
 
+import com.poo.projeto.Community.CommunityApp;
+
 public class Main {
     public static void main(String[] args) {
         CommunityApp community = new CommunityApp();

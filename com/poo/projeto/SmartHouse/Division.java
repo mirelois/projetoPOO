@@ -1,5 +1,7 @@
 package com.poo.projeto.SmartHouse;
 
+import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

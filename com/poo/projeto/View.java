@@ -1,5 +1,9 @@
 package com.poo.projeto;
 
+import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
+import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
+import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -205,17 +209,35 @@ public class View {
                         (args)->{
                             System.out.println("Introduza nome da casa:");
                             String houseName = is.nextLine();
-                            System.out.println(this.controller.printHouse(houseName));
+                            try {
+                                System.out.println(this.controller.printHouse(houseName));
+                            } catch (AddressDoesntExistException e) {
+                                e.printStackTrace();
+                            }
                             return 1;
                         },
                         (args)->{
                             System.out.println("Introduza nome do fornecedor:");
                             String providerName = is.nextLine();
-                            System.out.println(this.controller.printProvider(providerName));
+                            try {
+                                System.out.println(this.controller.printProvider(providerName));
+                            } catch (ProviderDoesntExistException e) {
+                                e.printStackTrace();
+                            }
                             return 1;
                         },
-                        (args)->{
-                            this.controller.
+                        (args)-> {
+                            String start, end;
+                            System.out.println("Introduza a data de início:");
+                            start = is.nextLine();
+                            System.out.println("Introduza a data de fim:");
+                            end = is.nextLine();
+                            try {
+                                System.out.println(this.controller.houseWithMostConsumption(start, end));
+                            } catch (NoHouseInPeriodException e) {
+                                e.printStackTrace();
+                            }
+                            return 1;
                         },
                         (args)->0,
                         (args)->0,
