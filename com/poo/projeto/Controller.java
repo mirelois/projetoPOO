@@ -318,11 +318,15 @@ public class Controller {
         return ret.toString();
     }
 
-    public void changeProvider(String arg, String provider) {
+    public void changeProvider(String address, String provider) {
         //Esta função tem de ser buffered
     }
 
-    public void changeDiscountFactor(String arg, int discountFactor) {
+    public void changeDiscountFactor(String provider, int discountFactor) {
+        //Esta função tem de ser buffered
+    }
+
+    public void changeProviderAlgorithm(String provider, int i) {
         //Esta função tem de ser buffered
     }
 }
