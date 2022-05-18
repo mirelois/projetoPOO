@@ -1,16 +1,17 @@
 package com.poo.projeto;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Menu {
+public class Menu implements Serializable{
 
     /** Functional interface para handlers. */
-    public interface Handler {  // método de tratamento
+    public interface Handler extends Serializable {  // método de tratamento
         public int execute(String[] args);
     }
 
     /** Functional interface para pré-condições. */
-    public interface PreCondition {  // Predicate ?
+    public interface PreCondition extends Serializable {  // Predicate ?
         public boolean validate();
     }
 

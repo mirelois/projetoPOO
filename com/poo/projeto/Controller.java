@@ -300,4 +300,12 @@ public class Controller {
         }
         return ret.toString();
     }
+
+    public void changeProvider(String arg, String provider) {
+        //Esta função tem de ser buffered
+    }
+
+    public void changeDiscountFactor(String arg, int discountFactor) {
+        //Esta função tem de ser buffered
+    }
 }

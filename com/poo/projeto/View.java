@@ -26,6 +26,9 @@ public class View {
         this.addMenu(createAutomaticSimulationMenu());
         this.addMenu(createPrintMenu());
         this.addMenu(createAlterSimulationDetailsMenu());
+        this.addMenu(createAlterSimulationDetailsHouseMenu());
+        this.addMenu(createAlterSimulationDetailsProviderMenu());
+        this.addMenu(createAlterProviderAlgorithmMenu());
     }
 
     public View(View view){
@@ -318,10 +321,12 @@ public class View {
 
     private void addSmartHouseView() {
         //TODO adicionar nova casa (receber input e mandar para o controller)
+        //Esta função tem de ser buffered
     }
 
     private void addProviderView() {
         //TODO adicionar provider (receber input e mandar para o controller)
+        //Esta função tem de ser buffered
     }
 
     public Menu createAlterSimulationDetailsHouseMenu() {
@@ -404,6 +409,16 @@ public class View {
                 });
     }
 
+    private void addDivisionView(String address, String divisionName) {
+        //TODO receber parametros para chamar o addDivision
+        //Esta função tem de ser buffered
+    }
+
+    private void addSmartDeviceView(String address, String division) {
+        //TODO receber parametros para chamar o addSmartDevice
+        //Esta função tem de ser buffered
+    }
+
     public Menu createAlterSimulationDetailsProviderMenu() {
         return  new Menu("alterSimulationDetailsProvider",
                 new String[]{"Mudar de Algoritmo", "Mudar Valor de desconto", "Menu Anterior"},
@@ -455,6 +470,8 @@ public class View {
     public void run() {
         //Boot
         //Introduzir data inicial
+        //TODO ao carregar do ficheiro log de texto/objetos fazer os adds em buffer como se faz durante a simulação
+        //TODO Para colocar a data inicial faz-se um avança data de 0 dias ou algo do género para fazer com que as mudanças surtam efeito
 
         //. Menu Inicial
         //1. Carregar log text -> Menu Simulação

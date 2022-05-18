@@ -3,7 +3,7 @@ package com.poo.projeto.DailyCostAlgorithm;
 import com.poo.projeto.SmartHouse.SmartHouse;
 import com.poo.projeto.Provider.Provider;
 
-public class DailyCostAlgorithmOne implements DailyCostAlgorithm {
+public class DailyCostAlgorithmOne extends DailyCostAlgorithm {
 
     private static DailyCostAlgorithmOne singletonAlgorithm = null;
 
