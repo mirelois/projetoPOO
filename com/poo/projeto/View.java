@@ -330,6 +330,8 @@ public class View {
 
     private void addSmartHouseView() {
         //TODO adicionar nova casa (receber input e mandar para o controller)
+        System.out.println("Introduza a morada da casa:");
+        
         //Esta função tem de ser buffered
     }
 
