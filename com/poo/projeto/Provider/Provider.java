@@ -137,4 +137,14 @@ public class Provider implements Comparable<Provider>{
         }
         return invoice.clone();
     }
+
+    @Override
+    public String toString() {
+        return "Provider{" +
+                "name='" + name + '\'' +
+                //", invoiceMap=" + invoiceMap +
+                ", discountFactor=" + discountFactor +
+                ", dailyCostAlgorithm=" + dailyCostAlgorithm.getName() +
+                '}';
+    }
 }

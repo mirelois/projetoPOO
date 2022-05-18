@@ -51,14 +51,6 @@ public class Division {
     }
 
     @Override
-    public String toString() { // default toString
-        return "Division{" +
-                "name='" + name + '\'' +
-                ", devices=" + devices +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -96,5 +88,13 @@ public class Division {
         if (device == null)
             throw new DeviceDoesntExistException("Não existe device com o id " + smartDevice);
         return device.getOn();
+    }
+
+    @Override
+    public String toString() {
+        return "Division{" +
+                "name='" + name + '\'' +
+                ", devices=" + devices.values().stream().map(SmartDevice::toString).collect(Collectors.joining("\n  ")) +
+                '}';
     }
 }

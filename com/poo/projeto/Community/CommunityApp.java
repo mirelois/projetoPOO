@@ -1,6 +1,8 @@
 package com.poo.projeto.Community;
 
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
+import com.poo.projeto.Invoice;
+import com.poo.projeto.Provider.Exceptions.NoProvidersException;
 import com.poo.projeto.SmartHouse.*;
 import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
 import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
@@ -9,8 +11,13 @@ import com.poo.projeto.Provider.Provider;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CommunityApp {
 
@@ -101,7 +108,7 @@ public class CommunityApp {
         this.community.addSmartDevice(address, smartCamera);
     }
 
-    //TODO mudar este toString pensando em como mostraar a app toda
+    //TODO mudar este toString pensando em como mostrar a app toda
     @Override
     public String toString() {
         return "CommunityApp{" +
@@ -122,5 +129,25 @@ public class CommunityApp {
         LocalDate e = LocalDate.parse(end, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         SmartHouse house = this.community.houseWithMostConsumption(s, e);
         return house.toString();
+    }
+
+    public String providerWithMostInvoicingVolume() throws NoProvidersException {
+        return this.community.providerWithMostInvoicingVolume().getName();
+    }
+
+    public List<String> invoicesByProvider(String providerName) throws ProviderDoesntExistException {
+        return this.community.invoicesByProvider(providerName).stream().map(Invoice::toString).collect(Collectors.toList());
+    }
+
+    public List<String> orderedHousesByConsumption(String start, String end) throws NoHouseInPeriodException {
+        LocalDate s, e;
+        try {
+            s = LocalDate.parse(start, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            e = LocalDate.parse(end, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        } catch (DateTimeException ex) {
+            return Arrays.asList(ex.toString());
+        }
+
+        return this.community.orderedHousesByConsumption(s, e).stream().map(SmartHouse::getAddress).collect(Collectors.toList());
     }
 }

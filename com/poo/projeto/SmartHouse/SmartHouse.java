@@ -147,15 +147,6 @@ public class SmartHouse {
         return Objects.equals(address, that.address) && Objects.equals(devices, that.devices) && Objects.equals(divisions, that.divisions);
     }
 
-    @Override
-    public String toString() {
-        return "SmartHouse{" +
-                "address='" + address + '\'' +
-                ", devices=" + devices.toString() +
-                ", divisions=" + divisions.toString() +
-                '}';
-    }
-
     public boolean existsDevice(String id){
         return this.devices.containsKey(id);
     }
@@ -286,5 +277,18 @@ public class SmartHouse {
 
     public void addSmartDevice(String divisionName, SmartDevice smartDevice){
         this.divisions.get(divisionName).addDevice(smartDevice);
+    }
+
+    @Override
+    public String toString() {
+        return "SmartHouse{" +
+                "address='" + address + '\'' +
+                ", provider=" + provider.getName() +
+                ", name='" + name + '\'' +
+                ", nif='" + nif + '\'' +
+                //", invoices=" + invoices +
+                //", devices=" + devices +
+                ", divisions=" + divisions.values().stream().map(Division::toString).collect(Collectors.joining("\n     ")) +
+                '}';
     }
 }

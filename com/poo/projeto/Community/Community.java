@@ -13,6 +13,7 @@ import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Community {
     private Map<String, Provider> providerMap; //name -> provider
@@ -75,13 +76,16 @@ public class Community {
         this.currentDate = LocalDate.of(currentDate.getYear(), currentDate.getMonth(), currentDate.getDayOfMonth());
     }
 
-    public SortedSet<SmartHouse> orderedHousesWithMostConsumption(LocalDate start, LocalDate end) {
+    public SortedSet<SmartHouse> orderedHousesByConsumption(LocalDate start, LocalDate end) throws NoHouseInPeriodException {
         SortedSet<SmartHouse> sortedSet = new TreeSet<>(Comparator.comparingDouble(o -> o.consumptionByPeriod(start, end)));
-        sortedSet.addAll(this.smartHouseMap.values());
+        if (this.smartHouseMap.size() == 0) {
+            throw new NoHouseInPeriodException("Nenhuma casa com consumo no período de " + start.toString() + " a " + end.toString());
+        }
+        sortedSet.addAll(this.smartHouseMap.values().stream().map(SmartHouse::clone).collect(Collectors.toList()));
         return sortedSet;
     }
 
-    public List<Invoice> invoicesFromProvider(String provider) throws ProviderDoesntExistException {
+    public List<Invoice> invoicesByProvider(String provider) throws ProviderDoesntExistException {
         Provider provider1 = this.providerMap.get(provider);
         List<Invoice> tmp = new ArrayList<>();
         if (provider1 == null) {
@@ -156,5 +160,14 @@ public class Community {
         if (!this.providerMap.containsKey(providerName))
             throw new ProviderDoesntExistException("The provider " + providerName + " doesn't exist.");
         return this.providerMap.get(providerName);
+    }
+
+    @Override
+    public String toString() {
+        return "Community{" +
+                "providerMap=" + providerMap.values().stream().map(Provider::toString).collect(Collectors.joining("\n   ")) +
+                ", smartHouseMap=" + smartHouseMap.values().stream().map(SmartHouse::toString).collect(Collectors.joining("\n   ")) +
+                ", currentDate=" + currentDate.toString() +
+                '}';
     }
 }

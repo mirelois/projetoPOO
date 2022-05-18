@@ -22,4 +22,9 @@ public class DailyCostAlgorithmTwo implements DailyCostAlgorithm {
         r *= smartHouse.numberOfDevices() > 10 ? Math.min(1 - provider.getDiscountFactor(), 0): 1;
         return r;
     }
+
+    @Override
+    public String getName() {
+        return "DailyCostAlgorithmTwo";
+    }
 }

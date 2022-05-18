@@ -1,6 +1,7 @@
 package com.poo.projeto;
 
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
+import com.poo.projeto.Provider.Exceptions.NoProvidersException;
 import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 
@@ -200,13 +201,13 @@ public class View {
         return  new Menu("printMenu",
                 new String[]{"Imprime Tudo", "Imprime Casa", "Imprime Fornecedor", "Casa que mais gastou",
                         "Fornecedor com maior volume de faturação", "Faturas emitidas por um fornecedor",
-                        "Oredenação dos maiores consumidores de energia", "Menu Anterior"},
+                        "Ordenação dos maiores consumidores de energia", "Menu Anterior"},
                 new Menu.Handler[]{
-                        (args)->{
+                        (args)->{ //imprime tudo
                             System.out.println(this.controller.printAll());
                             return 1;
                         },
-                        (args)->{
+                        (args)->{ //imprime casa
                             System.out.println("Introduza nome da casa:");
                             String houseName = is.nextLine();
                             try {
@@ -216,7 +217,7 @@ public class View {
                             }
                             return 1;
                         },
-                        (args)->{
+                        (args)->{ //imprime fornecedor
                             System.out.println("Introduza nome do fornecedor:");
                             String providerName = is.nextLine();
                             try {
@@ -226,7 +227,7 @@ public class View {
                             }
                             return 1;
                         },
-                        (args)-> {
+                        (args)-> { //casa que mais gastou
                             String start, end;
                             System.out.println("Introduza a data de início:");
                             start = is.nextLine();
@@ -239,9 +240,25 @@ public class View {
                             }
                             return 1;
                         },
-                        (args)->0,
-                        (args)->0,
-                        (args)->0,
+                        (args)-> { //fornecedor com maior volume de faturação
+                            System.out.println("O fornecedor com maior volume de faturação é: " + this.controller.providerWithMostInvoicingVolume());
+                            return 1;
+                        },
+                        (args)-> { //faturas de um fornecedor
+                            System.out.println("Introduza nome do fornecedor:");
+                            String providerName = is.nextLine();
+                            System.out.println(this.controller.invoicesByProvider(providerName));
+                            return 1;
+                        },
+                        (args)-> { //ordenação de consumidores de energia
+                            String start, end;
+                            System.out.println("Introduza a data de início:");
+                            start = is.nextLine();
+                            System.out.println("Introduza a data de fim:");
+                            end = is.nextLine();
+                            System.out.println(this.controller.orderedHousesByConsumption(start, end));
+                            return 1;
+                        },
                         (args)->0
                 },
                 new Menu.PreCondition[]{
@@ -261,22 +278,22 @@ public class View {
                 new String[]{"Alterar Detalhes Casa", "Alterar Detalhes Fornecedor", "Adicionar Fornecedor", "Adicionar Casa", "Menu anterior"},
                 new Menu.Handler[]{
                         (args) -> {
-                            System.out.println("Introduza nome do fornecedor:");
-                            String providerName = is.nextLine();
-                            if (this.controller.existsProvider(providerName)) {
-                                this.executeMenuByName("alterSimulationDetailsHouse", new String[]{providerName});
+                            System.out.println("Introduza a morada da casa:");
+                            String houseAddress = is.nextLine();
+                            if (this.controller.existsSmartHouse(houseAddress)) {
+                                this.executeMenuByName("alterSimulationDetailsHouse", new String[]{houseAddress});
                             } else {
                                 System.out.println("Nome da casa inválida");
                             }
                             return 1;
                         },
                         (args) -> {
-                            System.out.println("Introduza a morada da casa:");
-                            String houseAddress = is.nextLine();
-                            if (this.controller.existsSmartHouse(houseAddress)) {
-                                this.executeMenuByName("alterSimulationDetails", new String[]{houseAddress});
+                            System.out.println("Introduza o nome do fornecedor:");
+                            String providerName = is.nextLine();
+                            if (this.controller.existsProvider(providerName)) {
+                                this.executeMenuByName("alterSimulationDetailsProvider", new String[]{providerName});
                             } else {
-                                System.out.println("Nome da casa inválida");
+                                System.out.println("Nome do fornecedor inválido");
                             }
                             return 1;
                         },
@@ -299,6 +316,14 @@ public class View {
                 });
     }
 
+    private void addSmartHouseView() {
+        //TODO adicionar nova casa (receber input e mandar para o controller)
+    }
+
+    private void addProviderView() {
+        //TODO adicionar provider (receber input e mandar para o controller)
+    }
+
     public Menu createAlterSimulationDetailsHouseMenu() {
         return  new Menu("alterSimulationDetailsHouse",
                 new String[]{"Adiciona SmartDevice", "Adiciona Divisão", "Ligar/Desligar SmartDevice",
@@ -307,17 +332,22 @@ public class View {
                         (args) -> {
                             System.out.println("Introduza o nome da divisão onde adicionar.");
                             String division = is.nextLine();
+
                             if (this.controller.existsDivision(args[0], division)) {
                                 this.addSmartDeviceView(args[0], division);
                             } else {
-                                System.out.println("Nome inválido");
+                                System.out.println("Divisão não existente.");
                             }
                             return 1;
                         },
                         (args) -> {
                             System.out.println("Introduza o nome da divisão.");
                             String divisionName = is.nextLine();
-                            this.addDivisionView(args[0], divisionName);
+                            if (this.controller.existsDivision(args[0], divisionName)) {
+                                System.out.println("Divisão já existente.");
+                            } else {
+                                this.addDivisionView(args[0], divisionName);
+                            }
                             return 1;
                         },
                         (args) -> {
@@ -403,9 +433,23 @@ public class View {
 
     public Menu createAlterProviderAlgorithmMenu() {
         return  new Menu("alterProviderAlgorithmMenu",
-                new String[]{"Algoritmo 1", "Algoritmo 2"},
-                new Menu.Handler[]{},
-                new Menu.PreCondition[]{});
+                new String[]{"Algoritmo 1", "Algoritmo 2", "Regressar"},
+                new Menu.Handler[]{
+                        (args) -> {
+                            this.controller.changeProviderAlgorithm(args[0], 1);
+                            return 1;
+                        },
+                        (args) -> {
+                            this.controller.changeProviderAlgorithm(args[0], 2);
+                            return 1;
+                        },
+                        (args) -> 0
+                },
+                new Menu.PreCondition[]{
+                        () -> true,
+                        () -> true,
+                        () -> true
+                });
     }
 
     public void run() {

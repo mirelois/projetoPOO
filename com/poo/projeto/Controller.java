@@ -2,6 +2,7 @@ package com.poo.projeto;
 
 import com.poo.projeto.Community.CommunityApp;
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
+import com.poo.projeto.Provider.Exceptions.NoProvidersException;
 import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
 import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
 import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
@@ -152,36 +153,60 @@ public class Controller {
         return this.model.numberOfHouses() == 0;
     }
 
-    public boolean existsDivision(String address, String division) throws AddressDoesntExistException {
-        return this.model.existsDivision(address, division);
+    public boolean existsDivision(String address, String division) {
+        try {
+            return this.model.existsDivision(address, division);
+        } catch (AddressDoesntExistException e) {
+            return false;
+        }
     }
 
-    public boolean existsSmartDevice(String address, String smartDevice) throws AddressDoesntExistException {
-        return this.model.existsSmartDevice(address, smartDevice);
+    public boolean existsSmartDevice(String address, String smartDevice){
+        try {
+            return this.model.existsSmartDevice(address, smartDevice);
+        } catch (AddressDoesntExistException e) {
+            return false;
+        }
     }
 
     public boolean isSmartDeviceOn(String address, String smartDevice) throws AddressDoesntExistException, DeviceDoesntExistException {
         return this.model.isSmartDeviceOn(address, smartDevice);
     }
 
-    public void turnSmartDeviceON(String address, String smartDevice) throws AddressDoesntExistException {
-        this.model.turnSmartDevice(address, smartDevice, true);
+    public void turnSmartDeviceON(String address, String smartDevice) {
+        try {
+            this.model.turnSmartDevice(address, smartDevice, true);
+        } catch (AddressDoesntExistException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void turnSmartDeviceOFF(String address, String smartDevice) throws AddressDoesntExistException {
-        this.model.turnSmartDevice(address, smartDevice, false);
+    public void turnSmartDeviceOFF(String address, String smartDevice) {
+        try {
+            this.model.turnSmartDevice(address, smartDevice, false);
+        } catch (AddressDoesntExistException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isSimulationEmpty() {
         return isSimulationEmptyHouse() && isSimulationEmptyProvider();
     }
 
-    public void turnONDivision(String address, String division) throws AddressDoesntExistException {
-        this.model.turnDivision(address, division, true);
+    public void turnONDivision(String address, String division) {
+        try {
+            this.model.turnDivision(address, division, true);
+        } catch (AddressDoesntExistException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void turnOFFDivision(String address, String division) throws AddressDoesntExistException {
-        this.model.turnDivision(address, division, false);
+    public void turnOFFDivision(String address, String division) {
+        try {
+            this.model.turnDivision(address, division, false);
+        } catch (AddressDoesntExistException e) {
+            e.printStackTrace();
+        }
     }
 
     public void advanceXCicles(int numberOfCicles) {
@@ -214,5 +239,45 @@ public class Controller {
 
     public String houseWithMostConsumption(String start, String end) throws NoHouseInPeriodException {
         return this.model.houseWithMostConsumption(start, end);
+    }
+
+    public String providerWithMostInvoicingVolume() {
+        String string;
+        try {
+            string = this.model.providerWithMostInvoicingVolume();
+        } catch (NoProvidersException e) {
+            return e.toString();
+        }
+        return string;
+    }
+
+    public String invoicesByProvider(String providerName){
+        List<String> list;
+        try {
+            list = this.model.invoicesByProvider(providerName);
+        } catch (ProviderDoesntExistException e) {
+            return e.toString();
+        }
+
+        StringBuilder ret = new StringBuilder();
+        for (String string : list) {
+            ret.append(string).append("\n");
+        }
+        return ret.toString();
+    }
+
+    public String orderedHousesByConsumption(String start, String end) {
+        List<String> list;
+        try {
+            list = this.model.orderedHousesByConsumption(start, end);
+        } catch (NoHouseInPeriodException e) {
+            return e.toString();
+        }
+
+        StringBuilder ret = new StringBuilder();
+        for (String string : list) {
+            ret.append(string).append("\n");
+        }
+        return ret.toString();
     }
 }

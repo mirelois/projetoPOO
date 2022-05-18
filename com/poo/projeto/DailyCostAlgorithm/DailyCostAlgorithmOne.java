@@ -19,4 +19,9 @@ public class DailyCostAlgorithmOne implements DailyCostAlgorithm {
     public Double apply(Provider provider, SmartHouse smartHouse) {
         return Provider.getBaseValueKWH() * smartHouse.totalConsumption() * (1 + Provider.getTaxFactor());
     }
+
+    @Override
+    public String getName() {
+        return "DailyCostAlgorithmOne";
+    }
 }
