@@ -107,9 +107,6 @@ public class CommunityApp implements Serializable {
     public boolean isSmartDeviceOn(String address, String smartDevice) throws AddressDoesntExistException, DeviceDoesntExistException {
         return community.getSmartHouseByAddress(address).isSmartDeviceOn(smartDevice);
     }
-    public void addSmartDevice(String address, String name){
-
-    }
 
     public void turnSmartDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException {
         SmartHouse house = community.getSmartHouseByAddress(address);
