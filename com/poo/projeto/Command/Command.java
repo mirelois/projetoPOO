@@ -7,6 +7,14 @@ import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
 import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
 import com.poo.projeto.SmartHouse.Exceptions.DivisionAlreadyExistsException;
 
-public interface Command {
+import java.time.LocalDate;
+
+abstract class Command {
+    LocalDate executionTime;
+
     public abstract void execute(CommunityApp app) throws AddressAlreadyExistsException, ProviderDoesntExistException, ProviderAlreadyExistsException, DivisionAlreadyExistsException, AddressDoesntExistException;
+
+    public LocalDate getExecutionTime(){
+        return this.executionTime;
+    }
 }
