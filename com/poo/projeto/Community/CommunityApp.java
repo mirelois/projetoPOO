@@ -232,4 +232,16 @@ public class CommunityApp implements Serializable {
         ois.close();
         return newComunityApp;
     }
+
+    public void setProviderDiscountFactor(String providerName, Double discountFactor) throws ProviderDoesntExistException {
+        this.community.getProviderByName(providerName).setDiscountFactor(discountFactor);
+    }
+
+    public void setProviderAlgorithm(String providerName, int algorithm){
+     //TODO fazer isto if u can
+    }
+
+    public void setSmartHouseProvider(String address, String provider) throws AddressDoesntExistException, ProviderDoesntExistException {
+        this.community.getSmartHouseByAddress(address).setProvider(this.community.getProviderByName(provider));
+    }
 }

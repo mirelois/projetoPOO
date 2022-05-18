@@ -15,13 +15,13 @@ public class Provider implements Comparable<Provider>, Serializable {
     private static int baseValueKWH, taxFactor;
     private String name;
     private Map<SmartHouse, Set<Invoice>> invoiceMap;
-    private int discountFactor;
+    private Double discountFactor;
     private DailyCostAlgorithm dailyCostAlgorithm;
 
     public Provider() {
         this.name = "";
         this.invoiceMap = new HashMap<>();
-        this.discountFactor = 0;
+        this.discountFactor = 0.0;
         this.dailyCostAlgorithm = DailyCostAlgorithmOne.getInstance();
     }
 
@@ -32,7 +32,7 @@ public class Provider implements Comparable<Provider>, Serializable {
         this.dailyCostAlgorithm = p.dailyCostAlgorithm;
     }
 
-    public Provider(String name, Map<SmartHouse, Set<Invoice>> invoiceMap, int discountFactor, DailyCostAlgorithm dailyCostAlgorithm) {
+    public Provider(String name, Map<SmartHouse, Set<Invoice>> invoiceMap, Double discountFactor, DailyCostAlgorithm dailyCostAlgorithm) {
         this.name = name;
         this.setInvoiceMap(invoiceMap);
         this.discountFactor = discountFactor;
@@ -42,7 +42,7 @@ public class Provider implements Comparable<Provider>, Serializable {
     public Provider(String name){
         this.name = name;
         this.invoiceMap = new HashMap<>();
-        this.discountFactor = 0;
+        this.discountFactor = 0.0;
         this.dailyCostAlgorithm = DailyCostAlgorithmOne.getInstance();
     }
 
@@ -85,11 +85,11 @@ public class Provider implements Comparable<Provider>, Serializable {
         Provider.taxFactor = taxFactor;
     }
 
-    public int getDiscountFactor() {
+    public Double getDiscountFactor() {
         return discountFactor;
     }
 
-    public void setDiscountFactor(int discountFactor) {
+    public void setDiscountFactor(Double discountFactor) {
         this.discountFactor = discountFactor;
     }
 
