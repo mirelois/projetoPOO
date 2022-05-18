@@ -17,6 +17,11 @@ public class Division {
         this.devices = new HashMap<>();
     }
 
+    public Division(String name){
+        this.name = name;
+        this.devices = new HashMap<>();
+    }
+
     public Division(String name, Map<String, SmartDevice> devices){
         this.name = name;
         //this.devices = devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, valor -> valor.getValue().clone()));

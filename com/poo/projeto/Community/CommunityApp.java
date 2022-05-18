@@ -10,6 +10,7 @@ import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
 import com.poo.projeto.Provider.Provider;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
+import com.poo.projeto.SmartHouse.Exceptions.DivisionAlreadyExistsException;
 
 import java.io.*;
 import java.time.DateTimeException;
@@ -129,6 +130,11 @@ public class CommunityApp implements Serializable {
         SmartCamera smartCamera = new SmartCamera(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), resolutionInt, Integer.parseInt(dimension));
         this.idDevice++;
         this.community.addSmartDevice(address, divisionName, smartCamera);
+    }
+
+    public void addDivision(String address, String divisionName) throws DivisionAlreadyExistsException {
+        Division division = new Division(divisionName);
+        this.community.addDivision(address, division);
     }
 
     //TODO mudar este toString pensando em como mostrar a app toda

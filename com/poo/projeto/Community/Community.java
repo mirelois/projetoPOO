@@ -3,8 +3,10 @@ package com.poo.projeto.Community;
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
 import com.poo.projeto.Invoice;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
+import com.poo.projeto.SmartHouse.Division;
 import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
 import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
+import com.poo.projeto.SmartHouse.Exceptions.DivisionAlreadyExistsException;
 import com.poo.projeto.SmartHouse.SmartDevice;
 import com.poo.projeto.SmartHouse.SmartHouse;
 import com.poo.projeto.Provider.Provider;
@@ -160,6 +162,12 @@ public class Community {
         if (!this.providerMap.containsKey(providerName))
             throw new ProviderDoesntExistException("The provider " + providerName + " doesn't exist.");
         return this.providerMap.get(providerName);
+    }
+
+    public void addDivision(String address, Division division) throws DivisionAlreadyExistsException{
+        if(this.smartHouseMap.get(address).existsDivision(division.getName()))
+            throw new DivisionAlreadyExistsException("The division " + division.getName() + " already exists!");
+        this.smartHouseMap.get(address).addDivision(division);
     }
 
     @Override
