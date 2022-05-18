@@ -8,6 +8,7 @@ import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
 import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
+import com.poo.projeto.SmartHouse.Exceptions.DivisionAlreadyExistsException;
 
 import java.lang.reflect.Method;
 import java.time.temporal.ChronoUnit;
@@ -97,6 +98,7 @@ public class Controller {
         String provider = args[3];
         try {
             this.model.addSmartHouse(address, name, nif, provider);
+            this.lastAddress = args[0];
         }catch (AddressAlreadyExistsException e){
             e.printStackTrace();
             return false;
@@ -116,6 +118,21 @@ public class Controller {
         try{
             this.model.addProvider(args[0]);
         }catch (ProviderAlreadyExistsException e){
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean createDivision(String line){
+        String[] args = line.split(",");
+        if(args.length!=1)
+            return false;
+        try {
+            this.model.addDivision(this.lastAddress, args[0]);
+            this.lastDivision = args[0];
+        }catch (DivisionAlreadyExistsException e){
             e.printStackTrace();
             return false;
         }

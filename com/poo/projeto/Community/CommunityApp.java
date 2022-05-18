@@ -10,7 +10,9 @@ import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
 import com.poo.projeto.Provider.Provider;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
+import com.poo.projeto.SmartHouse.Exceptions.DivisionAlreadyExistsException;
 
+import java.io.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CommunityApp {
+public class CommunityApp implements Serializable {
 
     private Community community;
 
@@ -130,6 +132,11 @@ public class CommunityApp {
         this.community.addSmartDevice(address, divisionName, smartCamera);
     }
 
+    public void addDivision(String address, String divisionName) throws DivisionAlreadyExistsException {
+        Division division = new Division(divisionName);
+        this.community.addDivision(address, division);
+    }
+
     //TODO mudar este toString pensando em como mostrar a app toda
     @Override
     public String toString() {
@@ -171,5 +178,22 @@ public class CommunityApp {
         }
 
         return this.community.orderedHousesByConsumption(s, e).stream().map(SmartHouse::getAddress).collect(Collectors.toList());
+    }
+
+    public void saveState(String fileName) throws FileNotFoundException, IOException {
+        FileOutputStream fos = new FileOutputStream(fileName);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(this);
+
+        oos.flush();
+        oos.close();
+    }
+
+    public static CommunityApp loadState(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException{
+        FileInputStream fis = new FileInputStream(fileName);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        CommunityApp newComunityApp = (CommunityApp) ois.readObject();
+        ois.close();
+        return newComunityApp;
     }
 }
