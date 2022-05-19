@@ -7,7 +7,7 @@ public class Menu implements Serializable{
 
     /** Functional interface para handlers. */
     public interface Handler extends Serializable {  // método de tratamento
-        public int execute(String[] args);
+        public int execute(List<String> args);
     }
 
     /** Functional interface para pré-condições. */
@@ -60,7 +60,7 @@ public class Menu implements Serializable{
         //this.setMenuMap(menus);
     }
 
-    public void execute(String[] args) {
+    public void execute(List<String> args) {
         int op;
         do {
             showMenu();

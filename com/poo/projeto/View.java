@@ -70,7 +70,7 @@ public class View {
         return list;
     }
 
-    public void executeMenuByName(String name, String[] args) {
+    public void executeMenuByName(String name, List<String> args) {
         Menu menu = this.menus.get(name);
         if (menu != null)
             menu.execute(args);
@@ -90,18 +90,18 @@ public class View {
                             } catch (NoSuchMethodException e) {
                                 e.printStackTrace();
                             }
-                            this.executeMenuByName("simulationMenu", new String[]{});
+                            this.executeMenuByName("simulationMenu", null);
                             return 0;
                         },
                         (args) -> {
                             System.out.println("Introduza nome do ficheiro de objetos");
                             String filename = is.nextLine();
                             this.controller.parseObjectFile(filename);
-                            this.executeMenuByName("simulationMenu", new String[]{});
+                            this.executeMenuByName("simulationMenu", null);
                             return 0;
                         },
                         (args) -> {
-                            this.executeMenuByName("simulationMenu", new String[]{});
+                            this.executeMenuByName("simulationMenu", null);
                             return 0;
                         },
                         (args) -> {
@@ -129,14 +129,14 @@ public class View {
                                 List<String> lines = this.readLog(filename);
                                 try {
                                     this.controller.parseActions(lines);
-                                    this.executeMenuByName("automaticSimulationMenu", new String[]{});
+                                    this.executeMenuByName("automaticSimulationMenu", null);
                                 } catch (DivisionDoesntExistException | DeviceDoesntExistException | NumberFormatException | AddressDoesntExistException | ProviderDoesntExistException e) {
                                     e.printStackTrace();
                                 }
                                 return 1;
                             },
                             (args) -> {
-                                this.executeMenuByName("alterSimulationDetails", new String[]{});
+                                this.executeMenuByName("alterSimulationDetails", null);
                                 return 1;
                             },
                             (args) -> {
@@ -155,7 +155,7 @@ public class View {
                                 return 1;
                             },
                             (args) -> {
-                                this.executeMenuByName("printMenu", new String[]{});
+                                this.executeMenuByName("printMenu", null);
                                 return 1;
                             },
                             (args) -> {
@@ -215,7 +215,7 @@ public class View {
                             return 0;
                         },
                         (args) -> {
-                            this.executeMenuByName("printMenu", new String[]{});
+                            this.executeMenuByName("printMenu", null);
                             return 1;
                         }
                 },
@@ -323,7 +323,7 @@ public class View {
                             System.out.println("Introduza a morada da casa:");
                             String houseAddress = is.nextLine();
                             if (this.controller.existsSmartHouse(houseAddress)) {
-                                this.executeMenuByName("alterSimulationDetailsHouse", new String[]{houseAddress});
+                                this.executeMenuByName("alterSimulationDetailsHouse", Arrays.asList(houseAddress));
                             } else {
                                 System.out.println("Nome da casa inválida");
                             }
@@ -333,7 +333,7 @@ public class View {
                             System.out.println("Introduza o nome do fornecedor:");
                             String providerName = is.nextLine();
                             if (this.controller.existsProvider(providerName)) {
-                                this.executeMenuByName("alterSimulationDetailsProvider", new String[]{providerName});
+                                this.executeMenuByName("alterSimulationDetailsProvider", Arrays.asList(providerName));
                             } else {
                                 System.out.println("Nome do fornecedor inválido");
                             }
@@ -374,7 +374,7 @@ public class View {
         }while(this.controller.existsProvider(provider));
         try {
             this.controller.addSmartHouse(address, name, nif, provider);
-            this.executeMenuByName("alterSimulationDetailsHouse", new String[]{address});
+            this.executeMenuByName("alterSimulationDetailsHouse", Arrays.asList(address));
         } catch (ProviderDoesntExistException | AddressAlreadyExistsException e) {
             e.printStackTrace();
         }
@@ -385,7 +385,7 @@ public class View {
         String name = is.nextLine();
         try {
             this.controller.addProvider(name);
-            this.executeMenuByName("alterSimulationDetailsProvider", new String[]{name});
+            this.executeMenuByName("alterSimulationDetailsProvider", Arrays.asList(name));
         } catch (ProviderAlreadyExistsException e) {
             e.printStackTrace();
         }
@@ -400,19 +400,20 @@ public class View {
                             System.out.println("Introduza o nome da divisão onde adicionar.");
                             String division = is.nextLine();
 
-                            if (this.controller.existsDivision(args[0], division)) {
-                                this.addSmartDeviceView(args[0], division);
+                            if (this.controller.existsDivision(args.get(0), division)) {
+                                args.add(division);
+                                this.executeMenuByName("addSmartDeviceMenu", args);
                             } else {
                                 System.out.println("Divisão não existente.");
                                 System.out.println("Deseja criar? (y/n)");
                                 String read = is.nextLine();
                                 if (read.equals("y")) {
                                     try {
-                                        this.controller.addDivision(args[0], division);
+                                        this.controller.addDivision(args.get(0), division);
                                     } catch (AddressDoesntExistException | DivisionAlreadyExistsException e ) {
                                         e.printStackTrace();
                                     }
-                                    this.addSmartDeviceView(args[0], division);
+                                    this.addSmartDeviceView(args.get(0), division);
                                 }
                             }
                             return 1;
@@ -420,11 +421,11 @@ public class View {
                         (args) -> {
                             System.out.println("Introduza o nome da divisão.");
                             String divisionName = is.nextLine();
-                            if (this.controller.existsDivision(args[0], divisionName)) {
+                            if (this.controller.existsDivision(args.get(0), divisionName)) {
                                 System.out.println("Divisão já existente.");
                             } else {
                                 try {
-                                    this.controller.addDivision(args[0], divisionName);
+                                    this.controller.addDivision(args.get(0), divisionName);
                                 } catch (AddressDoesntExistException | DivisionAlreadyExistsException e ) {
                                     e.printStackTrace();
                                 }
@@ -434,14 +435,14 @@ public class View {
                         (args) -> {
                             System.out.println("Introduza o id do SmartDevice:");
                             String smartDevice = is.nextLine();
-                            if (this.controller.existsSmartDevice(args[0], smartDevice)) {
+                            if (this.controller.existsSmartDevice(args.get(0), smartDevice)) {
                                 System.out.println("Pretende ligar(y) ou desligar(n)?");
                                 String response = is.nextLine();
                                 try {
                                     if (response.equals("y")) {
-                                        this.controller.turnSmartDevice(args[0], smartDevice, true);
+                                        this.controller.turnSmartDevice(args.get(0), smartDevice, true);
                                     } else if (response.equals("n")) {
-                                        this.controller.turnSmartDevice(args[0], smartDevice, false);
+                                        this.controller.turnSmartDevice(args.get(0), smartDevice, false);
                                     }
                                 } catch (DeviceDoesntExistException | AddressDoesntExistException e) {
                                     e.printStackTrace();
@@ -454,14 +455,14 @@ public class View {
                         (args) -> {
                             System.out.println("Introduza o nome da Divisão:");
                             String division = is.nextLine();
-                            if (this.controller.existsDivision(args[0], division)) {
+                            if (this.controller.existsDivision(args.get(0), division)) {
                                 System.out.println("Digite ON para ligar, OFF para desligar");
                                 String response = is.nextLine();
                                 try {
                                     if (response.equals("ON")) {
-                                        this.controller.turnONDivision(args[0], division);
+                                        this.controller.turnONDivision(args.get(0), division);
                                     } else {
-                                        this.controller.turnOFFDivision(args[0], division);
+                                        this.controller.turnOFFDivision(args.get(0), division);
                                     }
                                 } catch (DivisionDoesntExistException | AddressDoesntExistException e) {
                                     e.printStackTrace();
@@ -475,7 +476,7 @@ public class View {
                             System.out.println("Introduza o nome do Fornecedor");
                             String provider = is.nextLine();
                             if (this.controller.existsProvider(provider)) {
-                                this.controller.changeProvider(args[0], provider);
+                                this.controller.changeProvider(args.get(0), provider);
                             } else {
                                 System.out.println("Nome inválido");
                             }
@@ -483,7 +484,7 @@ public class View {
                         },
                         (args) -> {
                             try{
-                                this.controller.printHouse(args[0]);
+                                this.controller.printHouse(args.get(0));
                             } catch (AddressDoesntExistException e) {
                                 e.printStackTrace();
                             }
@@ -502,13 +503,6 @@ public class View {
                 });
     }
 
-    private void addSmartDeviceView(String address, String division) {
-        //TODO receber parametros para chamar o addSmartDevice
-        //Esta função tem de ser buffered
-        System.out.println("");
-        System.out.println("todo");
-    }
-
     public Menu createAlterSimulationDetailsProviderMenu() {
         return  new Menu("alterSimulationDetailsProvider",
                 new String[]{"Mudar de Algoritmo", "Mudar Valor de desconto", "Imprimir Fornecedor", "Menu Anterior"},
@@ -522,7 +516,7 @@ public class View {
                             if (is.hasNextInt()) {
                                 Double discountFactor = is.nextDouble();
                                 is.nextLine();
-                                this.controller.changeDiscountFactor(args[0], discountFactor);
+                                this.controller.changeDiscountFactor(args.get(0), discountFactor);
                             } else {
                                 System.out.println("Valor inválido.");
                             }
@@ -530,7 +524,7 @@ public class View {
                         },
                         (args) -> {
                             try{
-                                System.out.println(this.controller.printProvider(args[0]));
+                                System.out.println(this.controller.printProvider(args.get(0)));
                             } catch (ProviderDoesntExistException e) {
                                 e.printStackTrace();
                             }
@@ -551,11 +545,11 @@ public class View {
                 new String[]{"Algoritmo 1", "Algoritmo 2", "Regressar"},
                 new Menu.Handler[]{
                         (args) -> {
-                            this.controller.changeProviderAlgorithm(args[0], 1);
+                            this.controller.changeProviderAlgorithm(args.get(0), 1);
                             return 1;
                         },
                         (args) -> {
-                            this.controller.changeProviderAlgorithm(args[0], 2);
+                            this.controller.changeProviderAlgorithm(args.get(0), 2);
                             return 1;
                         },
                         (args) -> 0
@@ -567,8 +561,34 @@ public class View {
                 });
     }
 
+    public Menu createAddSmartDeviceMenu() {
+        return  new Menu("addSmartDeviceMenu",
+                new String[]{"SmartBulb", "SmartCamera", "SmartSpeaker", "Menu Anterior"},
+                new Menu.Handler[]{
+                        (args) -> {
+
+                            return 1;
+                        },
+                        (args) -> {
+                            this.controller.changeProviderAlgorithm(args.get(0), 2);
+                            return 1;
+                        },
+                        (args) -> {
+
+                            return 1;
+                        },
+                        (args) -> 0
+                },
+                new Menu.PreCondition[]{
+                        () -> true,
+                        () -> true,
+                        () -> true,
+                        () -> true
+                });
+    }
+
     public void run() {
-        executeMenuByName("startMenu", new String[]{});
+        executeMenuByName("startMenu", null);
         //Boot
         //Introduzir data inicial
         //TODO ao carregar do ficheiro log de texto/objetos fazer os adds em buffer como se faz durante a simulação
