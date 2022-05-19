@@ -98,7 +98,12 @@ public class View {
                         (args) -> {
                             System.out.println("Introduza nome do ficheiro de objetos");
                             String filename = is.nextLine();
-                            this.controller.parseObjectFile(filename);
+                            try {
+                                this.controller.parseObjectFile(filename);
+                            }catch (IOException | ClassNotFoundException e){
+                                e.printStackTrace();
+                            }
+
                             this.executeMenuByName("simulationMenu", null);
                             return 0;
                         },
