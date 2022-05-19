@@ -122,7 +122,7 @@ public class View {
 
     public Menu createSimulationMenu() {
         return  new Menu("simulationMenu",
-                    new String[]{"Carregar Ficheiro das Ações Automáticas", "Menu: Alterar detalhes da simulação",
+                    new String[]{"Carregar Ficheiro das Ações Automáticas", "Alterar detalhes da simulação",
                             "Avançar dias", "Menu: Impressão de Estatísticas", "Gravar estado", "Sair da simulação"},
                     new Menu.Handler[]{
                             (args) -> {

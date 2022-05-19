@@ -20,7 +20,7 @@ public class setBaseConsumptionCommand extends Command{
     }
 
     @Override
-    public void execute(Community community) throws AddressAlreadyExistsException, ProviderDoesntExistException, ProviderAlreadyExistsException, DivisionAlreadyExistsException, AddressDoesntExistException, DeviceDoesntExistException, DivisionDoesntExistException {
+    public void execute(Community community) throws AddressDoesntExistException, DeviceDoesntExistException {
         community.setBaseConsumption(address, device, baseConsumption);
     }
 }
