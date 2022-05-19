@@ -102,8 +102,8 @@ public class CommunityApp implements Serializable {
         this.community.addSmartHouse(house, provider);
     }
 
-    public void addProvider(String provider) throws ProviderAlreadyExistsException {
-        this.community.addProvider(new Provider(provider));
+    public void addProvider(String provider, Double discountFactor) throws ProviderAlreadyExistsException {
+        this.community.addProvider(new Provider(provider, discountFactor));
     }
 
     public void addSmartBulb(String address, String division, String tone, String diameter, String baseConsumption) throws AddressDoesntExistException {

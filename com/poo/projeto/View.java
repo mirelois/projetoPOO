@@ -382,10 +382,10 @@ public class View {
         System.out.println("Introduza o nome do fornecedor:");
         String name = is.nextLine();
         System.out.println("Introduza o fator de desconto:");
-        Double discoutFactor = is.nextDouble();
+        Double discountFactor = is.nextDouble();
         //TODO adicionar mais coisas ao provider
         try {
-            this.controller.addProvider(name, discoutFactor);
+            this.controller.addProvider(name, discountFactor);
             ArrayList<String> arrayList = new ArrayList<>();
             arrayList.add(name);
             this.executeMenuByName("alterSimulationDetailsProvider", arrayList);

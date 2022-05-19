@@ -322,7 +322,7 @@ public class Controller {
         this.model.addSmartHouse(address, name, nif, provider);
     }
 
-    public void addProvider(String name) throws ProviderAlreadyExistsException {
-        this.model.addProvider(name);
+    public void addProvider(String name, Double discountFactor) throws ProviderAlreadyExistsException {
+        this.model.addProvider(name, discountFactor);
     }
 }
