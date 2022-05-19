@@ -2,10 +2,12 @@ package com.poo.projeto;
 
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
+import com.poo.projeto.SmartHouse.Division;
 import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
 import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
+import com.poo.projeto.SmartHouse.Exceptions.DivisionDoesntExistException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -85,14 +87,18 @@ public class View {
                             System.out.println("Introduza nome do ficheiro de texto");
                             String filename = is.nextLine();
                             List<String> lines = readLog(filename);
-                            this.controller.parser(lines);
+                            try {
+                                this.controller.parser(lines);
+                            } catch (NoSuchMethodException e) {
+                                e.printStackTrace();
+                            }
                             this.executeMenuByName("simulationMenu", new String[]{});
                             return 0;
                         },
                         (args) -> {
                             System.out.println("Introduza nome do ficheiro de objetos");
                             String filename = is.nextLine();
-                            this.controller.parseObjectFile(filename);
+                            //this.controller.parseObjectFile(filename);
                             this.executeMenuByName("simulationMenu", new String[]{});
                             return 0;
                         },
@@ -126,13 +132,13 @@ public class View {
                                 try {
                                     this.controller.parseActions(lines);
                                     this.executeMenuByName("automaticSimulationMenu", new String[]{});
-                                } catch (DeviceDoesntExistException | NumberFormatException | AddressDoesntExistException | ProviderDoesntExistException e) {
+                                } catch (DivisionDoesntExistException | DeviceDoesntExistException | NumberFormatException | AddressDoesntExistException | ProviderDoesntExistException e) {
                                     e.printStackTrace();
                                 }
                                 return 1;
                             },
                             (args) -> {
-                                this.executeMenuByName("alterSimulationDetailsMenu", new String[]{});
+                                this.executeMenuByName("alterSimulationDetails", new String[]{});
                                 return 1;
                             },
                             (args) -> {
@@ -141,6 +147,7 @@ public class View {
                                     System.out.println("Quantos dias pretende avançar?");
                                 }while(!is.hasNextInt());
                                 days = is.nextInt();
+                                is.nextLine();
                                 this.controller.advanceDays(days);
                                 return 1;
                             },
@@ -182,6 +189,7 @@ public class View {
                             System.out.println("Quantos ciclos?");
                             if (is.hasNextInt()) {
                                 this.controller.advanceXCicles(is.nextInt());
+                                is.nextLine();
                                 return this.controller.isAutomaticSimulationOver() ? 0 : 1;
                             } else {
                                 System.out.println("Número inválido.");
@@ -192,6 +200,7 @@ public class View {
                             System.out.println("Quantos ciclos?");
                             if (is.hasNextInt()) {
                                 this.controller.advanceXActions(is.nextInt());
+                                is.nextLine();
                                 return this.controller.isAutomaticSimulationOver() ? 0 : 1;
                             } else {
                                 System.out.println("Número inválido.");
@@ -408,7 +417,7 @@ public class View {
                                     } else if (response.equals("n")) {
                                         this.controller.turnSmartDevice(args[0], smartDevice, false);
                                     }
-                                } catch (AddressDoesntExistException e) {
+                                } catch (DeviceDoesntExistException | AddressDoesntExistException e) {
                                     e.printStackTrace();
                                 }
                             } else {
@@ -428,7 +437,7 @@ public class View {
                                     } else {
                                         this.controller.turnOFFDivision(args[0], division);
                                     }
-                                } catch (AddressDoesntExistException e) {
+                                } catch (DivisionDoesntExistException | AddressDoesntExistException e) {
                                     e.printStackTrace();
                                 }
                             } else {
@@ -470,11 +479,13 @@ public class View {
     private void addDivisionView(String address, String divisionName) {
         //TODO receber parametros para chamar o addDivision
         //Esta função tem de ser buffered
+        System.out.println("todo");
     }
 
     private void addSmartDeviceView(String address, String division) {
         //TODO receber parametros para chamar o addSmartDevice
         //Esta função tem de ser buffered
+        System.out.println("todo");
     }
 
     public Menu createAlterSimulationDetailsProviderMenu() {
@@ -489,6 +500,7 @@ public class View {
                             System.out.println("Introduza o novo fator de desconto em percentagem.");
                             if (is.hasNextInt()) {
                                 int discountFactor = is.nextInt();
+                                is.nextLine();
                                 this.controller.changeDiscountFactor(args[0], discountFactor);
                             } else {
                                 System.out.println("Valor inválido.");
@@ -497,7 +509,7 @@ public class View {
                         },
                         (args) -> {
                             try{
-                                this.controller.printProvider(args[0]);
+                                System.out.println(this.controller.printProvider(args[0]));
                             } catch (ProviderDoesntExistException e) {
                                 e.printStackTrace();
                             }
@@ -535,6 +547,7 @@ public class View {
     }
 
     public void run() {
+        executeMenuByName("startMenu", new String[]{});
         //Boot
         //Introduzir data inicial
         //TODO ao carregar do ficheiro log de texto/objetos fazer os adds em buffer como se faz durante a simulação

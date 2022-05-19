@@ -7,13 +7,10 @@ import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithmTwo;
 import com.poo.projeto.Invoice;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
 import com.poo.projeto.SmartHouse.*;
-import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
-import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
-import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
+import com.poo.projeto.SmartHouse.Exceptions.*;
 import com.poo.projeto.Provider.Provider;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
-import com.poo.projeto.SmartHouse.Exceptions.DivisionAlreadyExistsException;
 
 import java.awt.geom.Arc2D;
 import java.io.*;
@@ -116,7 +113,7 @@ public class CommunityApp implements Serializable {
         community.turnDevice(address, smartDevice, b);
     }
 
-    public void turnDivision(String address, String division, boolean b) throws AddressDoesntExistException {
+    public void turnDivision(String address, String division, boolean b) throws AddressDoesntExistException, DivisionDoesntExistException {
         community.turnDivision(address, division, b);
     }
 
@@ -136,21 +133,21 @@ public class CommunityApp implements Serializable {
         this.community.addProvider(new Provider(provider));
     }
 
-    public void addSmartBulb(String tone, String diameter, String baseConsumption){
+    public void addSmartBulb(String tone, String diameter, String baseConsumption) throws AddressDoesntExistException {
         double installationCost = 5.99;
         SmartBulb smartBulb = new SmartBulb(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), tone, Integer.parseInt(diameter));
         this.idDevice++;
         this.community.addSmartDevice(this.lastAddress, this.lastDivision, smartBulb);
     }
 
-    public void addSmartSpeaker(String volume, String brand, String radio, String baseConsumption){
+    public void addSmartSpeaker(String volume, String brand, String radio, String baseConsumption) throws AddressDoesntExistException {
         double installationCost = 20.99;
         SmartSpeaker smartSpeaker = new SmartSpeaker(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), Integer.parseInt(volume), brand, radio);
         this.idDevice++;
         this.community.addSmartDevice(this.lastAddress, this.lastDivision, smartSpeaker);
     }
     // TODO idDevice++?
-    public void addSmartCamera(String resolution, String dimension, String baseConsumption){
+    public void addSmartCamera(String resolution, String dimension, String baseConsumption) throws AddressDoesntExistException {
         Integer[] resolutionInt = new Integer[2];
         String[] temp = resolution.split("x");
         resolutionInt[0] = Integer.parseInt(temp[0].substring(1));
@@ -161,7 +158,7 @@ public class CommunityApp implements Serializable {
         this.community.addSmartDevice(this.lastAddress, this.lastDivision, smartCamera);
     }
 
-    public void addDivision(String divisionName) throws DivisionAlreadyExistsException {
+    public void addDivision(String divisionName) throws DivisionAlreadyExistsException, AddressDoesntExistException {
         Division division = new Division(divisionName);
         this.community.addDivision(this.lastAddress, division);
         this.setLastDivision(divisionName);
@@ -176,11 +173,11 @@ public class CommunityApp implements Serializable {
     }
 
     public String houseToString(String houseName) throws AddressDoesntExistException {
-        return this.community.getSmartHouseByAddress(houseName).toString();
+        return this.community.houseToString(houseName);
     }
 
     public String providerToString(String providerName) throws ProviderDoesntExistException {
-        return this.community.getProviderByName(providerName).toString();
+        return this.community.providerToString(providerName);
     }
 
     public String houseWithMostConsumption(String start, String end) throws NoHouseInPeriodException {

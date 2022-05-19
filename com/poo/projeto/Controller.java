@@ -3,12 +3,9 @@ package com.poo.projeto;
 import com.poo.projeto.Community.CommunityApp;
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
-import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
-import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
-import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
+import com.poo.projeto.SmartHouse.Exceptions.*;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
-import com.poo.projeto.SmartHouse.Exceptions.DivisionAlreadyExistsException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -38,7 +35,7 @@ public class Controller {
         this.model.saveState(fileName);
     }
 
-    public boolean createSmartBulb(String line){
+    public boolean createSmartBulb(String line) throws AddressDoesntExistException {
         String[] args = line.split(",");
         if(args.length!=3)
             return false;
@@ -50,7 +47,7 @@ public class Controller {
         return true;
     }
 
-    public boolean createSmartCamera(String line){
+    public boolean createSmartCamera(String line) throws AddressDoesntExistException {
         String[] args = line.split(",");
         if(args.length!=3)
             return false;
@@ -62,7 +59,7 @@ public class Controller {
         return true;
     }
 
-    public boolean createSmartSpeaker(String line){
+    public boolean createSmartSpeaker(String line) throws AddressDoesntExistException {
         String[] args = line.split(",");
         if(args.length!=4)
             return false;
@@ -99,31 +96,22 @@ public class Controller {
         return true;
     }
 
-    public boolean createDivision(String line){
+    public boolean createDivision(String line) throws AddressDoesntExistException, DivisionAlreadyExistsException {
         String[] args = line.split(",");
         if(args.length!=1)
             return false;
-        try {
-            this.model.addDivision(args[0]);
-        }catch (DivisionAlreadyExistsException e){
-            e.printStackTrace();
-            return false;
-        }
+        this.model.addDivision(args[0]);
+        //TODO cuidado com tamanho
 
         return true;
     }
 
-    public Map<String, Method> createClassMap()
-    {
+    public Map<String, Method> createClassMap() throws NoSuchMethodException {
         String[] everyC = {"SmartBulb", "SmartCamera",
                 "SmartSpeaker", "SmartHouse", "Division", "Provider"};
         Map<String, Method> everyClass = new HashMap<>();
         for(String s: everyC) {
-            try {
-                everyClass.put(s, this.getClass().getDeclaredMethod("create" + s, String.class));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            everyClass.put(s, this.getClass().getDeclaredMethod("create" + s, String.class));
         }
 
         return everyClass;
@@ -132,7 +120,7 @@ public class Controller {
     public void advanceDays(Integer days) {
         this.model.advanceDate(ChronoUnit.DAYS.addTo(this.model.getCurrentDate(), days));
     }
-    public void parser(List<String> lines){
+    public void parser(List<String> lines) throws NoSuchMethodException {
         String[] brokenLine;
         Map<String, Method> classMap = createClassMap();
         for(String line: lines){
@@ -183,7 +171,7 @@ public class Controller {
         return this.model.isSmartDeviceOn(address, smartDevice);
     }
 
-    public void turnSmartDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException {
+    public void turnSmartDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException, DeviceDoesntExistException {
         this.model.turnSmartDevice(address, smartDevice, b);
     }
 
@@ -191,28 +179,30 @@ public class Controller {
         return isSimulationEmptyHouse() && isSimulationEmptyProvider();
     }
 
-    public void turnONDivision(String address, String division) throws AddressDoesntExistException {
+    public void turnONDivision(String address, String division) throws AddressDoesntExistException, DivisionDoesntExistException {
         this.model.turnDivision(address, division, true);
     }
 
-    public void turnOFFDivision(String address, String division) throws AddressDoesntExistException {
+    public void turnOFFDivision(String address, String division) throws AddressDoesntExistException, DivisionDoesntExistException {
         this.model.turnDivision(address, division, false);
     }
 
     public void advanceXCicles(int numberOfCicles) {
-        
+        System.out.println("todo");
     }
 
     public void advanceXActions(int numberOfActions) {
+        System.out.println("todo");
 
     }
 
     public boolean isAutomaticSimulationOver() {
-
+        System.out.println("todo");
+        return true;
     }
 
     public void advanceFullAutomaticSimulation() {
-
+        System.out.println("todo");
     }
 
     public String printHouse(String houseName) throws AddressDoesntExistException {
@@ -265,7 +255,7 @@ public class Controller {
         //Esta função tem de ser buffered
     }
 
-    public void parseActions(List<String> lines) throws AddressDoesntExistException, NumberFormatException, ProviderDoesntExistException, DeviceDoesntExistException {
+    public void parseActions(List<String> lines) throws AddressDoesntExistException, NumberFormatException, ProviderDoesntExistException, DeviceDoesntExistException, DivisionDoesntExistException {
 
         String[] brokenLine;
         for (String line : lines) {

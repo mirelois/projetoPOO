@@ -3,9 +3,7 @@ package com.poo.projeto.Command;
 import com.poo.projeto.Community.CommunityApp;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
-import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
-import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
-import com.poo.projeto.SmartHouse.Exceptions.DivisionAlreadyExistsException;
+import com.poo.projeto.SmartHouse.Exceptions.*;
 
 import java.time.LocalDate;
 
@@ -48,7 +46,7 @@ class addSmatBulbCommand extends Command {
         this.baseconsumption = baseconsumption;
     }
 
-    public void execute(CommunityApp app) throws ProviderAlreadyExistsException {
+    public void execute(CommunityApp app) throws ProviderAlreadyExistsException, AddressDoesntExistException {
         app.addSmartBulb(tone, diameter, baseconsumption);
     }
 }
@@ -65,7 +63,7 @@ class addSmatSpeakerCommand extends Command {
         this.baseconsumption = baseconsumption;
     }
 
-    public void execute(CommunityApp app) throws ProviderAlreadyExistsException {
+    public void execute(CommunityApp app) throws ProviderAlreadyExistsException, AddressDoesntExistException {
         app.addSmartSpeaker(volume, brand, radio, baseconsumption);
     }
 }
@@ -81,7 +79,7 @@ class addSmatCameraCommand extends Command {
         this.baseconsumption = baseconsumption;
     }
 
-    public void execute(CommunityApp app) throws ProviderAlreadyExistsException {
+    public void execute(CommunityApp app) throws ProviderAlreadyExistsException, AddressDoesntExistException {
         app.addSmartCamera(resolutio, dimention, baseconsumption);
     }
 }
@@ -95,7 +93,7 @@ class addDivisionCommand extends Command {
     }
 
     @Override
-    public void execute(CommunityApp app) throws DivisionAlreadyExistsException {
+    public void execute(CommunityApp app) throws DivisionAlreadyExistsException, AddressDoesntExistException {
         app.addDivision(divisionName);
     }
 }
@@ -158,7 +156,7 @@ class turnSmartDeviceCommand extends Command {
     }
 
     @Override
-    public void execute(CommunityApp app) throws AddressDoesntExistException {
+    public void execute(CommunityApp app) throws AddressDoesntExistException, DeviceDoesntExistException {
         app.turnSmartDevice(address, smartDevice, b);
     }
 }
@@ -175,7 +173,7 @@ class turnDivisionCommand extends Command {
     }
 
     @Override
-    public void execute(CommunityApp app) throws AddressDoesntExistException {
+    public void execute(CommunityApp app) throws AddressDoesntExistException, DivisionDoesntExistException {
         app.turnDivision(address, division, b);
     }
 }

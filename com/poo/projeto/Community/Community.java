@@ -5,10 +5,7 @@ import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithm;
 import com.poo.projeto.Invoice;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
 import com.poo.projeto.SmartHouse.Division;
-import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
-import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
-import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
-import com.poo.projeto.SmartHouse.Exceptions.DivisionAlreadyExistsException;
+import com.poo.projeto.SmartHouse.Exceptions.*;
 import com.poo.projeto.SmartHouse.SmartDevice;
 import com.poo.projeto.SmartHouse.SmartHouse;
 import com.poo.projeto.Provider.Provider;
@@ -18,6 +15,7 @@ import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class Community implements Serializable {
@@ -91,11 +89,8 @@ public class Community implements Serializable {
     }
 
     public List<Invoice> invoicesByProvider(String provider) throws ProviderDoesntExistException {
-        Provider provider1 = this.providerMap.get(provider);
+        Provider provider1 = this.getProviderByName(provider);
         List<Invoice> tmp = new ArrayList<>();
-        if (provider1 == null) {
-            throw new ProviderDoesntExistException("Nenhum fornecedor chamado " + provider + " na simulação.");
-        }
         provider1.getInvoiceMap().values().forEach(tmp::addAll);
         return tmp;
     }
@@ -157,8 +152,8 @@ public class Community implements Serializable {
         this.providerMap.put(provider.getName(), provider);
     }
 
-    public void addSmartDevice(String address, String divisionName, SmartDevice smartDevice){
-        this.smartHouseMap.get(address).addSmartDevice(divisionName, smartDevice);
+    public void addSmartDevice(String address, String divisionName, SmartDevice smartDevice) throws AddressDoesntExistException {
+        this.getSmartHouseByAddress(address).addSmartDevice(divisionName, smartDevice);
     }
 
     private Provider getProviderByName(String providerName) throws ProviderDoesntExistException {
@@ -167,8 +162,8 @@ public class Community implements Serializable {
         return this.providerMap.get(providerName);
     }
 
-    public void addDivision(String address, Division division) throws DivisionAlreadyExistsException{
-        if(this.smartHouseMap.get(address).existsDivision(division.getName()))
+    public void addDivision(String address, Division division) throws DivisionAlreadyExistsException, AddressDoesntExistException {
+        if (this.getSmartHouseByAddress(address).existsDivision(division.getName()))
             throw new DivisionAlreadyExistsException("The division " + division.getName() + " already exists!");
         this.smartHouseMap.get(address).addDivision(division);
     }
@@ -199,6 +194,40 @@ public class Community implements Serializable {
     }
 
     public void turnDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException, DeviceDoesntExistException {
-        this.getSmartHouseByAddress(address).interactDevice(smartDevice, d -> d.setOn(b));
+        SmartHouse house = this.getSmartHouseByAddress(address);
+        if (b) {
+            house.setDeviceOn(smartDevice);
+        } else {
+            house.setDeviceOff(smartDevice);
+        }
+    }
+
+    public void turnDivision(String address, String division, boolean b) throws AddressDoesntExistException, DivisionDoesntExistException {
+        SmartHouse house = this.getSmartHouseByAddress(address);
+        if (b) {
+            house.setDivisionOn(division);
+        } else {
+            house.setDivisionOff(division);
+        }
+    }
+
+    public String houseToString(String houseName) throws AddressDoesntExistException {
+        return this.getSmartHouseByAddress(houseName).toString();
+    }
+
+    public String providerToString(String providerName) throws ProviderDoesntExistException {
+        return this.getProviderByName(providerName).toString();
+    }
+
+    public boolean existsDivision(String address, String division) throws AddressDoesntExistException {
+        return this.getSmartHouseByAddress(address).existsDivision(division);
+    }
+
+    public boolean existsSmartDevice(String address, String smartDevice) throws AddressDoesntExistException {
+        return this.getSmartHouseByAddress(address).existsDevice(smartDevice);
+    }
+
+    public boolean isSmartDeviceOn(String address, String smartDevice) throws AddressDoesntExistException, DeviceDoesntExistException {
+        return this.getSmartHouseByAddress(address).isSmartDeviceOn(smartDevice);
     }
 }

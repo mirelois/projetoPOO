@@ -1,0 +1,8 @@
+.idea/
+*.iml
+*.class
+html/
+*.exe
+*.out
+latex/
+*.zip

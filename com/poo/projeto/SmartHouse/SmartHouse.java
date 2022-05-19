@@ -164,17 +164,20 @@ public class SmartHouse implements Serializable {
         return Objects.equals(this.devices.get(id), division);
     }
 
-    public void interactDiv(String division, Consumer<SmartDevice> smartDeviceConsumer){
-        this.divisions.get(division).interact(smartDeviceConsumer);
+    private void interactDiv(String division, Consumer<SmartDevice> smartDeviceConsumer) throws DivisionDoesntExistException {
+        Division div = this.divisions.get(division);
+        if (div == null)
+            throw new DivisionDoesntExistException("Division " + division + " doesn't exist in house " + this.name);
+        div.interact(smartDeviceConsumer);
     }
 
-    public void interactHouse(Consumer<SmartDevice> divisionConsumer){
+    private void interactHouse(Consumer<SmartDevice> divisionConsumer) throws DivisionDoesntExistException {
         for(Division division: this.divisions.values()){
             interactDiv(division.getName(), divisionConsumer);
         }
     }
 
-    public void interactDevice(String id, Consumer<SmartDevice> smartDeviceConsumer) throws DeviceDoesntExistException {
+    private void interactDevice(String id, Consumer<SmartDevice> smartDeviceConsumer) throws DeviceDoesntExistException {
         String division = this.devices.get(id);
         if (division == null)
             throw new DeviceDoesntExistException("Device with id " + id + " doesn't exist");
@@ -257,19 +260,19 @@ public class SmartHouse implements Serializable {
         interactDevice(id, SmartDevice::turnOff);
     }
 
-    public void setDivisionOn(String division){
+    public void setDivisionOn(String division) throws DivisionDoesntExistException {
         interactDiv(division, SmartDevice::turnOn);
     }
 
-    public void setDivisionOff(String division){
+    public void setDivisionOff(String division) throws DivisionDoesntExistException {
         interactDiv(division, SmartDevice::turnOff);
     }
 
-    public void setHouseOn(){
+    public void setHouseOn() throws DivisionDoesntExistException {
         interactHouse(SmartDevice::turnOn);
     }
 
-    public void setHouseOff(){
+    public void setHouseOff() throws DivisionDoesntExistException {
         interactHouse(SmartDevice::turnOff);
     }
 

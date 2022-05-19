@@ -40,9 +40,15 @@ public class SmartBulb extends SmartDevice implements Serializable {
         // initialise instance variables
         super(id, on, installationCost, baseConsumption);
         switch (tone) {
-            case "WARM" -> this.tone = 2;
-            case "COLD" -> this.tone = 0;
-            case "NEUTRAL" -> this.tone = 1;
+            case "WARM":
+                this.tone = 2;
+                break;
+            case "COLD":
+                this.tone = 0;
+                break;
+            case "NEUTRAL":
+                this.tone = 1;
+                break;
         }
         this.diameter = diameter;
     }
