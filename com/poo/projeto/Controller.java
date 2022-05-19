@@ -9,13 +9,14 @@ import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class Controller {
 
-
+    private Map<String, Method> addMap;
     private CommunityApp model;
 
     //lista de comandos que pode estar vazia
@@ -28,8 +29,14 @@ public class Controller {
         this.model = model;
     }
 
-    public Controller(CommunityApp community) {
+    public Controller(CommunityApp community) throws NoSuchMethodException {
         this.setModel(community);
+        String[] everyC = {"SmartBulb", "SmartCamera",
+                "SmartSpeaker", "SmartHouse", "Division", "Provider"};
+        this.addMap = new HashMap<>();
+        for(String s: everyC) {
+            this.addMap.put(s, this.getClass().getDeclaredMethod("add" + s, String.class));
+        }
     }
 
     public void saveState(String fileName) throws FileNotFoundException, IOException {
@@ -298,10 +305,19 @@ public class Controller {
         }
     }
 
-    public void addSmartDevice(String type)
+    public void add(String[] args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        Method method = this.addMap.get(args[0]);
+        if (method == null)
+            throw new NoSuchMethodException("No method named " + args[0]);
+        method.invoke(args);
+    }
 
-    public void addDivision(String address, String division) throws AddressDoesntExistException, DivisionAlreadyExistsException {
+    public void addDivision(String[] args) throws AddressDoesntExistException, DivisionAlreadyExistsException {
         //TODO mudar quando conseguir receber address
-        this.model.addDivision(address, division);
+        this.model.addDivision(args[1], args[2]);
+    }
+
+    public void addSmartBulb(String[] args) throws AddressDoesntExistException {
+        this.model.addSmartBulb(args[1], args[2], args[3]);
     }
 }

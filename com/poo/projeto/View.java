@@ -505,7 +505,7 @@ public class View {
     private void addSmartDeviceView(String address, String division) {
         //TODO receber parametros para chamar o addSmartDevice
         //Esta função tem de ser buffered
-
+        System.out.println("");
         System.out.println("todo");
     }
 
