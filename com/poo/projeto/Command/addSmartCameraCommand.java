@@ -1,23 +1,26 @@
 package com.poo.projeto.Command;
 
+import com.poo.projeto.Community.Community;
 import com.poo.projeto.Community.CommunityApp;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
+import com.poo.projeto.SmartHouse.SmartCamera;
 
 import java.time.LocalDate;
 
 public class addSmartCameraCommand extends Command {
-    String divisionName, resolutio, dimention, baseconsumption;
+    private String divisionName, address;
 
-    public addSmartCameraCommand(LocalDate executionTime, String divisionName, String resolutio, String dimention, String baseconsumption) {
-        this.executionTime = executionTime;
+    private SmartCamera smartCamera;
+
+    public addSmartCameraCommand(LocalDate executionTime, String divisionName, String address, SmartCamera smartCamera) {
+        super(executionTime);
         this.divisionName = divisionName;
-        this.resolutio = resolutio;
-        this.dimention = dimention;
-        this.baseconsumption = baseconsumption;
+        this.address = address;
+        this.smartCamera = smartCamera;
     }
 
-    public void execute(CommunityApp app) throws ProviderAlreadyExistsException, AddressDoesntExistException {
-        app.addSmartCamera(resolutio, dimention, baseconsumption);
+    public void execute(Community community) throws ProviderAlreadyExistsException, AddressDoesntExistException {
+        community.addSmartDevice(this.address, this.divisionName, smartCamera);
     }
 }

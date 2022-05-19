@@ -43,11 +43,10 @@ public class Division implements Serializable {
     }
 
     public Map<String, SmartDevice> getDevices() {
-        return this.devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        return this.devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, dev -> dev.getValue().clone()));
     }
 
     public void setDevices(Map<String, SmartDevice> devices) {
-        //Feito: não está a clonar o device que recebe
         this.devices = devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, device -> device.getValue().clone()));
     }
 
@@ -82,7 +81,7 @@ public class Division implements Serializable {
     }
 
     public void addDevice(SmartDevice smartDevice){
-        this.devices.put(smartDevice.getID(), smartDevice);
+        this.devices.put(smartDevice.getID(), smartDevice.clone());
     }
 
     public int numberOfDevices(){

@@ -1,23 +1,26 @@
 package com.poo.projeto.Command;
 
+import com.poo.projeto.Community.Community;
 import com.poo.projeto.Community.CommunityApp;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
+import com.poo.projeto.SmartHouse.SmartBulb;
 
 import java.time.LocalDate;
 
 public class addSmartBulbCommand extends Command {
-    String divisionName, tone, diameter, baseconsumption;
+    private String divisionName, address;
 
-    public addSmartBulbCommand(LocalDate executionTime, String divisionName, String tone, String diameter, String baseconsumption) {
-        this.executionTime = executionTime;
+    private SmartBulb smartBulb;
+
+    public addSmartBulbCommand(LocalDate executionTime, String divisionName, String address, SmartBulb smartBulb) {
+        super(executionTime);
         this.divisionName = divisionName;
-        this.tone = tone;
-        this.diameter = diameter;
-        this.baseconsumption = baseconsumption;
+        this.address = address;
+        this.smartBulb = smartBulb;
     }
 
-    public void execute(CommunityApp app) throws ProviderAlreadyExistsException, AddressDoesntExistException {
-        app.addSmartBulb(tone, diameter, baseconsumption);
+    public void execute(Community community) throws ProviderAlreadyExistsException, AddressDoesntExistException {
+        community.addSmartDevice(this.address, this.divisionName, this.smartBulb);
     }
 }

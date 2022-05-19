@@ -1,24 +1,25 @@
 package com.poo.projeto.Command;
 
+import com.poo.projeto.Community.Community;
 import com.poo.projeto.Community.CommunityApp;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
+import com.poo.projeto.SmartHouse.SmartSpeaker;
 
 import java.time.LocalDate;
 
 public class addSmartSpeakerCommand extends Command {
-    String divisionName, volume, brand, radio, baseconsumption;
+    private String divisionName, address;
+    private SmartSpeaker smartSpeaker;
 
-    public addSmartSpeakerCommand(LocalDate executionTime, String divisionName, String volume, String brand, String radio, String baseconsumption) {
-        this.executionTime = executionTime;
+    public addSmartSpeakerCommand(LocalDate executionTime, String divisionName, String address, SmartSpeaker smartSpeaker) {
+        super(executionTime);
         this.divisionName = divisionName;
-        this.volume = volume;
-        this.brand = brand;
-        this.radio = radio;
-        this.baseconsumption = baseconsumption;
+        this.address = address;
+        this.smartSpeaker = smartSpeaker;
     }
 
-    public void execute(CommunityApp app) throws ProviderAlreadyExistsException, AddressDoesntExistException {
-        app.addSmartSpeaker(volume, brand, radio, baseconsumption);
+    public void execute(Community community) throws ProviderAlreadyExistsException, AddressDoesntExistException {
+        community.addSmartDevice(this.address, this.divisionName, this.smartSpeaker);
     }
 }
