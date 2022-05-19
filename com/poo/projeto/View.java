@@ -6,6 +6,7 @@ import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 import com.poo.projeto.SmartHouse.Exceptions.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
@@ -58,17 +59,8 @@ public class View {
         this.menus.put(menu.getName(), menu);
     }
 
-    public List<String> readLog(String logFileName) {
-        List<String> list;
-        try {
-            list = Files.readAllLines(Paths.get(logFileName), StandardCharsets.UTF_8);
-        }catch (IOException exception){
-            System.out.println("Error in IO");
-            exception.printStackTrace();
-            list = new ArrayList<>();
-        }
-
-        return list;
+    public List<String> readLog(String logFileName) throws IOException{
+        return Files.readAllLines(Paths.get(logFileName), StandardCharsets.UTF_8);
     }
 
     public void executeMenuByName(String name, List<String> args) {
@@ -85,12 +77,13 @@ public class View {
                         (args) -> {
                             System.out.println("Introduza nome do ficheiro de texto");
                             String filename = is.nextLine();
-                            List<String> lines = readLog(filename);
                             try {
+                                List<String> lines = readLog(filename);
                                 this.controller.parser(lines);
-                            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | IOException e) {
                                 //TODO cuidado com exceptions
                                 e.printStackTrace();
+                                return 1;
                             }
                             this.executeMenuByName("simulationMenu", null);
                             return 0;
@@ -133,11 +126,11 @@ public class View {
                             (args) -> {
                                 System.out.println("Introduza o nome do ficheiro das ações automáticas.");
                                 String filename = is.nextLine();
-                                List<String> lines = this.readLog(filename);
                                 try {
+                                    List<String> lines = this.readLog(filename);
                                     this.controller.parseActions(lines);
                                     this.executeMenuByName("automaticSimulationMenu", null);
-                                } catch (DivisionDoesntExistException | DeviceDoesntExistException | NumberFormatException | AddressDoesntExistException | ProviderDoesntExistException e) {
+                                } catch (DivisionDoesntExistException | DeviceDoesntExistException | NumberFormatException | AddressDoesntExistException | ProviderDoesntExistException | IOException e) {
                                     e.printStackTrace();
                                 }
                                 return 1;
@@ -388,9 +381,11 @@ public class View {
     private void addProviderView() {
         System.out.println("Introduza o nome do fornecedor:");
         String name = is.nextLine();
+        System.out.println("Introduza o fator de desconto:");
+        Double discoutFactor = is.nextDouble();
         //TODO adicionar mais coisas ao provider
         try {
-            this.controller.addProvider(name);
+            this.controller.addProvider(name, discoutFactor);
             ArrayList<String> arrayList = new ArrayList<>();
             arrayList.add(name);
             this.executeMenuByName("alterSimulationDetailsProvider", arrayList);
