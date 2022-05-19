@@ -73,8 +73,11 @@ public class Division implements Serializable {
 
     public Double divisonTotalConsumption(){
         double total = 0.0;
-        for(SmartDevice smartDevice: this.devices.values())
-            total += smartDevice.dailyConsumption();
+        for(SmartDevice smartDevice: this.devices.values()){
+            if(smartDevice.getOn()){
+                total += smartDevice.dailyConsumption();
+            }
+        }
 
         return total;
         //return this.devices.values().stream().map(SmartDevice::dailyConsumption).reduce(0.0, Double::sum); versão geek mas ineficiente
