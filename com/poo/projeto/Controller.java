@@ -3,18 +3,23 @@ package com.poo.projeto;
 import com.poo.projeto.Community.CommunityApp;
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
-import com.poo.projeto.SmartHouse.Exceptions.*;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
+import com.poo.projeto.SmartHouse.Exceptions.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Controller {
 
+    private Integer addressGenerate;
+    private String lastDivision, lastAddress;
     private CommunityApp model;
 
     //lista de comandos que pode estar vazia
@@ -29,6 +34,9 @@ public class Controller {
 
     public Controller(CommunityApp community) {
         this.setModel(community);
+        this.addressGenerate = 0;
+        this.lastAddress = "0";
+        this.lastDivision = "cozinha";
     }
 
     public void saveState(String fileName) throws FileNotFoundException, IOException {
@@ -42,8 +50,7 @@ public class Controller {
         String tone = args[0];
         String diameter = args[1];
         String baseConsumption = args[2];
-        this.model.addSmartBulbLog(tone, diameter, baseConsumption);
-
+        this.model.addSmartBulb(this.lastAddress, this.lastDivision ,tone, diameter, baseConsumption);
         return true;
     }
 
@@ -54,7 +61,7 @@ public class Controller {
         String resolution = args[0];
         String dimention = args[1];
         String baseConsumption = args[2];
-        this.model.addSmartCameraLog(resolution, dimention, baseConsumption);
+        this.model.addSmartCamera(this.lastAddress, this.lastDivision ,resolution, dimention, baseConsumption);
 
         return true;
     }
@@ -67,7 +74,7 @@ public class Controller {
         String brand = args[1];
         String radio = args[2];
         String baseConsumption = args[3];
-        this.model.addSmartSpeakerLog(volume, brand, radio, baseConsumption);
+        this.model.addSmartSpeaker(this.lastAddress, this.lastDivision ,volume, brand, radio, baseConsumption);
 
         return true;
     }
@@ -79,14 +86,17 @@ public class Controller {
         String name = args[0];
         String nif = args[1];
         String provider = args[2];
-        return this.model.addSmartHouseLog(name, nif, provider);
+        this.lastAddress = (this.addressGenerate++).toString();
+        this.model.addSmartHouse(this.lastAddress, name, nif, provider);
+        return this.lastAddress;
     }
 
     public boolean createProvider(String line) throws ProviderAlreadyExistsException {
         String[] args = line.split(",");
         if(args.length!=1)
             return false;
-        this.model.addProviderLog(args[0]);
+        String provider = args[0];
+        this.model.addProvider(provider);
         return true;
     }
 
@@ -94,9 +104,8 @@ public class Controller {
         String[] args = line.split(",");
         if(args.length!=1)
             return false;
-        this.model.addDivisionLog(args[0]);
-        //TODO cuidado com tamanho
-
+        this.lastDivision = args[0];
+        this.model.addDivision(this.lastAddress, args[0]);
         return true;
     }
 
@@ -114,17 +123,13 @@ public class Controller {
     public void advanceDays(Integer days) throws AddressDoesntExistException, DivisionAlreadyExistsException, DivisionDoesntExistException, ProviderAlreadyExistsException, AddressAlreadyExistsException, ProviderDoesntExistException, DeviceDoesntExistException {
         this.model.advanceDate(ChronoUnit.DAYS.addTo(this.model.getCurrentDate(), days));
     }
-    public void parser(List<String> lines) throws NoSuchMethodException {
+    public void parser(List<String> lines) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String[] brokenLine;
         Map<String, Method> classMap = createClassMap();
         for(String line: lines){
             brokenLine = line.split(":", 2);
             if(classMap.containsKey(brokenLine[0])){
-                try {
-                    classMap.get(brokenLine[0]).invoke(this, brokenLine[1]);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+                classMap.get(brokenLine[0]).invoke(this, brokenLine[1]);
             }
         }
     }
@@ -254,26 +259,26 @@ public class Controller {
                 if (this.model.existsSmartDevice(brokenLine[1], brokenLine[2])) {
                     switch (brokenLine[3]) {
                         case "setOn":
-                            this.model.turnSmartDevice(date, brokenLine[1], brokenLine[2], true);
+                            this.model.turnSmartDevice(brokenLine[0], brokenLine[1], brokenLine[2], true);
                             break;
                         case "setOff":
-                            this.model.turnSmartDevice(date, brokenLine[1], brokenLine[2], false);
+                            this.model.turnSmartDevice(brokenLine[0], brokenLine[1], brokenLine[2], false);
                             break;
                         case "changeBaseConsumption":
                             //TODO porcaria
                             Double baseConsumption = Double.parseDouble(brokenLine[4]);
-                            this.model.setBaseConsumption(date, brokenLine[1], brokenLine[2], baseConsumption);
+                            this.model.setBaseConsumption(brokenLine[0], brokenLine[1], brokenLine[2], baseConsumption);
                             break;
                     }
                 } else if (this.model.existsProvider(brokenLine[2])) {
-                    this.model.setSmartHouseProvider(date, brokenLine[1], brokenLine[2]);
+                    this.model.setSmartHouseProvider(brokenLine[0], brokenLine[1], brokenLine[2]);
                 } else if (this.model.existsDivision(brokenLine[1], brokenLine[2])) {
                     switch (brokenLine[3]) {
                         case "setOn":
-                            this.model.turnDivision(date, brokenLine[1], brokenLine[3], true);
+                            this.model.turnDivision(brokenLine[0], brokenLine[1], brokenLine[3], true);
                             break;
                         case "setOff":
-                            this.model.turnDivision(date, brokenLine[1], brokenLine[3], false);
+                            this.model.turnDivision(brokenLine[0], brokenLine[1], brokenLine[3], false);
                             break;
                     }
                 }
@@ -281,11 +286,11 @@ public class Controller {
                 switch (brokenLine[2]) {
                     case "alteraValorDesconto":
                         Double newDiscount = Double.parseDouble(brokenLine[3]);
-                        this.model.setProviderDiscountFactor(date, brokenLine[1], newDiscount);
+                        this.model.setProviderDiscountFactor(brokenLine[0], brokenLine[1], newDiscount);
                         break;
                     case "alteraAlgoritmo":
                         int numAlgorithm = Integer.parseInt(brokenLine[3]);
-                        this.model.setProviderAlgorithm(date, brokenLine[1], numAlgorithm);
+                        this.model.setProviderAlgorithm(brokenLine[0], brokenLine[1], numAlgorithm);
                         break;
                 }
             }
@@ -305,5 +310,8 @@ public class Controller {
 
     public void addSmartHouse(String address, String name, String nif, String provider) throws ProviderDoesntExistException, AddressAlreadyExistsException{
         this.model.addSmartHouse(address, name, nif, provider);
+    }
+
+    public void parseObjectFile(String filename) {
     }
 }

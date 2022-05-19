@@ -1,8 +1,8 @@
 package com.poo.projeto.SmartHouse;
 
 import com.poo.projeto.Invoice;
-import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
 import com.poo.projeto.Provider.Provider;
+import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
 import com.poo.projeto.SmartHouse.Exceptions.DivisionDoesntExistException;
 
 import java.io.Serializable;

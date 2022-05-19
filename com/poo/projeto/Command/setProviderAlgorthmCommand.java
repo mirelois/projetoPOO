@@ -1,7 +1,6 @@
 package com.poo.projeto.Command;
 
 import com.poo.projeto.Community.Community;
-import com.poo.projeto.Community.CommunityApp;
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithm;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 

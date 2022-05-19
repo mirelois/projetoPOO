@@ -1,7 +1,10 @@
 package com.poo.projeto;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class Menu implements Serializable{
 

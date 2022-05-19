@@ -4,18 +4,17 @@ import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithm;
 import com.poo.projeto.Invoice;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
+import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
+import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
+import com.poo.projeto.Provider.Provider;
 import com.poo.projeto.SmartHouse.Division;
 import com.poo.projeto.SmartHouse.Exceptions.*;
 import com.poo.projeto.SmartHouse.SmartDevice;
 import com.poo.projeto.SmartHouse.SmartHouse;
-import com.poo.projeto.Provider.Provider;
-import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
-import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class Community implements Serializable {

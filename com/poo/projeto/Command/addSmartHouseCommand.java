@@ -1,7 +1,6 @@
 package com.poo.projeto.Command;
 
 import com.poo.projeto.Community.Community;
-import com.poo.projeto.Community.CommunityApp;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
 import com.poo.projeto.SmartHouse.SmartHouse;

@@ -7,17 +7,16 @@ import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithmOne;
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithmTwo;
 import com.poo.projeto.Invoice;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
-import com.poo.projeto.SmartHouse.*;
-import com.poo.projeto.SmartHouse.Exceptions.*;
-import com.poo.projeto.Provider.Provider;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
+import com.poo.projeto.Provider.Provider;
+import com.poo.projeto.SmartHouse.*;
+import com.poo.projeto.SmartHouse.Exceptions.*;
 
 import java.io.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -30,20 +29,11 @@ public class CommunityApp implements Serializable {
 
     private Integer idDevice;
 
-    private Integer addressGenerate;
-
-    private String lastAddress;
-
-    private String lastDivision;
-
     private List<Command> commands;
 
     public CommunityApp() {
         this.community = new Community();
         this.idDevice = 0;
-        this.addressGenerate = 0;
-        this.lastAddress = "0";
-        this.lastDivision = "0";
         this.commands = new ArrayList<>();
     }
 
@@ -53,30 +43,6 @@ public class CommunityApp implements Serializable {
 
     public void setIdDevice(Integer idDevice) {
         this.idDevice = idDevice;
-    }
-
-    public Integer getAddressGenerate() {
-        return addressGenerate;
-    }
-
-    public void setAddressGenerate(Integer addressGenerate) {
-        this.addressGenerate = addressGenerate;
-    }
-
-    public String getLastAddress() {
-        return lastAddress;
-    }
-
-    public void setLastAddress(String lastAddress) {
-        this.lastAddress = lastAddress;
-    }
-
-    public String getLastDivision() {
-        return lastDivision;
-    }
-
-    public void setLastDivision(String lastDivision) {
-        this.lastDivision = lastDivision;
     }
 
     public void advanceDate(LocalDate newDate) throws AddressDoesntExistException, DivisionDoesntExistException,
@@ -131,33 +97,30 @@ public class CommunityApp implements Serializable {
         return this.community.getCurrentDate();
     }
 
-    public String addSmartHouseLog(String name, String nif, String provider) throws AddressAlreadyExistsException, ProviderDoesntExistException {
-        this.lastAddress = this.addressGenerate.toString();
-        SmartHouse house = new SmartHouse(this.lastAddress, name, nif);
-        this.addressGenerate++;
+    public void addSmartHouse(String address, String name, String nif, String provider) throws AddressAlreadyExistsException, ProviderDoesntExistException {
+        SmartHouse house = new SmartHouse(address, name, nif);
         this.community.addSmartHouse(house, provider);
-        return this.lastAddress;
     }
 
-    public void addProviderLog(String provider) throws ProviderAlreadyExistsException {
+    public void addProvider(String provider) throws ProviderAlreadyExistsException {
         this.community.addProvider(new Provider(provider));
     }
 
-    public void addSmartBulbLog(String tone, String diameter, String baseConsumption) throws AddressDoesntExistException {
+    public void addSmartBulb(String address, String division, String tone, String diameter, String baseConsumption) throws AddressDoesntExistException {
         double installationCost = 5.99;
         SmartBulb smartBulb = new SmartBulb(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), tone, Integer.parseInt(diameter));
         this.idDevice++;
-        this.community.addSmartDevice(this.lastAddress, this.lastDivision, smartBulb);
+        this.community.addSmartDevice(address, division, smartBulb);
     }
 
-    public void addSmartSpeakerLog(String volume, String brand, String radio, String baseConsumption) throws AddressDoesntExistException {
+    public void addSmartSpeaker(String address, String division, String volume, String brand, String radio, String baseConsumption) throws AddressDoesntExistException {
         double installationCost = 20.99;
         SmartSpeaker smartSpeaker = new SmartSpeaker(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), Integer.parseInt(volume), brand, radio);
         this.idDevice++;
-        this.community.addSmartDevice(this.lastAddress, this.lastDivision, smartSpeaker);
+        this.community.addSmartDevice(address, division, smartSpeaker);
     }
     // TODO idDevice++?
-    public void addSmartCameraLog(String resolution, String dimension, String baseConsumption) throws AddressDoesntExistException {
+    public void addSmartCamera(String address, String division, String resolution, String dimension, String baseConsumption) throws AddressDoesntExistException {
         Integer[] resolutionInt = new Integer[2];
         String[] temp = resolution.split("x");
         resolutionInt[0] = Integer.parseInt(temp[0].substring(1));
@@ -165,13 +128,12 @@ public class CommunityApp implements Serializable {
         double installationCost = 50.99;
         SmartCamera smartCamera = new SmartCamera(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), resolutionInt, Integer.parseInt(dimension));
         this.idDevice++;
-        this.community.addSmartDevice(this.lastAddress, this.lastDivision, smartCamera);
+        this.community.addSmartDevice(address, division, smartCamera);
     }
 
-    public void addDivisionLog(String divisionName) throws DivisionAlreadyExistsException, AddressDoesntExistException {
+    public void addDivision(String address, String divisionName) throws DivisionAlreadyExistsException, AddressDoesntExistException {
         Division division = new Division(divisionName);
-        this.community.addDivision(this.lastAddress, division);
-        this.setLastDivision(divisionName);
+        this.community.addDivision(address, division);
     }
 
     //TODO mudar este toString pensando em como mostrar a app toda

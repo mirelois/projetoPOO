@@ -3,11 +3,11 @@ package com.poo.projeto;
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
-import com.poo.projeto.SmartHouse.Division;
-import com.poo.projeto.SmartHouse.Exceptions.*;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
+import com.poo.projeto.SmartHouse.Exceptions.*;
 
-import java.io.*;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -88,7 +88,8 @@ public class View {
                             List<String> lines = readLog(filename);
                             try {
                                 this.controller.parser(lines);
-                            } catch (NoSuchMethodException e) {
+                            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                                //TODO cuidado com exceptions
                                 e.printStackTrace();
                             }
                             this.executeMenuByName("simulationMenu", null);
