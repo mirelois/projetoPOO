@@ -64,20 +64,20 @@ public class Menu implements Serializable{
     }
 
     public void execute(List<String> args) {
-        int op;
+        int op, r = -1;
         do {
             showMenu();
             op = readOption();
             if (op > 0) {
                 if (this.preConditions.get(op-1).validate()) {
-                    op = this.handlers.get(op-1).execute(args);
+                    r = this.handlers.get(op-1).execute(args);
                 } else {
                     System.out.println("Opção indisponível no momento! Tente novamente.");
                 }
             } else {
                 System.out.println("Opção inválida");
             }
-        }while(op != 0);
+        }while(r != 0);
     }
 
     public void showMenu() {

@@ -2,7 +2,7 @@ package com.poo.projeto.Provider;
 
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithm;
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithmOne;
-import com.poo.projeto.Invoice;
+import com.poo.projeto.Invoice.Invoice;
 import com.poo.projeto.SmartHouse.SmartHouse;
 
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Provider implements Comparable<Provider>, Serializable {
-    private static int baseValueKWH, taxFactor;
+    private static double baseValueKWH = 2.4, taxFactor = 0.23;
     private String name;
     private Map<SmartHouse, Set<Invoice>> invoiceMap;
     private Double discountFactor;
@@ -76,19 +76,19 @@ public class Provider implements Comparable<Provider>, Serializable {
         }
     }
 
-    public static int getBaseValueKWH() {
+    public static double getBaseValueKWH() {
         return baseValueKWH;
     }
 
-    public static void setBaseValueKWH(int baseValueKWH) {
+    public static void setBaseValueKWH(double baseValueKWH) {
         Provider.baseValueKWH = baseValueKWH;
     }
 
-    public static int getTaxFactor() {
+    public static double getTaxFactor() {
         return taxFactor;
     }
 
-    public static void setTaxFactor(int taxFactor) {
+    public static void setTaxFactor(double taxFactor) {
         Provider.taxFactor = taxFactor;
     }
 
@@ -134,10 +134,15 @@ public class Provider implements Comparable<Provider>, Serializable {
 
     public Invoice invoiceEmission(SmartHouse house, LocalDate start, LocalDate end) {
         long days = ChronoUnit.DAYS.between(start, end);
-        Invoice invoice = new Invoice(start, end, house.totalConsumption()*days, this.dailyCost(house)*days + house.getIntalationCosts(), house.getAddress(), this.getName());
+        Invoice invoice = new Invoice(start, end, house.totalConsumption()*days, this.dailyCost(house)*days + house.getInstalationCosts(), house.getAddress(), this.getName());
         Set<Invoice> set = this.invoiceMap.get(house);
         if (set == null) {
-            set = new TreeSet<>(Comparator.comparingDouble(Invoice::getCost));
+            set = new TreeSet<>(new SerializableComparator<Invoice>() {
+                @Override
+                public int compare(Invoice o1, Invoice o2) {
+                    return Double.compare(o1.getCost(), o2.getCost());
+                }
+            });
             set.add(invoice);
             this.invoiceMap.put(house, set);
         } else {

@@ -216,7 +216,7 @@ public class Controller {
         return this.model.toString();
     }
 
-    public String houseWithMostConsumption(String start, String end) throws NoHouseInPeriodException {
+    public String houseWithMostConsumption(String start, String end) throws NoHouseInPeriodException, DateTimeParseException {
         return this.model.houseWithMostConsumption(start, end);
     }
 

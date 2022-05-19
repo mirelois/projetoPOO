@@ -96,6 +96,7 @@ public class View {
                                 this.controller.parseObjectFile(filename);
                             }catch (IOException | ClassNotFoundException e){
                                 e.printStackTrace();
+                                return 1;
                             }
 
                             this.executeMenuByName("simulationMenu", null);
@@ -252,13 +253,13 @@ public class View {
                         },
                         (args)-> { //casa que mais gastou
                             String start, end;
-                            System.out.println("Introduza a data de início:");
+                            System.out.println("Introduza a data de início (yyyy-MM-dd):");
                             start = is.nextLine();
-                            System.out.println("Introduza a data de fim:");
+                            System.out.println("Introduza a data de fim: (yyyy-MM-dd)");
                             end = is.nextLine();
                             try {
                                 System.out.println(this.controller.houseWithMostConsumption(start, end));
-                            } catch (NoHouseInPeriodException e) {
+                            } catch (DateTimeParseException | NoHouseInPeriodException e) {
                                 e.printStackTrace();
                             }
                             return 1;
@@ -283,9 +284,9 @@ public class View {
                         },
                         (args)-> { //ordenação de consumidores de energia
                             String start, end;
-                            System.out.println("Introduza a data de início:");
+                            System.out.println("Introduza a data de início (yyyy-MM-dd):");
                             start = is.nextLine();
-                            System.out.println("Introduza a data de fim:");
+                            System.out.println("Introduza a data de fim (yyyy-MM-dd):");
                             end = is.nextLine();
                             try {
                                 System.out.println(this.controller.orderedHousesByConsumption(start, end));
@@ -368,7 +369,7 @@ public class View {
         do {
             System.out.println("Introduza o nome do fornecedor:");
             provider = is.nextLine();
-        }while(this.controller.existsProvider(provider));
+        }while(!this.controller.existsProvider(provider));
         try {
             this.controller.addSmartHouse(address, name, nif, provider);
             ArrayList<String> arrayList = new ArrayList<>();
@@ -384,6 +385,7 @@ public class View {
         String name = is.nextLine();
         System.out.println("Introduza o fator de desconto:");
         Double discountFactor = is.nextDouble();
+        is.nextLine();
         //TODO adicionar mais coisas ao provider
         try {
             this.controller.addProvider(name, discountFactor);
@@ -445,6 +447,7 @@ public class View {
                                 String response = is.nextLine();
                                 try {
                                     if (response.equals("y")) {
+                                        System.out.println("hello");
                                         this.controller.turnSmartDevice(args.get(0), smartDevice, true);
                                     } else if (response.equals("n")) {
                                         this.controller.turnSmartDevice(args.get(0), smartDevice, false);
@@ -489,7 +492,7 @@ public class View {
                         },
                         (args) -> {
                             try {
-                                this.controller.printHouse(args.get(0));
+                                System.out.println((this.controller.printHouse(args.get(0))));
                             } catch (AddressDoesntExistException e) {
                                 e.printStackTrace();
                             }
@@ -626,10 +629,10 @@ public class View {
 
     public void run() {
         String initialDate;
-        do {
+        /*do {
             System.out.println("Introduza data inicial válida (YYYY-MM-DD)");
             initialDate = is.nextLine();
-        }while (this.controller.setInitialDate(initialDate));
+        }while (!this.controller.setInitialDate(initialDate));*/
 
         executeMenuByName("startMenu", null);
         //Boot

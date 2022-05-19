@@ -49,6 +49,9 @@ public class SmartBulb extends SmartDevice implements Serializable {
             case "NEUTRAL":
                 this.tone = 1;
                 break;
+            default:
+                this.tone = 1;
+                break;
         }
         this.diameter = diameter;
     }

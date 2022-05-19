@@ -1,9 +1,10 @@
-package com.poo.projeto;
+package com.poo.projeto.Invoice;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Invoice implements Comparable<Invoice>{
+public class Invoice implements Comparable<Invoice>, Serializable {
     private LocalDate start;
     private LocalDate end;
     private Double consumption;

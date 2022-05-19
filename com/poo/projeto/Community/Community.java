@@ -2,11 +2,12 @@ package com.poo.projeto.Community;
 
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithm;
-import com.poo.projeto.Invoice;
+import com.poo.projeto.Invoice.Invoice;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 import com.poo.projeto.Provider.Provider;
+import com.poo.projeto.Provider.SerializableComparator;
 import com.poo.projeto.SmartHouse.Division;
 import com.poo.projeto.SmartHouse.Exceptions.*;
 import com.poo.projeto.SmartHouse.SmartDevice;
@@ -78,13 +79,13 @@ public class Community implements Serializable {
         this.currentDate = LocalDate.of(currentDate.getYear(), currentDate.getMonth(), currentDate.getDayOfMonth());
     }
 
-    public SortedSet<SmartHouse> orderedHousesByConsumption(LocalDate start, LocalDate end) throws NoHouseInPeriodException {
-        SortedSet<SmartHouse> sortedSet = new TreeSet<>(Comparator.comparingDouble(o -> o.consumptionByPeriod(start, end)));
+    public List<SmartHouse> orderedHousesByConsumption(LocalDate start, LocalDate end) throws NoHouseInPeriodException {
+        //TODO tira completamente as casas que têm a mesma consumption lmao
         if (this.smartHouseMap.size() == 0) {
+            //TODO não faz muito sentido este teste
             throw new NoHouseInPeriodException("Nenhuma casa com consumo no período de " + start.toString() + " a " + end.toString());
         }
-        sortedSet.addAll(this.smartHouseMap.values().stream().map(SmartHouse::clone).collect(Collectors.toList()));
-        return sortedSet;
+        return this.smartHouseMap.values().stream().sorted((SerializableComparator<SmartHouse>) (o1, o2) -> Double.compare(o2.consumptionByPeriod(start, end), o1.consumptionByPeriod(start, end))).collect(Collectors.toList());
     }
 
     public List<Invoice> invoicesByProvider(String provider) throws ProviderDoesntExistException {

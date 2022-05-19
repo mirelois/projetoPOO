@@ -1,6 +1,6 @@
 package com.poo.projeto.SmartHouse;
 
-import com.poo.projeto.Invoice;
+import com.poo.projeto.Invoice.Invoice;
 import com.poo.projeto.Provider.Provider;
 import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
 import com.poo.projeto.SmartHouse.Exceptions.DivisionDoesntExistException;
@@ -16,31 +16,32 @@ public class SmartHouse implements Serializable {
     private String address;
     private Provider provider;
 
-    private Double intalationCosts;//falta adicionar nos construtores
+    private Double instalationCosts;//falta adicionar nos construtores
     private String name;
     private String nif;
     private List<Invoice> invoices;
     private Map<String, String> devices; // id -> string da divisão
     private Map<String, Division> divisions; // string da divisão -> Divisão (classe)
 
-
-    //TODO novas intancias nome e nif
     /**
      * Constructor for objects of class CasaInteligente
      */
     public SmartHouse() {
-        this.intalationCosts = 0.0;
+        this.instalationCosts = 0.0;
         this.address = "";
+        this.name = "";
+        this.nif = "";
         this.devices = new HashMap<>();
         this.divisions = new HashMap<>();
         this.provider = new Provider();
         this.invoices = new ArrayList<>();
     }
 
-    public SmartHouse(String address, Double intalationCosts, Map<String, String> devices, Map<String, Division> divisions, Provider provider, List<Invoice> invoices) {
-        //TODO não está a criar novas estruturas então de fora podem destruí-las
-        this.intalationCosts = intalationCosts;
+    public SmartHouse(String address, Double instalationCosts, Map<String, String> devices, Map<String, Division> divisions, Provider provider, List<Invoice> invoices) {
+        this.instalationCosts = instalationCosts;
         this.address = address;
+        this.name = "";
+        this.nif = "";
         this.devices = devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         this.divisions = divisions.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, div -> div.getValue().clone()));
         this.provider = provider;
@@ -48,7 +49,7 @@ public class SmartHouse implements Serializable {
     }
 
     public SmartHouse(SmartHouse smartHouse){
-        this.intalationCosts = smartHouse.getIntalationCosts();
+        this.instalationCosts = smartHouse.getInstalationCosts();
         this.address = smartHouse.getAddress();
         this.devices = smartHouse.getDevices();
         this.divisions = smartHouse.getDivisions();
@@ -57,7 +58,7 @@ public class SmartHouse implements Serializable {
     }
 
     public SmartHouse(String address, String name, String nif){
-        this.intalationCosts = 0.0;
+        this.instalationCosts = 0.0;
         this.address = address;
         this.name = name;
         this.nif = nif;
@@ -68,7 +69,7 @@ public class SmartHouse implements Serializable {
     }
 
     public SmartHouse(String address, String name, String nif, Provider provider){
-        this.intalationCosts = 0.0;
+        this.instalationCosts = 0.0;
         this.address = address;
         this.name = name;
         this.nif = nif;
@@ -105,12 +106,14 @@ public class SmartHouse implements Serializable {
         this.divisions = divisions.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e->e.getValue().clone()));
     }
 
-    public Double getIntalationCosts() {
-        return intalationCosts;
+    public Double getInstalationCosts() {
+        Double tmp = this.instalationCosts;
+        this.instalationCosts = 0.0;
+        return tmp;
     }
 
-    public void setIntalationCosts(Double intalationCosts) {
-        this.intalationCosts = intalationCosts;
+    public void setInstalationCosts(Double instalationCosts) {
+        this.instalationCosts = instalationCosts;
     }
     public Provider getProvider(){
         return this.provider;
@@ -151,7 +154,7 @@ public class SmartHouse implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) { // TODO Falta chechar owners e providers mas isso faz-se no fim (ya concordo -- carlos)
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SmartHouse that = (SmartHouse) o;
@@ -210,6 +213,7 @@ public class SmartHouse implements Serializable {
     }
 
     public Double consumptionByPeriod(LocalDate start, LocalDate end){
+        //TODO testar isto num ficheiro à parte a ver se funciona
         double cost = 0;
         for(Invoice invoice : invoices){
             if(isBetween(start, invoice.getStart(), invoice.getEnd())){
@@ -250,7 +254,7 @@ public class SmartHouse implements Serializable {
         if(divisions.containsKey(division)){
             //TODO cuidado com NullPointerExceptions por não existir uma divisão
             this.divisions.get(division).addDevice(smartDevice);
-            this.intalationCosts += smartDevice.getInstallationCost();
+            this.instalationCosts += smartDevice.getInstallationCost();
         }
 
     }
@@ -259,7 +263,7 @@ public class SmartHouse implements Serializable {
         //feito: é suposto a casa guardar a fatura que está a ser emitida para si
         Invoice newInvoice = this.provider.invoiceEmission(this, start, end);
         this.invoices.add(newInvoice);
-        this.intalationCosts = 0.0;
+        this.instalationCosts = 0.0;
         return newInvoice;
     }
 
@@ -297,7 +301,7 @@ public class SmartHouse implements Serializable {
     public void addSmartDevice(String divisionName, SmartDevice smartDevice){
         this.devices.put(smartDevice.getID(), divisionName);
         this.divisions.get(divisionName).addDevice(smartDevice);
-        this.intalationCosts += smartDevice.getInstallationCost();
+        this.instalationCosts += smartDevice.getInstallationCost();
     }
 
     @Override

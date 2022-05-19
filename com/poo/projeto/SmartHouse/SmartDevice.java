@@ -115,4 +115,14 @@ public abstract class SmartDevice implements Serializable {
         return on == that.on &&
                 Objects.equals(id, that.id);
     }
+
+    @Override
+    public String toString() {
+        return "SmartDevice{" +
+                "id='" + id + '\'' +
+                ", on=" + on +
+                ", installationCost=" + installationCost +
+                ", baseConsumption=" + baseConsumption +
+                '}';
+    }
 }

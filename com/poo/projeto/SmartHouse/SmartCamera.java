@@ -68,7 +68,8 @@ public class SmartCamera extends SmartDevice implements Serializable {
 
     @Override
     public String toString() { // toString default
-        return "SmartCamera{" +
+        return super.toString() +
+                "SmartCamera{" +
                 "resolution=" + Arrays.toString(resolution) +
                 ", dimension=" + dimension +
                 '}';

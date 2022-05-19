@@ -5,7 +5,7 @@ import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithm;
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithmOne;
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithmTwo;
-import com.poo.projeto.Invoice;
+import com.poo.projeto.Invoice.Invoice;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
@@ -50,12 +50,18 @@ public class CommunityApp implements Serializable {
             ProviderAlreadyExistsException, DeviceDoesntExistException,
             AddressAlreadyExistsException, ProviderDoesntExistException, DivisionAlreadyExistsException {
         this.community.advanceDate(newDate);
-        for (Command command : commands) {
+        Iterator<Command> iterator = commands.iterator();
+        Command command;
+        while (iterator.hasNext()) {
             //TODO se um command falhar não vai executar os outros nem limpar a lista
             //TODO ver se o comando é para ser executado no próximo ciclo ou não
-            command.execute(this.community);
+            command = iterator.next();
+            if (command.getExecutionTime().compareTo(newDate) < 0) {
+                command.execute(this.community);
+                iterator.remove();
+            }
         }
-        commands.clear();
+        //commands.clear();
     }
 
     public boolean existsProvider(String provider) {
@@ -111,6 +117,7 @@ public class CommunityApp implements Serializable {
 
     public void addSmartBulb(String address, String division, String tone, String diameter, String baseConsumption) throws AddressDoesntExistException {
         double installationCost = 5.99;
+        //TODO ler addSmartCamera
         SmartBulb smartBulb = new SmartBulb(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), tone, Integer.parseInt(diameter));
         this.idDevice++;
         this.community.addSmartDevice(address, division, smartBulb);
@@ -118,6 +125,7 @@ public class CommunityApp implements Serializable {
 
     public void addSmartSpeaker(String address, String division, String volume, String brand, String radio, String baseConsumption) throws AddressDoesntExistException {
         double installationCost = 20.99;
+        //TODO ler addSmartCamera
         SmartSpeaker smartSpeaker = new SmartSpeaker(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), Integer.parseInt(volume), brand, radio);
         this.idDevice++;
         this.community.addSmartDevice(address, division, smartSpeaker);
@@ -126,8 +134,10 @@ public class CommunityApp implements Serializable {
     public void addSmartCamera(String address, String division, String resolution, String dimension, String baseConsumption) throws AddressDoesntExistException {
         Integer[] resolutionInt = new Integer[2];
         String[] temp = resolution.split("x");
-        resolutionInt[0] = Integer.parseInt(temp[0].substring(1));
-        resolutionInt[1] = Integer.parseInt(temp[1].substring(0, temp[1].length()-1));
+        //TODO não gosto deste parse, o controller devia logo atirar erro se não funcionasse e o Model não tem nada que saber parses
+        //TODO isto vale tanto para o create como para o add
+        resolutionInt[0] = Integer.parseInt(temp[0]);
+        resolutionInt[1] = Integer.parseInt(temp[1]);
         double installationCost = 50.99;
         SmartCamera smartCamera = new SmartCamera(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), resolutionInt, Integer.parseInt(dimension));
         this.idDevice++;
@@ -155,9 +165,9 @@ public class CommunityApp implements Serializable {
         return this.community.providerToString(providerName);
     }
 
-    public String houseWithMostConsumption(String start, String end) throws NoHouseInPeriodException {
-        LocalDate s = LocalDate.parse(start, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        LocalDate e = LocalDate.parse(end, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    public String houseWithMostConsumption(String start, String end) throws NoHouseInPeriodException, DateTimeParseException {
+        LocalDate s = LocalDate.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate e = LocalDate.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         SmartHouse house = this.community.houseWithMostConsumption(s, e);
         return house.toString();
     }
@@ -173,13 +183,13 @@ public class CommunityApp implements Serializable {
     public List<String> orderedHousesByConsumption(String start, String end) throws NoHouseInPeriodException {
         LocalDate s, e;
         try {
-            s = LocalDate.parse(start, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            e = LocalDate.parse(end, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            s = LocalDate.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            e = LocalDate.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         } catch (DateTimeException ex) {
             return Arrays.asList(ex.toString());
         }
 
-        return this.community.orderedHousesByConsumption(s, e).stream().map(SmartHouse::getAddress).collect(Collectors.toList());
+        return this.community.orderedHousesByConsumption(s, e).stream().map(h -> h.getAddress() + " " + h.consumptionByPeriod(s, e).toString()).collect(Collectors.toList());
     }
 
     public void saveState(String fileName) throws FileNotFoundException, IOException {
@@ -261,10 +271,11 @@ public class CommunityApp implements Serializable {
     public Boolean setInitialDate(String initialDate) {
         LocalDate localDate;
         try {
-            localDate = LocalDate.parse(initialDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        }catch (DateTimeParseException e) {
+            localDate = LocalDate.parse(initialDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));;
+        } catch (DateTimeParseException e) {
             return false;
         }
+        System.out.println(localDate.toString());
         this.community.setCurrentDate(localDate);
         return true;
     }

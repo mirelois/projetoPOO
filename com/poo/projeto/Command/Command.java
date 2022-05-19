@@ -5,9 +5,10 @@ import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 import com.poo.projeto.SmartHouse.Exceptions.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public abstract class Command {
+public abstract class Command implements Serializable {
     private LocalDate executionTime;
 
     public Command(LocalDate executionTime){
