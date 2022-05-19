@@ -230,4 +230,11 @@ public class Community implements Serializable {
     public boolean isSmartDeviceOn(String address, String smartDevice) throws AddressDoesntExistException, DeviceDoesntExistException {
         return this.getSmartHouseByAddress(address).isSmartDeviceOn(smartDevice);
     }
+
+    public void advanceDate(LocalDate newDate) {
+        for(SmartHouse house : this.getSmartHouseMap().values()) {
+            house.invoiceEmission(this.getCurrentDate(), newDate);
+        }
+        this.setCurrentDate(newDate);
+    }
 }

@@ -1,5 +1,6 @@
 package com.poo.projeto.Community;
 
+import com.poo.projeto.Command.*;
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithm;
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithmOne;
@@ -34,12 +35,15 @@ public class CommunityApp implements Serializable {
 
     private String lastDivision;
 
+    private List<Command> commands;
+
     public CommunityApp() {
         this.community = new Community();
         this.idDevice = 0;
         this.addressGenerate = 0;
         this.lastAddress = "0";
         this.lastDivision = "0";
+        this.commands = new ArrayList<>();
     }
 
     public Integer getIdDevice() {
@@ -74,11 +78,13 @@ public class CommunityApp implements Serializable {
         this.lastDivision = lastDivision;
     }
 
-    public void advanceDate(LocalDate newDate) {
-        for(SmartHouse house : community.getSmartHouseMap().values()) {
-            house.invoiceEmission(community.getCurrentDate(), newDate);
+    public void advanceDate(LocalDate newDate) throws AddressDoesntExistException, DivisionDoesntExistException, ProviderAlreadyExistsException, DeviceDoesntExistException, AddressAlreadyExistsException, ProviderDoesntExistException, DivisionAlreadyExistsException {
+        this.community.advanceDate(newDate);
+        for (Command command : commands) {
+            //TODO se um command falhar não vai executar os outros nem limpar a lista
+            command.execute(this);
         }
-        community.setCurrentDate(newDate);
+        commands.clear();
     }
 
     public boolean existsProvider(String provider) {
@@ -249,4 +255,30 @@ public class CommunityApp implements Serializable {
     public void setBaseConsumption(String address, String device, Double baseConsumption) throws AddressDoesntExistException, DeviceDoesntExistException {
         this.community.setBaseConsumption(address, device, baseConsumption);
     }
+
+    public void setSmartHouseProviderFake(String address, String provider) {
+        this.commands.add(new setSmartHouseProviderCommand(this.community.getCurrentDate(), address, provider));
+    }
+
+    public void setProviderAlgorithmFake(String providerName, int algorithm) {
+        this.commands.add(new setProviderAlgorthmCommand(this.community.getCurrentDate(), providerName, algorithm));
+    }
+
+    public void addDivisionFake(String divisionName) {
+        this.commands.add(new addDivisionCommand(this.community.getCurrentDate(), divisionName));
+    }
+
+    public void addProviderFake(String providerName) {
+        this.commands.add(new addProviderCommand(this.community.getCurrentDate(), providerName));
+    }
+
+    public void addSmartBulbFake(String division, String tone, String diameter, String baseConsumption) {
+        this.commands.add(new addSmartBulbCommand(this.community.getCurrentDate(), division, tone, diameter, baseConsumption));
+    }
+
+    public void addSmartCameraFake(String division, String resolution, String dimension, String baseConsumption) {
+        this.commands.add(new addSmartCameraCommand(this.community.getCurrentDate(), division, resolution, dimension, baseConsumption));
+    }
+
+    public void addSmartHouseFake()
 }

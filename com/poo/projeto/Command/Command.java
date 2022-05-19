@@ -7,7 +7,7 @@ import com.poo.projeto.SmartHouse.Exceptions.*;
 
 import java.time.LocalDate;
 
-abstract class Command {
+public abstract class Command {
     LocalDate executionTime;
 
     public abstract void execute(CommunityApp app) throws AddressAlreadyExistsException, ProviderDoesntExistException, ProviderAlreadyExistsException, DivisionAlreadyExistsException, AddressDoesntExistException, DeviceDoesntExistException, DivisionDoesntExistException;
