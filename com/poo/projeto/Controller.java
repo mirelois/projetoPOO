@@ -181,7 +181,7 @@ public class Controller {
         this.model.turnDivision(null, address, division, false);
     }
 
-    public void advanceXCicles(int numberOfCicles) {
+    public void advanceXCicles(int numberOfCicles) throws AddressDoesntExistException, DivisionAlreadyExistsException, DivisionDoesntExistException, ProviderAlreadyExistsException, AddressAlreadyExistsException, ProviderDoesntExistException, DeviceDoesntExistException {
         this.model.advanceXCicles(numberOfCicles);
     }
 

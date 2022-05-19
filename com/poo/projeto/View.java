@@ -192,7 +192,9 @@ public class View {
                         (args) -> {
                             System.out.println("Quantos ciclos?");
                             if (is.hasNextInt()) {
-                                this.controller.advanceXCicles(is.nextInt());
+                                try {
+                                    this.controller.advanceXCicles(is.nextInt());
+                                }
                                 is.nextLine();
                                 return this.controller.isAutomaticSimulationOver() ? 0 : 1;
                             } else {

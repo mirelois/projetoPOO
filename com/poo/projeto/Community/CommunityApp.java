@@ -20,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -288,16 +289,16 @@ public class CommunityApp implements Serializable {
         LocalDate current = this.community.getCurrentDate();
         int i = 0;
         //TODO iterator nisto para conseguir pôr as duas condições juntas
-
-        for (Command command : commands) {
-            while (i < numberOfCicles) {
-                if (!command.getExecutionTime().equals(current)) {
-                    i++;
-                    this.community.advanceDate(command.getExecutionTime());
-                    current = command.getExecutionTime();
-                }
-                command.execute(this.community);
+        Iterator<Command> iterator = commands.iterator();
+        Command command;
+        while(iterator.hasNext() && i< numberOfCicles) {
+            command = iterator.next();
+            if (!command.getExecutionTime().equals(current)) {
+                i++;
+                this.community.advanceDate(command.getExecutionTime());
+                current = command.getExecutionTime();
             }
+            command.execute(this.community);
         }
     }
 
