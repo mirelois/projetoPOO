@@ -37,7 +37,7 @@ public class SmartHouse implements Serializable {
         this.invoices = new ArrayList<>();
     }
 
-    public SmartHouse(Owner owner, String address, Double intalationCosts, Map<String, String> devices, Map<String, Division> divisions, Provider provider, List<Invoice> invoices) {
+    public SmartHouse(String address, Double intalationCosts, Map<String, String> devices, Map<String, Division> divisions, Provider provider, List<Invoice> invoices) {
         //TODO não está a criar novas estruturas então de fora podem destruí-las
         this.intalationCosts = intalationCosts;
         this.address = address;
