@@ -302,16 +302,26 @@ public class Controller {
         this.model.addDivision(address, divisionName);
     }
 
-    public void addSmartBulb() throws AddressDoesntExistException {
-        this.model.addSmartBulb(args[1], args[2], args[3]);
+    public void addSmartSpeaker(String address, String division, String volume, String brand, String radio, String baseConsumption) throws AddressDoesntExistException {
+        this.model.addSmartSpeaker(address, division, volume, brand, radio, baseConsumption);
     }
 
-    public void addSmartCamera()
+    public void addSmartBulb(String address, String division, String tone, String diameter, String baseConsumption) throws AddressDoesntExistException {
+        this.model.addSmartBulb(address, division, tone, diameter, baseConsumption);
+    }
+
+    public void addSmartCamera(String address, String division, String resolution, String dimension, String baseConsumption) throws AddressDoesntExistException {
+        this.model.addSmartCamera(address, division, resolution, dimension, baseConsumption);
+    }
 
     public void addSmartHouse(String address, String name, String nif, String provider) throws ProviderDoesntExistException, AddressAlreadyExistsException{
         this.model.addSmartHouse(address, name, nif, provider);
     }
 
     public void parseObjectFile(String filename) {
+    }
+
+    public void addProvider(String name) throws ProviderAlreadyExistsException {
+        this.model.addProvider(name);
     }
 }

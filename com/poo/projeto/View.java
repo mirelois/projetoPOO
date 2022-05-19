@@ -377,6 +377,7 @@ public class View {
     private void addProviderView() {
         System.out.println("Introduza o nome do fornecedor:");
         String name = is.nextLine();
+        //TODO adicionar mais coisas ao provider
         try {
             this.controller.addProvider(name);
             this.executeMenuByName("alterSimulationDetailsProvider", Arrays.asList(name));
