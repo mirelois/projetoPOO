@@ -566,11 +566,11 @@ public class View {
                 new String[]{"SmartBulb", "SmartCamera", "SmartSpeaker", "Menu Anterior"},
                 new Menu.Handler[]{
                         (args) -> {
-
+                            System.out.println("");
                             return 1;
                         },
                         (args) -> {
-                            this.controller.changeProviderAlgorithm(args.get(0), 2);
+
                             return 1;
                         },
                         (args) -> {
