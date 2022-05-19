@@ -302,4 +302,8 @@ public class Controller {
     }
 
     public void addSmartCamera()
+
+    public void addSmartHouse(String address, String name, String nif, String provider) throws ProviderDoesntExistException, AddressAlreadyExistsException{
+        this.model.addSmartHouse(address, name, nif, provider);
+    }
 }
