@@ -17,6 +17,7 @@ import java.io.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -255,6 +256,17 @@ public class CommunityApp implements Serializable {
             if (i<numberOfCicles)
                 command.execute(this.community);
         }
+    }
+
+    public Boolean setInitialDate(String initialDate) {
+        LocalDate localDate;
+        try {
+            localDate = LocalDate.parse(initialDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }catch (DateTimeParseException e) {
+            return false;
+        }
+        this.community.setCurrentDate(localDate);
+        return true;
     }
 
     /* public void setProviderDiscountFactor(String providerName, Double discountFactor) throws ProviderDoesntExistException {

@@ -12,6 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class View {
@@ -624,8 +625,12 @@ public class View {
     }
 
     public void run() {
-        System.out.println("Introduza a data incial");
-        String initialDate = is.nextLine();
+        String initialDate;
+        do {
+            System.out.println("Introduza data inicial válida (YYYY-MM-DD)");
+            initialDate = is.nextLine();
+        }while (this.controller.setInitialDate(initialDate));
+
         executeMenuByName("startMenu", null);
         //Boot
         //Introduzir data inicial

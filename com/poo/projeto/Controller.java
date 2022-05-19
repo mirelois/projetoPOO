@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
@@ -324,5 +325,9 @@ public class Controller {
 
     public void addProvider(String name, Double discountFactor) throws ProviderAlreadyExistsException {
         this.model.addProvider(name, discountFactor);
+    }
+
+    public Boolean setInitialDate(String initialDate) {
+        return  this.model.setInitialDate(initialDate);
     }
 }
