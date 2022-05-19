@@ -202,10 +202,14 @@ public class CommunityApp implements Serializable {
         this.commands.add(new setBaseConsumptionCommand(localDate, address, deviceName, baseConsumption));
     }
 
-    public void setProviderAlgorithm(String date, String providerName, int algorithm) {
+    public LocalDate getDate(String date) {
         LocalDate localDate = this.community.getCurrentDate();
         if (date != null)
-            localDate = LocalDate.parse(date);
+            localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+        return localDate;
+    }
+
+    public void setProviderAlgorithm(String date, String providerName, int algorithm) {
         DailyCostAlgorithm dailyCostAlgorithm;
         switch (algorithm) {
             case 2:
@@ -215,35 +219,23 @@ public class CommunityApp implements Serializable {
                 dailyCostAlgorithm = DailyCostAlgorithmOne.getInstance();
                 break;
         }
-        this.commands.add(new setProviderAlgorthmCommand(localDate, providerName, dailyCostAlgorithm));
+        this.commands.add(new setProviderAlgorthmCommand(getDate(date), providerName, dailyCostAlgorithm));
     }
 
     public void setProviderDiscountFactor(String date, String providerName, Double discountFactor) {
-        LocalDate localDate = this.community.getCurrentDate();
-        if (date != null)
-            localDate = LocalDate.parse(date);
-        this.commands.add(new setProviderDiscountFactorCommand(localDate, providerName, discountFactor));
+        this.commands.add(new setProviderDiscountFactorCommand(getDate(date), providerName, discountFactor));
     }
 
     public void setSmartHouseProvider(String date, String address, String provider) {
-        LocalDate localDate = this.community.getCurrentDate();
-        if (date != null)
-            localDate = LocalDate.parse(date);
-        this.commands.add(new setSmartHouseProviderCommand(localDate, address, provider));
+        this.commands.add(new setSmartHouseProviderCommand(getDate(date), address, provider));
     }
 
     public void turnDivision(String date, String address, String division, Boolean b) {
-        LocalDate localDate = this.community.getCurrentDate();
-        if (date != null)
-            localDate = LocalDate.parse(date);
-        this.commands.add(new turnDivisionCommand(localDate, address, division, b));
+        this.commands.add(new turnDivisionCommand(getDate(date), address, division, b));
     }
 
     public void turnSmartDevice(String date, String address, String smartDevice, Boolean b) {
-        LocalDate localDate = this.community.getCurrentDate();
-        if (date != null)
-            localDate = LocalDate.parse(date);
-        this.commands.add(new turnSmartDeviceCommand(localDate, address, smartDevice, b));
+        this.commands.add(new turnSmartDeviceCommand(getDate(date), address, smartDevice, b));
     }
 
     public void advanceXCicles(int numberOfCicles) throws AddressDoesntExistException, DivisionDoesntExistException, ProviderAlreadyExistsException, DeviceDoesntExistException, AddressAlreadyExistsException, ProviderDoesntExistException, DivisionAlreadyExistsException {

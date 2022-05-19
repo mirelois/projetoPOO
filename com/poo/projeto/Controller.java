@@ -174,7 +174,7 @@ public class Controller {
         return this.model.isSmartDeviceOn(address, smartDevice);
     }
 
-    public void turnSmartDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException, DeviceDoesntExistException {
+    public void turnSmartDevice(String address, String smartDevice, boolean b) throws DeviceDoesntExistException {
         this.model.turnSmartDevice(null, address, smartDevice, b);
     }
 
