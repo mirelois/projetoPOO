@@ -31,6 +31,7 @@ public class View {
         this.addMenu(createAlterSimulationDetailsHouseMenu());
         this.addMenu(createAlterSimulationDetailsProviderMenu());
         this.addMenu(createAlterProviderAlgorithmMenu());
+        this.addMenu(createAddSmartDeviceMenu());
     }
 
     public View(View view){
@@ -186,23 +187,12 @@ public class View {
 
     public Menu createAutomaticSimulationMenu() {
         return  new Menu("automaticSimulationMenu",
-                new String[]{"Avançar X Ciclos de Faturação", "Avançar X Ações", "Avançar Fim Simulação Automática", "Menu: Impressão"},
+                new String[]{"Avançar X Ciclos de Faturação", "Avançar Fim Simulação Automática", "Menu: Impressão"},
                 new Menu.Handler[]{
                         (args) -> {
                             System.out.println("Quantos ciclos?");
                             if (is.hasNextInt()) {
                                 this.controller.advanceXCicles(is.nextInt());
-                                is.nextLine();
-                                return this.controller.isAutomaticSimulationOver() ? 0 : 1;
-                            } else {
-                                System.out.println("Número inválido.");
-                                return 1;
-                            }
-                        },
-                        (args) -> {
-                            System.out.println("Quantos ciclos?");
-                            if (is.hasNextInt()) {
-                                this.controller.advanceXActions(is.nextInt());
                                 is.nextLine();
                                 return this.controller.isAutomaticSimulationOver() ? 0 : 1;
                             } else {
@@ -220,7 +210,6 @@ public class View {
                         }
                 },
                 new Menu.PreCondition[]{
-                        () -> true,
                         () -> true,
                         () -> true,
                         () -> this.controller.isSimulationEmpty()
@@ -400,10 +389,7 @@ public class View {
                             System.out.println("Introduza o nome da divisão onde adicionar.");
                             String division = is.nextLine();
 
-                            if (this.controller.existsDivision(args.get(0), division)) {
-                                args.add(division);
-                                this.executeMenuByName("addSmartDeviceMenu", args);
-                            } else {
+                            if (!this.controller.existsDivision(args.get(0), division)) {
                                 System.out.println("Divisão não existente.");
                                 System.out.println("Deseja criar? (y/n)");
                                 String read = is.nextLine();
@@ -412,10 +398,14 @@ public class View {
                                         this.controller.addDivision(args.get(0), division);
                                     } catch (AddressDoesntExistException | DivisionAlreadyExistsException e ) {
                                         e.printStackTrace();
+                                        return 1;
                                     }
-                                    this.addSmartDeviceView(args.get(0), division);
+                                } else {
+                                    return 1;
                                 }
                             }
+                            args.add(division);
+                            this.executeMenuByName("addSmartDeviceMenu", args);
                             return 1;
                         },
                         (args) -> {
@@ -566,7 +556,7 @@ public class View {
                 new String[]{"SmartBulb", "SmartCamera", "SmartSpeaker", "Menu Anterior"},
                 new Menu.Handler[]{
                         (args) -> {
-                            System.out.println("");
+                            System.out.println("Introduza o ");
                             return 1;
                         },
                         (args) -> {

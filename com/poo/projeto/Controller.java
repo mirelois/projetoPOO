@@ -16,7 +16,6 @@ import java.util.*;
 
 public class Controller {
 
-    private Map<String, Method> addMap;
     private CommunityApp model;
 
     //lista de comandos que pode estar vazia
@@ -29,14 +28,8 @@ public class Controller {
         this.model = model;
     }
 
-    public Controller(CommunityApp community) throws NoSuchMethodException {
+    public Controller(CommunityApp community) {
         this.setModel(community);
-        String[] everyC = {"SmartBulb", "SmartCamera",
-                "SmartSpeaker", "SmartHouse", "Division", "Provider"};
-        this.addMap = new HashMap<>();
-        for(String s: everyC) {
-            this.addMap.put(s, this.getClass().getDeclaredMethod("add" + s, String.class));
-        }
     }
 
     public void saveState(String fileName) throws FileNotFoundException, IOException {
@@ -174,7 +167,7 @@ public class Controller {
     }
 
     public void turnSmartDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException, DeviceDoesntExistException {
-        this.model.turnSmartDevice(address, smartDevice, b);
+        this.model.turnSmartDevice(null, address, smartDevice, b);
     }
 
     public boolean isSimulationEmpty() {
@@ -182,20 +175,15 @@ public class Controller {
     }
 
     public void turnONDivision(String address, String division) throws AddressDoesntExistException, DivisionDoesntExistException {
-        this.model.turnDivision(address, division, true);
+        this.model.turnDivision(null, address, division, true);
     }
 
     public void turnOFFDivision(String address, String division) throws AddressDoesntExistException, DivisionDoesntExistException {
-        this.model.turnDivision(address, division, false);
+        this.model.turnDivision(null, address, division, false);
     }
 
     public void advanceXCicles(int numberOfCicles) {
-        System.out.println("todo");
-    }
-
-    public void advanceXActions(int numberOfActions) {
-        System.out.println("todo");
-
+        this.model.advanceXCicles(numberOfCicles);
     }
 
     public boolean isAutomaticSimulationOver() {
@@ -259,7 +247,7 @@ public class Controller {
     }
 
     public void parseActions(List<String> lines) throws AddressDoesntExistException, NumberFormatException, ProviderDoesntExistException, DeviceDoesntExistException, DivisionDoesntExistException {
-
+        //TODO falta ver o dia
         String[] brokenLine;
         for (String line : lines) {
             brokenLine = line.split(", ");
@@ -267,26 +255,26 @@ public class Controller {
                 if (this.model.existsSmartDevice(brokenLine[1], brokenLine[2])) {
                     switch (brokenLine[3]) {
                         case "setOn":
-                            this.model.turnSmartDevice(brokenLine[1], brokenLine[2], true);
+                            this.model.turnSmartDevice(date, brokenLine[1], brokenLine[2], true);
                             break;
                         case "setOff":
-                            this.model.turnSmartDevice(brokenLine[1], brokenLine[2], false);
+                            this.model.turnSmartDevice(date, brokenLine[1], brokenLine[2], false);
                             break;
                         case "changeBaseConsumption":
                             //TODO porcaria
                             Double baseConsumption = Double.parseDouble(brokenLine[4]);
-                            this.model.setBaseConsumption(brokenLine[1], brokenLine[2], baseConsumption);
+                            this.model.setBaseConsumption(date, brokenLine[1], brokenLine[2], baseConsumption);
                             break;
                     }
                 } else if (this.model.existsProvider(brokenLine[2])) {
-                    this.model.setSmartHouseProvider(brokenLine[1], brokenLine[2]);
+                    this.model.setSmartHouseProvider(date, brokenLine[1], brokenLine[2]);
                 } else if (this.model.existsDivision(brokenLine[1], brokenLine[2])) {
                     switch (brokenLine[3]) {
                         case "setOn":
-                            this.model.turnDivision(brokenLine[1], brokenLine[3], true);
+                            this.model.turnDivision(date, brokenLine[1], brokenLine[3], true);
                             break;
                         case "setOff":
-                            this.model.turnDivision(brokenLine[1], brokenLine[3], false);
+                            this.model.turnDivision(date, brokenLine[1], brokenLine[3], false);
                             break;
                     }
                 }
@@ -294,30 +282,25 @@ public class Controller {
                 switch (brokenLine[2]) {
                     case "alteraValorDesconto":
                         Double newDiscount = Double.parseDouble(brokenLine[3]);
-                        this.model.setProviderDiscountFactor(brokenLine[1], newDiscount);
+                        this.model.setProviderDiscountFactor(date, brokenLine[1], newDiscount);
                         break;
                     case "alteraAlgoritmo":
                         int numAlgorithm = Integer.parseInt(brokenLine[3]);
-                        this.model.setProviderAlgorithm(brokenLine[1], numAlgorithm);
+                        this.model.setProviderAlgorithm(date, brokenLine[1], numAlgorithm);
                         break;
                 }
             }
         }
     }
 
-    public void add(String[] args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        Method method = this.addMap.get(args[0]);
-        if (method == null)
-            throw new NoSuchMethodException("No method named " + args[0]);
-        method.invoke(args);
-    }
-
-    public void addDivision(String[] args) throws AddressDoesntExistException, DivisionAlreadyExistsException {
+    public void addDivision(String address, String divisionName) throws AddressDoesntExistException, DivisionAlreadyExistsException {
         //TODO mudar quando conseguir receber address
-        this.model.addDivision(args[1], args[2]);
+        this.model.addDivision(address, divisionName);
     }
 
-    public void addSmartBulb(String[] args) throws AddressDoesntExistException {
+    public void addSmartBulb() throws AddressDoesntExistException {
         this.model.addSmartBulb(args[1], args[2], args[3]);
     }
+
+    public void addSmartCamera()
 }

@@ -15,7 +15,7 @@ public abstract class Command {
         this.executionTime = executionTime;
     }
 
-    private LocalDate getExecutionTime(){
+    public LocalDate getExecutionTime(){
         return this.executionTime;
     }
 

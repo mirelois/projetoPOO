@@ -17,6 +17,7 @@ import java.io.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -83,6 +84,7 @@ public class CommunityApp implements Serializable {
         this.community.advanceDate(newDate);
         for (Command command : commands) {
             //TODO se um command falhar não vai executar os outros nem limpar a lista
+            //TODO ver se o comando é para ser executado no próximo ciclo ou não
             command.execute(this.community);
         }
         commands.clear();
@@ -116,13 +118,13 @@ public class CommunityApp implements Serializable {
         return community.isSmartDeviceOn(address, smartDevice);
     }
 
-    public void turnSmartDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException, DeviceDoesntExistException {
-        community.turnSmartDevice(address, smartDevice, b);
-    }
-
-    public void turnDivision(String address, String division, boolean b) throws AddressDoesntExistException, DivisionDoesntExistException {
-        community.turnDivision(address, division, b);
-    }
+    //public void turnSmartDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException, DeviceDoesntExistException {
+    //    community.turnSmartDevice(address, smartDevice, b);
+    //}
+//
+    //public void turnDivision(String address, String division, boolean b) throws AddressDoesntExistException, DivisionDoesntExistException {
+    //    community.turnDivision(address, division, b);
+    //}
 
     public LocalDate getCurrentDate() {
         return this.community.getCurrentDate();
@@ -231,11 +233,17 @@ public class CommunityApp implements Serializable {
         return newComunityApp;
     }
 
-    public void setBaseConsumption(String address, String deviceName, Double baseConsumption) {
-        this.commands.add(new setBaseConsumptionCommand(this.community.getCurrentDate() ,address, deviceName, baseConsumption));
+    public void setBaseConsumption(String date, String address, String deviceName, Double baseConsumption) {
+        LocalDate localDate = this.community.getCurrentDate();
+        if (date != null)
+            localDate = LocalDate.parse(date);
+        this.commands.add(new setBaseConsumptionCommand(localDate, address, deviceName, baseConsumption));
     }
 
-    public void setProviderAlgorithm(String providerName, int algorithm) {
+    public void setProviderAlgorithm(String date, String providerName, int algorithm) {
+        LocalDate localDate = this.community.getCurrentDate();
+        if (date != null)
+            localDate = LocalDate.parse(date);
         DailyCostAlgorithm dailyCostAlgorithm;
         switch (algorithm) {
             case 2:
@@ -245,23 +253,52 @@ public class CommunityApp implements Serializable {
                 dailyCostAlgorithm = DailyCostAlgorithmOne.getInstance();
                 break;
         }
-        this.commands.add(new setProviderAlgorthmCommand(this.community.getCurrentDate(), providerName, dailyCostAlgorithm));
+        this.commands.add(new setProviderAlgorthmCommand(localDate, providerName, dailyCostAlgorithm));
     }
 
-    public void setProviderDiscountFactor(String providerName, Double discountFactor) {
-        this.commands.add(new setProviderDiscountFactorCommand(this.community.getCurrentDate(), providerName, discountFactor));
+    public void setProviderDiscountFactor(String date, String providerName, Double discountFactor) {
+        LocalDate localDate = this.community.getCurrentDate();
+        if (date != null)
+            localDate = LocalDate.parse(date);
+        this.commands.add(new setProviderDiscountFactorCommand(localDate, providerName, discountFactor));
     }
 
-    public void setSmartHouseProvider(String address, String provider) {
-        this.commands.add(new setSmartHouseProviderCommand(this.community.getCurrentDate(), address, provider));
+    public void setSmartHouseProvider(String date, String address, String provider) {
+        LocalDate localDate = this.community.getCurrentDate();
+        if (date != null)
+            localDate = LocalDate.parse(date);
+        this.commands.add(new setSmartHouseProviderCommand(localDate, address, provider));
     }
 
-    public void turnDivision(String address, String division, Boolean b) {
-        this.commands.add(new turnDivisionCommand(this.community.getCurrentDate(), address, division, b));
+    public void turnDivision(String date, String address, String division, Boolean b) {
+        LocalDate localDate = this.community.getCurrentDate();
+        if (date != null)
+            localDate = LocalDate.parse(date);
+        this.commands.add(new turnDivisionCommand(localDate, address, division, b));
     }
 
-    public void turnSmartDevice(String address, String smartDevice, Boolean b) {
-        this.commands.add(new turnSmartDeviceCommand(this.community.getCurrentDate(), address, smartDevice, b));
+    public void turnSmartDevice(String date, String address, String smartDevice, Boolean b) {
+        LocalDate localDate = this.community.getCurrentDate();
+        if (date != null)
+            localDate = LocalDate.parse(date);
+        this.commands.add(new turnSmartDeviceCommand(localDate, address, smartDevice, b));
+    }
+
+    public void advanceXCicles(int numberOfCicles) throws AddressDoesntExistException, DivisionDoesntExistException, ProviderAlreadyExistsException, DeviceDoesntExistException, AddressAlreadyExistsException, ProviderDoesntExistException, DivisionAlreadyExistsException {
+        LocalDate current = this.community.getCurrentDate();
+        int i = 0;
+        //TODO iterator nisto para conseguir pôr as duas condições juntas
+
+        for (Command command : commands) {
+            while (i < numberOfCicles) {
+                if (!command.getExecutionTime().equals(current)) {
+                    i++;
+                    this.community.advanceDate(command.getExecutionTime());
+                    current = command.getExecutionTime();
+                }
+                command.execute(this.community);
+            }
+        }
     }
 
     /* public void setProviderDiscountFactor(String providerName, Double discountFactor) throws ProviderDoesntExistException {
