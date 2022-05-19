@@ -84,7 +84,7 @@ public class CommunityApp implements Serializable {
         this.community.advanceDate(newDate);
         for (Command command : commands) {
             //TODO se um command falhar não vai executar os outros nem limpar a lista
-            command.execute(this);
+            command.execute(this.community);
         }
         commands.clear();
     }
@@ -242,13 +242,12 @@ public class CommunityApp implements Serializable {
             case 2:
                 dailyCostAlgorithm = DailyCostAlgorithmTwo.getInstance();
                 break;
-            default:
-                dailyCostAlgorithm = DailyCostAlgorithmOne.getInstance();
-                break;
-        }
-        this.community.setProviderAlgorithm(providerName, dailyCostAlgorithm);
-     //TODO fazer isto if u can
+        default:
+        dailyCostAlgorithm = DailyCostAlgorithmOne.getInstance();
+        break;
     }
+        this.community.setProviderAlgorithm(providerName, dailyCostAlgorithm);
+}
 
     public void setSmartHouseProvider(String address, String provider) throws AddressDoesntExistException, ProviderDoesntExistException {
         this.community.setSmartHouseProvider(address, provider);
@@ -274,12 +273,14 @@ public class CommunityApp implements Serializable {
         this.commands.add(new addSmartCameraCommand(this.community.getCurrentDate(), division, resolution, dimension, baseConsumption));
     }
 
-    public void addSmartSpeakerFake(String division, String volume, String brand, String radio, String baseConsumption) {
-        this.commands.add(new addSmartSpeakerCommand(this.community.getCurrentDate(), division, volume, brand, radio, baseConsumption));
+    public void addSmartSpeakerFake(String division, String address,Double baseConsumption, Integer volume, String brand, String radio) {
+        SmartSpeaker smartSpeaker = new SmartSpeaker(this.idDevice.toString(), baseConsumption, volume, brand, radio);
+        idDevice++;
+        this.commands.add(new addSmartSpeakerCommand(this.community.getCurrentDate(), division, address, smartSpeaker);
     }
 
     public void addSmartHouseFake(String name, String nif, String provider) {
-        this.commands.add(new addSmarthouseCommand(this.community.getCurrentDate(), name, nif, provider));
+        this.commands.add(new addSmartHouseCommand(this.community.getCurrentDate(), name, nif, provider));
     }
 
     public void setProviderAlgorithmFake(String providerName, int algorithm) {

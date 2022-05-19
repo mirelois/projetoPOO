@@ -2,12 +2,10 @@ package com.poo.projeto;
 
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
+import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.SmartHouse.Division;
-import com.poo.projeto.SmartHouse.Exceptions.AddressAlreadyExistsException;
-import com.poo.projeto.SmartHouse.Exceptions.AddressDoesntExistException;
+import com.poo.projeto.SmartHouse.Exceptions.*;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
-import com.poo.projeto.SmartHouse.Exceptions.DeviceDoesntExistException;
-import com.poo.projeto.SmartHouse.Exceptions.DivisionDoesntExistException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -367,21 +365,23 @@ public class View {
         String nif = is.nextLine();
         System.out.println("Introduza o nome do fornecedor:");
         String provider = is.nextLine();
-        String address = null;
         try {
-            address = this.controller.createSmartHouse(name + "," + nif + "," + provider);
+            String address = this.controller.createSmartHouse(name + "," + nif + "," + provider);
+            this.executeMenuByName("alterSimulationDetailsHouse", new String[]{address});
         } catch (ProviderDoesntExistException | AddressAlreadyExistsException e) {
             e.printStackTrace();
         }
-        if (address != null)
-            this.executeMenuByName("alterSimulationDetailsHouse", new String[]{address});
     }
 
     private void addProviderView() {
         System.out.println("Introduza o nome do fornecedor:");
         String name = is.nextLine();
-        this.controller.createProvider(name);
-        this.executeMenuByName("alterSimulationDetailsProvider", new String[]{name});
+        try {
+            this.controller.createProvider(name);
+            this.executeMenuByName("alterSimulationDetailsProvider", new String[]{name});
+        } catch (ProviderAlreadyExistsException e) {
+            e.printStackTrace();
+        }
     }
 
     public Menu createAlterSimulationDetailsHouseMenu() {
@@ -400,7 +400,11 @@ public class View {
                                 System.out.println("Deseja criar? (y/n)");
                                 String read = is.nextLine();
                                 if (read.equals("y")) {
-                                    this.controller.addDivision(args[0], division);
+                                    try {
+                                        this.controller.addDivision(args[0], division);
+                                    } catch (AddressDoesntExistException | DivisionAlreadyExistsException e ) {
+                                        e.printStackTrace();
+                                    }
                                     this.addSmartDeviceView(args[0], division);
                                 }
                             }
@@ -412,7 +416,11 @@ public class View {
                             if (this.controller.existsDivision(args[0], divisionName)) {
                                 System.out.println("Divisão já existente.");
                             } else {
-                                this.controller.addDivision(args[0], divisionName);
+                                try {
+                                    this.controller.addDivision(args[0], divisionName);
+                                } catch (AddressDoesntExistException | DivisionAlreadyExistsException e ) {
+                                    e.printStackTrace();
+                                }
                             }
                             return 1;
                         },

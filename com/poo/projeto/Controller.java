@@ -82,17 +82,11 @@ public class Controller {
         return this.model.addSmartHouse(name, nif, provider);
     }
 
-    public boolean createProvider(String line){
+    public boolean createProvider(String line) throws ProviderAlreadyExistsException {
         String[] args = line.split(",");
         if(args.length!=1)
             return false;
-        try{
-            this.model.addProvider(args[0]);
-        }catch (ProviderAlreadyExistsException e){
-            e.printStackTrace();
-            return false;
-        }
-
+        this.model.addProvider(args[0]);
         return true;
     }
 
@@ -303,7 +297,7 @@ public class Controller {
         }
     }
 
-    public void addDivision(String address, String division) {
+    public void addDivision(String address, String division) throws AddressDoesntExistException, DivisionAlreadyExistsException {
         //TODO mudar quando conseguir receber address
         this.model.addDivision(division);
     }
