@@ -256,14 +256,6 @@ public class CommunityApp implements Serializable {
         this.community.setBaseConsumption(address, device, baseConsumption);
     }
 
-    public void setSmartHouseProviderFake(String address, String provider) {
-        this.commands.add(new setSmartHouseProviderCommand(this.community.getCurrentDate(), address, provider));
-    }
-
-    public void setProviderAlgorithmFake(String providerName, int algorithm) {
-        this.commands.add(new setProviderAlgorthmCommand(this.community.getCurrentDate(), providerName, algorithm));
-    }
-
     public void addDivisionFake(String divisionName) {
         this.commands.add(new addDivisionCommand(this.community.getCurrentDate(), divisionName));
     }
@@ -280,5 +272,31 @@ public class CommunityApp implements Serializable {
         this.commands.add(new addSmartCameraCommand(this.community.getCurrentDate(), division, resolution, dimension, baseConsumption));
     }
 
-    public void addSmartHouseFake()
+    public void addSmartSpeakerFake(String division, String volume, String brand, String radio, String baseConsumption) {
+        this.commands.add(new addSmartSpeakerCommand(this.community.getCurrentDate(), division, volume, brand, radio, baseConsumption));
+    }
+
+    public void addSmartHouseFake(String name, String nif, String provider) {
+        this.commands.add(new addSmarthouseCommand(this.community.getCurrentDate(), name, nif, provider));
+    }
+
+    public void setProviderAlgorithmFake(String providerName, int algorithm) {
+        this.commands.add(new setProviderAlgorthmCommand(this.community.getCurrentDate(), providerName, algorithm));
+    }
+
+    public void setProviderDiscountFactorFake(String providerName, Double discountFactor) {
+        this.commands.add(new setProviderDiscountFactorCommand(this.community.getCurrentDate(), providerName, discountFactor));
+    }
+
+    public void setSmartHouseProviderFake(String address, String provider) {
+        this.commands.add(new setSmartHouseProviderCommand(this.community.getCurrentDate(), address, provider));
+    }
+
+    public void turnDivisionFake(String address, String division, Boolean b) {
+        this.commands.add(new turnDivisionCommand(this.community.getCurrentDate(), address, division, b));
+    }
+
+    public void turnSmartDeviceFake(String address, String smartDevice, Boolean b) {
+        this.commands.add(new turnSmartDeviceCommand(this.community.getCurrentDate(), address, smartDevice, b));
+    }
 }

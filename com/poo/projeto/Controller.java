@@ -247,8 +247,9 @@ public class Controller {
         //Esta função tem de ser buffered
     }
 
-    public void changeDiscountFactor(String provider, int discountFactor) {
+    public void changeDiscountFactor(String provider, Double discountFactor) {
         //Esta função tem de ser buffered
+        //não esquecer de dividir por 100 o factor
     }
 
     public void changeProviderAlgorithm(String provider, int i) {

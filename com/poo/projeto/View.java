@@ -499,7 +499,7 @@ public class View {
                         args -> {
                             System.out.println("Introduza o novo fator de desconto em percentagem.");
                             if (is.hasNextInt()) {
-                                int discountFactor = is.nextInt();
+                                Double discountFactor = is.nextDouble();
                                 is.nextLine();
                                 this.controller.changeDiscountFactor(args[0], discountFactor);
                             } else {
