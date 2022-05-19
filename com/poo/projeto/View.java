@@ -194,6 +194,8 @@ public class View {
                             if (is.hasNextInt()) {
                                 try {
                                     this.controller.advanceXCicles(is.nextInt());
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                                 is.nextLine();
                                 return this.controller.isAutomaticSimulationOver() ? 0 : 1;
