@@ -67,7 +67,7 @@ public class SmartBulb extends SmartDevice implements Serializable {
     }
 
     // TODO código
-    public SmartBulb(String tone, String diameter, String baseConsumption){
+    public SmartBulb(String id, String diameter){
         //super(id, );
         //this.tone =
         this.diameter = Integer.parseInt(diameter);

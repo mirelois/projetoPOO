@@ -1,5 +1,6 @@
 package com.poo.projeto.Command;
 
+import com.poo.projeto.Community.Community;
 import com.poo.projeto.Community.CommunityApp;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
@@ -12,14 +13,14 @@ public class setProviderDiscountFactorCommand extends Command {
     Double discountFactor;
 
     public setProviderDiscountFactorCommand(LocalDate executionTime, String providerName, Double discountFactor) {
-        this.executionTime = executionTime;
+        super(executionTime);
         this.providerName = providerName;
         this.discountFactor = discountFactor;
     }
 
     @Override
-    public void execute(CommunityApp app) throws DivisionAlreadyExistsException, ProviderDoesntExistException {
-        app.setProviderDiscountFactor(providerName, discountFactor);
+    public void execute(Community community) throws DivisionAlreadyExistsException, ProviderDoesntExistException {
+        community.setProviderDiscountFactor(providerName, discountFactor);
     }
 }
 

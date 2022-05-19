@@ -359,14 +359,21 @@ public class View {
     }
 
     private void addSmartHouseView() {
+        String address, name, nif, provider;
+        do {
+            System.out.println("Introduza morada:");
+            address = is.nextLine();
+        }while (this.controller.existsSmartHouse(address));
         System.out.println("Introduza o nome do dono:");
-        String name = is.nextLine();
+        name = is.nextLine();
         System.out.println("Introduza o nif do dono:");
-        String nif = is.nextLine();
-        System.out.println("Introduza o nome do fornecedor:");
-        String provider = is.nextLine();
+        nif = is.nextLine();
+        do {
+            System.out.println("Introduza o nome do fornecedor:");
+            provider = is.nextLine();
+        }while(this.controller.existsProvider(provider));
         try {
-            String address = this.controller.createSmartHouse(name + "," + nif + "," + provider);
+            this.controller.addSmartHouse(address, name, nif, provider);
             this.executeMenuByName("alterSimulationDetailsHouse", new String[]{address});
         } catch (ProviderDoesntExistException | AddressAlreadyExistsException e) {
             e.printStackTrace();

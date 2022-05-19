@@ -177,7 +177,7 @@ public class Community implements Serializable {
                 '}';
     }
 
-    public void setDiscountFactor(String providerName, Double discountFactor) throws ProviderDoesntExistException {
+    public void setProviderDiscountFactor(String providerName, Double discountFactor) throws ProviderDoesntExistException {
         this.getProviderByName(providerName).setDiscountFactor(discountFactor);
     }
 
@@ -193,7 +193,7 @@ public class Community implements Serializable {
         this.getSmartHouseByAddress(address).setBaseConsumption(device, baseConsumption);
     }
 
-    public void turnDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException, DeviceDoesntExistException {
+    public void turnSmartDevice(String address, String smartDevice, boolean b) throws AddressDoesntExistException, DeviceDoesntExistException {
         SmartHouse house = this.getSmartHouseByAddress(address);
         if (b) {
             house.setDeviceOn(smartDevice);

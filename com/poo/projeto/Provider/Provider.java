@@ -39,6 +39,13 @@ public class Provider implements Comparable<Provider>, Serializable {
         this.dailyCostAlgorithm = dailyCostAlgorithm;
     }
 
+    public Provider(String name, Double discountFactor) {
+        this.name = name;
+        this.invoiceMap = new HashMap<>();
+        this.discountFactor = discountFactor;
+        this.dailyCostAlgorithm = DailyCostAlgorithmOne.getInstance();
+    }
+
     public Provider(String name){
         this.name = name;
         this.invoiceMap = new HashMap<>();
