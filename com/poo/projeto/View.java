@@ -384,7 +384,7 @@ public class View {
         System.out.println("Introduza o nome do fornecedor:");
         String name = is.nextLine();
         try {
-            this.controller.createProvider(name);
+            this.controller.addProvider(name);
             this.executeMenuByName("alterSimulationDetailsProvider", new String[]{name});
         } catch (ProviderAlreadyExistsException e) {
             e.printStackTrace();
@@ -505,6 +505,7 @@ public class View {
     private void addSmartDeviceView(String address, String division) {
         //TODO receber parametros para chamar o addSmartDevice
         //Esta função tem de ser buffered
+
         System.out.println("todo");
     }
 

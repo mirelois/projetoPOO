@@ -15,6 +15,7 @@ import java.util.*;
 
 public class Controller {
 
+
     private CommunityApp model;
 
     //lista de comandos que pode estar vazia
@@ -297,8 +298,10 @@ public class Controller {
         }
     }
 
+    public void addSmartDevice(String type)
+
     public void addDivision(String address, String division) throws AddressDoesntExistException, DivisionAlreadyExistsException {
         //TODO mudar quando conseguir receber address
-        this.model.addDivision(division);
+        this.model.addDivision(address, division);
     }
 }
