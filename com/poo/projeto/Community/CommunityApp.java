@@ -183,7 +183,6 @@ public class CommunityApp implements Serializable {
         FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(this);
-
         oos.flush();
         oos.close();
     }

@@ -43,6 +43,10 @@ public class Controller {
         this.model.saveState(fileName);
     }
 
+    public void parseObjectFile(String filename) throws IOException, ClassNotFoundException {
+        this.model = CommunityApp.loadState(filename);
+    }
+
     public boolean createSmartBulb(String line) throws AddressDoesntExistException {
         String[] args = line.split(",");
         if(args.length!=3)
@@ -316,9 +320,6 @@ public class Controller {
 
     public void addSmartHouse(String address, String name, String nif, String provider) throws ProviderDoesntExistException, AddressAlreadyExistsException{
         this.model.addSmartHouse(address, name, nif, provider);
-    }
-
-    public void parseObjectFile(String filename) {
     }
 
     public void addProvider(String name) throws ProviderAlreadyExistsException {
