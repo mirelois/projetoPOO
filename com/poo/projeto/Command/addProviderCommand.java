@@ -16,7 +16,17 @@ public class addProviderCommand extends Command {
         this.provider = provider;
     }
 
+    private Provider getProvider() {
+        return provider;
+    }
+
+    private void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
     public void execute(Community community) throws ProviderAlreadyExistsException {
         community.addProvider(this.provider);
     }
+
+
 }

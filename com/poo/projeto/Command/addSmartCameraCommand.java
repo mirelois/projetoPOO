@@ -20,6 +20,30 @@ public class addSmartCameraCommand extends Command {
         this.smartCamera = smartCamera;
     }
 
+    private String getDivisionName() {
+        return divisionName;
+    }
+
+    private void setDivisionName(String divisionName) {
+        this.divisionName = divisionName;
+    }
+
+    private String getAddress() {
+        return address;
+    }
+
+    private void setAddress(String address) {
+        this.address = address;
+    }
+
+    private SmartCamera getSmartCamera() {
+        return smartCamera;
+    }
+
+    private void setSmartCamera(SmartCamera smartCamera) {
+        this.smartCamera = smartCamera;
+    }
+
     public void execute(Community community) throws ProviderAlreadyExistsException, AddressDoesntExistException {
         community.addSmartDevice(this.address, this.divisionName, smartCamera);
     }

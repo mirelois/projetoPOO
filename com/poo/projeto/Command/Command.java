@@ -15,9 +15,15 @@ public abstract class Command {
         this.executionTime = executionTime;
     }
 
-    public abstract void execute(Community community) throws AddressAlreadyExistsException, ProviderDoesntExistException, ProviderAlreadyExistsException, DivisionAlreadyExistsException, AddressDoesntExistException, DeviceDoesntExistException, DivisionDoesntExistException;
-
-    public LocalDate getExecutionTime(){
+    private LocalDate getExecutionTime(){
         return this.executionTime;
     }
+
+    private void setExecutionTime(LocalDate executionTime) {
+        this.executionTime = executionTime;
+    }
+
+    public abstract void execute(Community community) throws AddressAlreadyExistsException, ProviderDoesntExistException, ProviderAlreadyExistsException, DivisionAlreadyExistsException, AddressDoesntExistException, DeviceDoesntExistException, DivisionDoesntExistException;
+
+
 }

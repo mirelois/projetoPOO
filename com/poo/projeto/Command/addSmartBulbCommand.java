@@ -20,6 +20,30 @@ public class addSmartBulbCommand extends Command {
         this.smartBulb = smartBulb;
     }
 
+    private String getDivisionName() {
+        return divisionName;
+    }
+
+    private void setDivisionName(String divisionName) {
+        this.divisionName = divisionName;
+    }
+
+    private String getAddress() {
+        return address;
+    }
+
+    private void setAddress(String address) {
+        this.address = address;
+    }
+
+    private SmartBulb getSmartBulb() {
+        return smartBulb;
+    }
+
+    private void setSmartBulb(SmartBulb smartBulb) {
+        this.smartBulb = smartBulb;
+    }
+
     public void execute(Community community) throws ProviderAlreadyExistsException, AddressDoesntExistException {
         community.addSmartDevice(this.address, this.divisionName, this.smartBulb);
     }
