@@ -148,7 +148,12 @@ public class View {
                                 }while(!is.hasNextInt());
                                 days = is.nextInt();
                                 is.nextLine();
-                                this.controller.advanceDays(days);
+                                try {
+                                    this.controller.advanceDays(days);
+                                } catch (Exception e) {
+                                    //TODO ver se faz sentido nomear cada exceção
+                                    e.printStackTrace();
+                                }
                                 return 1;
                             },
                             (args) -> {
@@ -392,6 +397,12 @@ public class View {
                                 this.addSmartDeviceView(args[0], division);
                             } else {
                                 System.out.println("Divisão não existente.");
+                                System.out.println("Deseja criar? (y/n)");
+                                String read = is.nextLine();
+                                if (read.equals("y")) {
+                                    this.controller.addDivision(args[0], division);
+                                    this.addSmartDeviceView(args[0], division);
+                                }
                             }
                             return 1;
                         },
@@ -401,7 +412,7 @@ public class View {
                             if (this.controller.existsDivision(args[0], divisionName)) {
                                 System.out.println("Divisão já existente.");
                             } else {
-                                this.addDivisionView(args[0], divisionName);
+                                this.controller.addDivision(args[0], divisionName);
                             }
                             return 1;
                         },
@@ -474,12 +485,6 @@ public class View {
                         () -> true,
                         () -> true
                 });
-    }
-
-    private void addDivisionView(String address, String divisionName) {
-        //TODO receber parametros para chamar o addDivision
-        //Esta função tem de ser buffered
-        System.out.println("todo");
     }
 
     private void addSmartDeviceView(String address, String division) {

@@ -117,7 +117,7 @@ public class Controller {
         return everyClass;
     }
 
-    public void advanceDays(Integer days) {
+    public void advanceDays(Integer days) throws AddressDoesntExistException, DivisionAlreadyExistsException, DivisionDoesntExistException, ProviderAlreadyExistsException, AddressAlreadyExistsException, ProviderDoesntExistException, DeviceDoesntExistException {
         this.model.advanceDate(ChronoUnit.DAYS.addTo(this.model.getCurrentDate(), days));
     }
     public void parser(List<String> lines) throws NoSuchMethodException {
@@ -301,5 +301,10 @@ public class Controller {
                 }
             }
         }
+    }
+
+    public void addDivision(String address, String division) {
+        //TODO mudar quando conseguir receber address
+        this.model.addDivision(division);
     }
 }

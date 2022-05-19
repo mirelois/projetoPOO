@@ -78,7 +78,9 @@ public class CommunityApp implements Serializable {
         this.lastDivision = lastDivision;
     }
 
-    public void advanceDate(LocalDate newDate) throws AddressDoesntExistException, DivisionDoesntExistException, ProviderAlreadyExistsException, DeviceDoesntExistException, AddressAlreadyExistsException, ProviderDoesntExistException, DivisionAlreadyExistsException {
+    public void advanceDate(LocalDate newDate) throws AddressDoesntExistException, DivisionDoesntExistException,
+            ProviderAlreadyExistsException, DeviceDoesntExistException,
+            AddressAlreadyExistsException, ProviderDoesntExistException, DivisionAlreadyExistsException {
         this.community.advanceDate(newDate);
         for (Command command : commands) {
             //TODO se um command falhar não vai executar os outros nem limpar a lista
