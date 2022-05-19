@@ -134,7 +134,7 @@ public class Provider implements Comparable<Provider>, Serializable {
 
     public Invoice invoiceEmission(SmartHouse house, LocalDate start, LocalDate end) {
         long days = ChronoUnit.DAYS.between(start, end);
-        Invoice invoice = new Invoice(start, end, house.totalConsumption()*days, this.dailyCost(house)*days, house.getAddress(), this.getName());
+        Invoice invoice = new Invoice(start, end, house.totalConsumption()*days, this.dailyCost(house)*days + house.getIntalationCosts(), house.getAddress(), this.getName());
         Set<Invoice> set = this.invoiceMap.get(house);
         if (set == null) {
             set = new TreeSet<>(Comparator.comparingDouble(Invoice::getCost));

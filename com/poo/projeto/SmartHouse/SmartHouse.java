@@ -13,16 +13,13 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class SmartHouse implements Serializable {
-
     private String address;
-
     private Provider provider;
 
+    private Double intalationCosts;//falta adicionar nos construtores
     private String name;
-
     private String nif;
     private List<Invoice> invoices;
-
     private Map<String, String> devices; // id -> string da divisão
     private Map<String, Division> divisions; // string da divisão -> Divisão (classe)
 
@@ -32,6 +29,7 @@ public class SmartHouse implements Serializable {
      * Constructor for objects of class CasaInteligente
      */
     public SmartHouse() {
+        this.intalationCosts = 0.0;
         this.address = "";
         this.devices = new HashMap<>();
         this.divisions = new HashMap<>();
@@ -39,8 +37,9 @@ public class SmartHouse implements Serializable {
         this.invoices = new ArrayList<>();
     }
 
-    public SmartHouse(Owner owner, String address, Map<String, String> devices, Map<String, Division> divisions, Provider provider, List<Invoice> invoices) {
+    public SmartHouse(Owner owner, String address, Double intalationCosts, Map<String, String> devices, Map<String, Division> divisions, Provider provider, List<Invoice> invoices) {
         //TODO não está a criar novas estruturas então de fora podem destruí-las
+        this.intalationCosts = intalationCosts;
         this.address = address;
         this.devices = devices.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         this.divisions = divisions.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, div -> div.getValue().clone()));
@@ -49,6 +48,7 @@ public class SmartHouse implements Serializable {
     }
 
     public SmartHouse(SmartHouse smartHouse){
+        this.intalationCosts = smartHouse.getIntalationCosts();
         this.address = smartHouse.getAddress();
         this.devices = smartHouse.getDevices();
         this.divisions = smartHouse.getDivisions();
@@ -57,6 +57,7 @@ public class SmartHouse implements Serializable {
     }
 
     public SmartHouse(String address, String name, String nif){
+        this.intalationCosts = 0.0;
         this.address = address;
         this.name = name;
         this.nif = nif;
@@ -67,6 +68,7 @@ public class SmartHouse implements Serializable {
     }
 
     public SmartHouse(String address, String name, String nif, Provider provider){
+        this.intalationCosts = 0.0;
         this.address = address;
         this.name = name;
         this.nif = nif;
@@ -103,6 +105,13 @@ public class SmartHouse implements Serializable {
         this.divisions = divisions.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e->e.getValue().clone()));
     }
 
+    public Double getIntalationCosts() {
+        return intalationCosts;
+    }
+
+    public void setIntalationCosts(Double intalationCosts) {
+        this.intalationCosts = intalationCosts;
+    }
     public Provider getProvider(){
         return this.provider;
     }
@@ -241,14 +250,16 @@ public class SmartHouse implements Serializable {
         if(divisions.containsKey(division)){
             //TODO cuidado com NullPointerExceptions por não existir uma divisão
             this.divisions.get(division).addDevice(smartDevice);
+            this.intalationCosts += smartDevice.getInstallationCost();
         }
 
     }
 
     public Invoice invoiceEmission(LocalDate start, LocalDate end){
-        //TODO é suposto a casa guardar a fatura que está a ser emitida para si
+        //feito: é suposto a casa guardar a fatura que está a ser emitida para si
         Invoice newInvoice = this.provider.invoiceEmission(this, start, end);
         this.invoices.add(newInvoice);
+        this.intalationCosts = 0.0;
         return newInvoice;
     }
 
@@ -286,6 +297,7 @@ public class SmartHouse implements Serializable {
     public void addSmartDevice(String divisionName, SmartDevice smartDevice){
         this.devices.put(smartDevice.getID(), divisionName);
         this.divisions.get(divisionName).addDevice(smartDevice);
+        this.intalationCosts += smartDevice.getInstallationCost();
     }
 
     @Override
