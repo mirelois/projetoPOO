@@ -130,7 +130,7 @@ public class CommunityApp implements Serializable {
         return this.community.getCurrentDate();
     }
 
-    public String addSmartHouse(String name, String nif, String provider) throws AddressAlreadyExistsException, ProviderDoesntExistException {
+    public String addSmartHouseLog(String name, String nif, String provider) throws AddressAlreadyExistsException, ProviderDoesntExistException {
         this.lastAddress = this.addressGenerate.toString();
         SmartHouse house = new SmartHouse(this.lastAddress, name, nif);
         this.addressGenerate++;
@@ -138,25 +138,25 @@ public class CommunityApp implements Serializable {
         return this.lastAddress;
     }
 
-    public void addProvider(String provider) throws ProviderAlreadyExistsException {
+    public void addProviderLog(String provider) throws ProviderAlreadyExistsException {
         this.community.addProvider(new Provider(provider));
     }
 
-    public void addSmartBulb(String tone, String diameter, String baseConsumption) throws AddressDoesntExistException {
+    public void addSmartBulbLog(String tone, String diameter, String baseConsumption) throws AddressDoesntExistException {
         double installationCost = 5.99;
         SmartBulb smartBulb = new SmartBulb(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), tone, Integer.parseInt(diameter));
         this.idDevice++;
         this.community.addSmartDevice(this.lastAddress, this.lastDivision, smartBulb);
     }
 
-    public void addSmartSpeaker(String volume, String brand, String radio, String baseConsumption) throws AddressDoesntExistException {
+    public void addSmartSpeakerLog(String volume, String brand, String radio, String baseConsumption) throws AddressDoesntExistException {
         double installationCost = 20.99;
         SmartSpeaker smartSpeaker = new SmartSpeaker(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), Integer.parseInt(volume), brand, radio);
         this.idDevice++;
         this.community.addSmartDevice(this.lastAddress, this.lastDivision, smartSpeaker);
     }
     // TODO idDevice++?
-    public void addSmartCamera(String resolution, String dimension, String baseConsumption) throws AddressDoesntExistException {
+    public void addSmartCameraLog(String resolution, String dimension, String baseConsumption) throws AddressDoesntExistException {
         Integer[] resolutionInt = new Integer[2];
         String[] temp = resolution.split("x");
         resolutionInt[0] = Integer.parseInt(temp[0].substring(1));
@@ -167,7 +167,7 @@ public class CommunityApp implements Serializable {
         this.community.addSmartDevice(this.lastAddress, this.lastDivision, smartCamera);
     }
 
-    public void addDivision(String divisionName) throws DivisionAlreadyExistsException, AddressDoesntExistException {
+    public void addDivisionLog(String divisionName) throws DivisionAlreadyExistsException, AddressDoesntExistException {
         Division division = new Division(divisionName);
         this.community.addDivision(this.lastAddress, division);
         this.setLastDivision(divisionName);

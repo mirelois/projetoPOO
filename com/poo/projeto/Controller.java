@@ -9,7 +9,6 @@ import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -43,7 +42,7 @@ public class Controller {
         String tone = args[0];
         String diameter = args[1];
         String baseConsumption = args[2];
-        this.model.addSmartBulb(tone, diameter, baseConsumption);
+        this.model.addSmartBulbLog(tone, diameter, baseConsumption);
 
         return true;
     }
@@ -55,7 +54,7 @@ public class Controller {
         String resolution = args[0];
         String dimention = args[1];
         String baseConsumption = args[2];
-        this.model.addSmartCamera(resolution, dimention, baseConsumption);
+        this.model.addSmartCameraLog(resolution, dimention, baseConsumption);
 
         return true;
     }
@@ -68,7 +67,7 @@ public class Controller {
         String brand = args[1];
         String radio = args[2];
         String baseConsumption = args[3];
-        this.model.addSmartSpeaker(volume, brand, radio, baseConsumption);
+        this.model.addSmartSpeakerLog(volume, brand, radio, baseConsumption);
 
         return true;
     }
@@ -80,14 +79,14 @@ public class Controller {
         String name = args[0];
         String nif = args[1];
         String provider = args[2];
-        return this.model.addSmartHouse(name, nif, provider);
+        return this.model.addSmartHouseLog(name, nif, provider);
     }
 
     public boolean createProvider(String line) throws ProviderAlreadyExistsException {
         String[] args = line.split(",");
         if(args.length!=1)
             return false;
-        this.model.addProvider(args[0]);
+        this.model.addProviderLog(args[0]);
         return true;
     }
 
@@ -95,7 +94,7 @@ public class Controller {
         String[] args = line.split(",");
         if(args.length!=1)
             return false;
-        this.model.addDivision(args[0]);
+        this.model.addDivisionLog(args[0]);
         //TODO cuidado com tamanho
 
         return true;
