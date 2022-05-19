@@ -288,17 +288,17 @@ public class CommunityApp implements Serializable {
     public void advanceXCicles(int numberOfCicles) throws AddressDoesntExistException, DivisionDoesntExistException, ProviderAlreadyExistsException, DeviceDoesntExistException, AddressAlreadyExistsException, ProviderDoesntExistException, DivisionAlreadyExistsException {
         LocalDate current = this.community.getCurrentDate();
         int i = 0;
-        //TODO iterator nisto para conseguir pôr as duas condições juntas
         Iterator<Command> iterator = commands.iterator();
         Command command;
-        while(iterator.hasNext() && i< numberOfCicles) {
+        while(iterator.hasNext() && i < numberOfCicles) {
             command = iterator.next();
             if (!command.getExecutionTime().equals(current)) {
                 i++;
                 this.community.advanceDate(command.getExecutionTime());
                 current = command.getExecutionTime();
             }
-            command.execute(this.community);
+            if (i<numberOfCicles)
+                command.execute(this.community);
         }
     }
 
