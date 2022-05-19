@@ -18,8 +18,25 @@ public class addSmartHouseCommand extends Command {
         this.provider = provider;
     }
 
+    private SmartHouse getSmartHouse() {
+        return smartHouse;
+    }
+
+    private void setSmartHouse(SmartHouse smartHouse) {
+        this.smartHouse = smartHouse;
+    }
+
+    private String getProvider() {
+        return provider;
+    }
+
+    private void setProvider(String provider) {
+        this.provider = provider;
+    }
+
     @Override
     public void execute(Community community) throws AddressAlreadyExistsException, ProviderDoesntExistException {
         community.addSmartHouse(smartHouse, provider);
     }
+
 }

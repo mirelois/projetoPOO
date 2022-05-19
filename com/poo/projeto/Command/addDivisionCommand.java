@@ -17,6 +17,22 @@ public class addDivisionCommand extends Command {
         this.division = division;
     }
 
+    private String getAddress() {
+        return address;
+    }
+
+    private void setAddress(String address) {
+        this.address = address;
+    }
+
+    private Division getDivision() {
+        return division;
+    }
+
+    private void setDivision(Division division) {
+        this.division = division;
+    }
+
     @Override
     public void execute(Community community) throws DivisionAlreadyExistsException, AddressDoesntExistException {
         community.addDivision(this.address, this.division);
