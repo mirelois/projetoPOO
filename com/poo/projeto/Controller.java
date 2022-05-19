@@ -100,7 +100,7 @@ public class Controller {
         if(args.length!=1)
             return false;
         String provider = args[0];
-        this.model.addProvider(provider);
+        this.model.addProvider(provider, null);
         return true;
     }
 

@@ -103,6 +103,8 @@ public class CommunityApp implements Serializable {
     }
 
     public void addProvider(String provider, Double discountFactor) throws ProviderAlreadyExistsException {
+        if (discountFactor == null)
+            discountFactor = 0.0;
         this.community.addProvider(new Provider(provider, discountFactor));
     }
 
