@@ -90,8 +90,12 @@ public class Menu implements Serializable{
     }
 
     public int readOption() {
-        while (!is.hasNextInt());
+        while (!is.hasNextInt()) {
+            is.nextLine();
+            System.out.println("teste");
+        }
         int read = is.nextInt();
+        is.nextLine();
         return read>=0 && read<=this.options.size() ? read : -1;
     }
 
