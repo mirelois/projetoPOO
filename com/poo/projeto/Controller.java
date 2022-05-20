@@ -1,5 +1,6 @@
 package com.poo.projeto;
 
+import com.poo.projeto.Command.Command;
 import com.poo.projeto.Community.CommunityApp;
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
@@ -11,9 +12,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -199,8 +202,8 @@ public class Controller {
         return this.model.isAutomaticSimulationOver();
     }
 
-    public void advanceFullAutomaticSimulation() {
-        System.out.println("todo");
+    public void advanceFullAutomaticSimulation() throws ProviderAlreadyExistsException, AddressAlreadyExistsException, AddressDoesntExistException, DeviceDoesntExistException, ProviderDoesntExistException, DivisionDoesntExistException, DivisionAlreadyExistsException {
+        this.model.advanceFullAutomaticSimulation();
     }
 
     public String printHouse(String houseName) throws AddressDoesntExistException {

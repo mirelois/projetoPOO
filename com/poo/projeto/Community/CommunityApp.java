@@ -282,11 +282,26 @@ public class CommunityApp implements Serializable {
         return this.commands.size() == 0;
     }
 
+<<<<<<< Updated upstream
     public String providersToString(){
         return this.community.providersToString();
     }
 
     public String housesToString(){
         return this.community.housesToString();
+=======
+    public void advanceFullAutomaticSimulation() throws ProviderAlreadyExistsException, AddressAlreadyExistsException, AddressDoesntExistException, DeviceDoesntExistException, ProviderDoesntExistException, DivisionDoesntExistException, DivisionAlreadyExistsException {
+        LocalDate current = this.community.getCurrentDate();
+        Iterator<Command> iterator = commands.iterator();
+        Command command;
+        while(iterator.hasNext()) {
+            command = iterator.next();
+            if (!command.getExecutionTime().equals(current)) {
+                this.community.advanceDate(command.getExecutionTime());
+                current = command.getExecutionTime();
+            }
+            command.execute(this.community);
+        }
+>>>>>>> Stashed changes
     }
 }
