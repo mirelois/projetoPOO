@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 public class Community implements Serializable {
     private Map<String, Provider> providerMap; //name -> provider
-    private Map<String, SmartHouse> smartHouseMap; //adress -> SmartHouse??
+    private Map<String, SmartHouse> smartHouseMap; //adress -> SmartHouse
     private LocalDate currentDate;
 
     public Community(Community c) {

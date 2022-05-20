@@ -342,7 +342,11 @@ public class View {
                             return 1;
                         },
                         (args) -> {
-                            addSmartHouseView();
+                            if (controller.isSimulationEmptyProvider()) {
+                                System.out.println("Não há fornecedores para adicionar à casa");
+                            } else {
+                                addSmartHouseView();
+                            }
                             return 1;
                         },
                         (args) -> 0

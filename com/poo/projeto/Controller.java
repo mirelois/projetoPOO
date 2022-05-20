@@ -196,8 +196,7 @@ public class Controller {
     }
 
     public boolean isAutomaticSimulationOver() {
-        System.out.println("todo");
-        return true;
+        return this.model.isAutomaticSimulationOver();
     }
 
     public void advanceFullAutomaticSimulation() {
@@ -243,20 +242,19 @@ public class Controller {
     }
 
     public void changeProvider(String address, String provider) {
-        //Esta função tem de ser buffered
+        this.model.setSmartHouseProvider(null, address, provider);
     }
 
     public void changeDiscountFactor(String provider, Double discountFactor) {
-        //Esta função tem de ser buffered
+        this.model.setProviderDiscountFactor(null, provider, discountFactor/100);
         //não esquecer de dividir por 100 o factor
     }
 
     public void changeProviderAlgorithm(String provider, int i) {
-        //Esta função tem de ser buffered
+        this.model.setProviderAlgorithm(null, provider, i);
     }
 
     public void parseActions(List<String> lines) throws AddressDoesntExistException, NumberFormatException, ProviderDoesntExistException, DeviceDoesntExistException, DivisionDoesntExistException {
-        //TODO falta ver o dia
         String[] brokenLine;
         for (String line : lines) {
             brokenLine = line.split(", ");
@@ -303,7 +301,6 @@ public class Controller {
     }
 
     public void addDivision(String address, String divisionName) throws AddressDoesntExistException, DivisionAlreadyExistsException {
-        //TODO mudar quando conseguir receber address
         this.model.addDivision(address, divisionName);
     }
 
