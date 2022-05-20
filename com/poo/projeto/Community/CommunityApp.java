@@ -211,7 +211,7 @@ public class CommunityApp implements Serializable {
     public void setBaseConsumption(String date, String address, String deviceName, Double baseConsumption) {
         LocalDate localDate = this.community.getCurrentDate();
         if (date != null)
-            localDate = LocalDate.parse(date);
+            localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy.MM.dd"));
         this.commands.add(new setBaseConsumptionCommand(localDate, address, deviceName, baseConsumption));
     }
 
@@ -279,52 +279,4 @@ public class CommunityApp implements Serializable {
         this.community.setCurrentDate(localDate);
         return true;
     }
-
-    /* public void setProviderDiscountFactor(String providerName, Double discountFactor) throws ProviderDoesntExistException {
-        this.community.setProviderDiscountFactor(providerName, discountFactor);
-    }
-
-    public void setSmartHouseProvider(String address, String provider) throws AddressDoesntExistException, ProviderDoesntExistException {
-        this.community.setSmartHouseProvider(address, provider);
-    }
-
-    public void setBaseConsumption(String address, String device, Double baseConsumption) throws AddressDoesntExistException, DeviceDoesntExistException {
-        this.community.setBaseConsumption(address, device, baseConsumption);
-    } */
-
-    //public void addDivision(String address, String divisionName) {
-    //    Division division = new Division(divisionName);
-    //    this.commands.add(new addDivisionCommand(this.community.getCurrentDate(), address, division));
-    //}
-
-    //public void addProvider(String providerName, Double discountFactor) {
-    //    Provider provider = new Provider(providerName, discountFactor);
-    //    this.commands.add(new addProviderCommand(this.community.getCurrentDate(), provider));
-    //}
-
-    //public void addSmartBulb(String division, String address, Integer tone, Integer diameter, Double baseConsumption) {
-    //    SmartBulb smartBulb = new SmartBulb(this.idDevice.toString(), baseConsumption, tone, diameter);
-    //    this.idDevice++;
-    //    this.commands.add(new addSmartBulbCommand(this.community.getCurrentDate(), division, address, smartBulb));
-    //}
-
-    //public void addSmartCamera(String division, String address, Integer[] resolution, Integer dimension, Double baseConsumption) {
-    //    SmartCamera smartCamera = new SmartCamera(this.idDevice.toString(), baseConsumption, resolution, dimension);
-    //    this.idDevice++;
-    //    this.commands.add(new addSmartCameraCommand(this.community.getCurrentDate(), division, address, smartCamera));
-    //}
-
-    //public void addSmartSpeaker(String division, String address,Double baseConsumption, Integer volume, String brand, String radio) {
-    //    SmartSpeaker smartSpeaker = new SmartSpeaker(this.idDevice.toString(), baseConsumption, volume, brand, radio);
-    //    idDevice++;
-    //    this.commands.add(new addSmartSpeakerCommand(this.community.getCurrentDate(), division, address, smartSpeaker));
-    //}
-
-    //public String addSmartHouse(String address, String name, String nif, String provider) {
-    //    this.lastAddress = this.addressGenerate.toString();
-    //    SmartHouse house = new SmartHouse(this.lastAddress, name, nif);
-    //    this.addressGenerate++;
-    //    this.commands.add(new addSmartHouseCommand(this.getCurrentDate(), house, provider));
-    //    return this.lastAddress;
-    //}
 }
