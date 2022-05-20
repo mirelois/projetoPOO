@@ -206,7 +206,14 @@ public class View {
                             }
                         },
                         (args) -> {
-                            this.controller.advanceFullAutomaticSimulation();
+                            try {
+                                this.controller.advanceFullAutomaticSimulation();
+                            } catch (ProviderAlreadyExistsException | AddressAlreadyExistsException |
+                                     AddressDoesntExistException | DeviceDoesntExistException |
+                                     ProviderDoesntExistException | DivisionDoesntExistException |
+                                     DivisionAlreadyExistsException e) {
+                                e.printStackTrace();
+                            }
                             return 0;
                         },
                         (args) -> {

@@ -130,6 +130,7 @@ public class CommunityApp implements Serializable {
         this.idDevice++;
         this.community.addSmartDevice(address, division, smartSpeaker);
     }
+
     // TODO idDevice++?
     public void addSmartCamera(String address, String division, String resolution, String dimension, String baseConsumption) throws AddressDoesntExistException {
         Integer[] resolutionInt = new Integer[2];
@@ -137,7 +138,7 @@ public class CommunityApp implements Serializable {
         //TODO não gosto deste parse, o controller devia logo atirar erro se não funcionasse e o Model não tem nada que saber parses
         //TODO isto vale tanto para o create como para o add
         resolutionInt[0] = Integer.parseInt(temp[0].substring(1));
-        resolutionInt[1] = Integer.parseInt(temp[1].substring(0, temp[1].length()-1));
+        resolutionInt[1] = Integer.parseInt(temp[1].substring(0, temp[1].length() - 1));
         double installationCost = 100;
         SmartCamera smartCamera = new SmartCamera(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), resolutionInt, Integer.parseInt(dimension));
         this.idDevice++;
@@ -198,7 +199,7 @@ public class CommunityApp implements Serializable {
         oos.close();
     }
 
-    public static CommunityApp loadState(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException{
+    public static CommunityApp loadState(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
         FileInputStream fis = new FileInputStream(fileName);
         ObjectInputStream ois = new ObjectInputStream(fis);
         CommunityApp newComunityApp = (CommunityApp) ois.readObject();
@@ -254,14 +255,14 @@ public class CommunityApp implements Serializable {
         int i = 0;
         Iterator<Command> iterator = commands.iterator();
         Command command;
-        while(iterator.hasNext() && i < numberOfCicles) {
+        while (iterator.hasNext() && i < numberOfCicles) {
             command = iterator.next();
             if (!command.getExecutionTime().equals(current)) {
                 i++;
                 this.community.advanceDate(command.getExecutionTime());
                 current = command.getExecutionTime();
             }
-            if (i<numberOfCicles)
+            if (i < numberOfCicles)
                 command.execute(this.community);
         }
     }
@@ -269,7 +270,8 @@ public class CommunityApp implements Serializable {
     public Boolean setInitialDate(String initialDate) {
         LocalDate localDate;
         try {
-            localDate = LocalDate.parse(initialDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));;
+            localDate = LocalDate.parse(initialDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            ;
         } catch (DateTimeParseException e) {
             return false;
         }
@@ -282,19 +284,20 @@ public class CommunityApp implements Serializable {
         return this.commands.size() == 0;
     }
 
-<<<<<<< Updated upstream
-    public String providersToString(){
+    public String providersToString() {
         return this.community.providersToString();
     }
 
-    public String housesToString(){
+    public String housesToString() {
         return this.community.housesToString();
-=======
-    public void advanceFullAutomaticSimulation() throws ProviderAlreadyExistsException, AddressAlreadyExistsException, AddressDoesntExistException, DeviceDoesntExistException, ProviderDoesntExistException, DivisionDoesntExistException, DivisionAlreadyExistsException {
+    }
+
+    public void advanceFullAutomaticSimulation() throws ProviderAlreadyExistsException, AddressAlreadyExistsException, AddressDoesntExistException, DeviceDoesntExistException, ProviderDoesntExistException, DivisionDoesntExistException, DivisionAlreadyExistsException
+    {
         LocalDate current = this.community.getCurrentDate();
         Iterator<Command> iterator = commands.iterator();
         Command command;
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             command = iterator.next();
             if (!command.getExecutionTime().equals(current)) {
                 this.community.advanceDate(command.getExecutionTime());
@@ -302,6 +305,5 @@ public class CommunityApp implements Serializable {
             }
             command.execute(this.community);
         }
->>>>>>> Stashed changes
     }
 }
