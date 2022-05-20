@@ -32,12 +32,12 @@ public class Provider implements Comparable<Provider>, Serializable {
         this.dailyCostAlgorithm = p.dailyCostAlgorithm;
     }
 
-    public Provider(String name, Map<SmartHouse, Set<Invoice>> invoiceMap, Double discountFactor, DailyCostAlgorithm dailyCostAlgorithm) {
-        this.name = name;
-        this.setInvoiceMap(invoiceMap);
-        this.discountFactor = discountFactor;
-        this.dailyCostAlgorithm = dailyCostAlgorithm;
-    }
+    //public Provider(String name, Map<SmartHouse, Set<Invoice>> invoiceMap, Double discountFactor, DailyCostAlgorithm dailyCostAlgorithm) {
+    //    this.name = name;
+    //    this.setInvoiceMap(invoiceMap);
+    //    this.discountFactor = discountFactor;
+    //    this.dailyCostAlgorithm = dailyCostAlgorithm;
+    //}
 
     public Provider(String name, Double discountFactor) {
         this.name = name;
@@ -46,20 +46,20 @@ public class Provider implements Comparable<Provider>, Serializable {
         this.dailyCostAlgorithm = DailyCostAlgorithmOne.getInstance();
     }
 
-    public Provider(String name){
-        this.name = name;
-        this.invoiceMap = new HashMap<>();
-        this.discountFactor = 0.0;
-        this.dailyCostAlgorithm = DailyCostAlgorithmOne.getInstance();
-    }
+    //public Provider(String name){
+    //    this.name = name;
+    //    this.invoiceMap = new HashMap<>();
+    //    this.discountFactor = 0.0;
+    //    this.dailyCostAlgorithm = DailyCostAlgorithmOne.getInstance();
+    //}
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    //public void setName(String name) {
+    //    this.name = name;
+    //}
 
     public Map<SmartHouse, Set<Invoice>> getInvoiceMap() {
         HashMap<SmartHouse, Set<Invoice>> invoiceMap = new HashMap<>();
@@ -69,28 +69,28 @@ public class Provider implements Comparable<Provider>, Serializable {
         return invoiceMap;
     }
 
-    public void setInvoiceMap(Map<SmartHouse, Set<Invoice>> invoiceMap) {
-        this.invoiceMap = new HashMap<>();
-        for (Map.Entry<SmartHouse, Set<Invoice>> m : invoiceMap.entrySet()) {
-            this.invoiceMap.put(m.getKey(), m.getValue().stream().map(Invoice::clone).collect(Collectors.toSet()));
-        }
-    }
+    //public void setInvoiceMap(Map<SmartHouse, Set<Invoice>> invoiceMap) {
+    //    this.invoiceMap = new HashMap<>();
+    //    for (Map.Entry<SmartHouse, Set<Invoice>> m : invoiceMap.entrySet()) {
+    //        this.invoiceMap.put(m.getKey(), m.getValue().stream().map(Invoice::clone).collect(Collectors.toSet()));
+    //    }
+    //}
 
     public static double getBaseValueKWH() {
         return baseValueKWH;
     }
 
-    public static void setBaseValueKWH(double baseValueKWH) {
-        Provider.baseValueKWH = baseValueKWH;
-    }
+    //public static void setBaseValueKWH(double baseValueKWH) {
+    //    Provider.baseValueKWH = baseValueKWH;
+    //}
 
     public static double getTaxFactor() {
         return taxFactor;
     }
 
-    public static void setTaxFactor(double taxFactor) {
-        Provider.taxFactor = taxFactor;
-    }
+    //public static void setTaxFactor(double taxFactor) {
+    //    Provider.taxFactor = taxFactor;
+    //}
 
     public Double getDiscountFactor() {
         return discountFactor;
@@ -100,9 +100,9 @@ public class Provider implements Comparable<Provider>, Serializable {
         this.discountFactor = discountFactor;
     }
 
-    public DailyCostAlgorithm getDailyCostAlgorithm() {
-        return dailyCostAlgorithm;
-    }
+    //public DailyCostAlgorithm getDailyCostAlgorithm() {
+    //    return dailyCostAlgorithm;
+    //}
 
     public void setDailyCostAlgorithm(DailyCostAlgorithm dailyCostAlgorithm) {
         this.dailyCostAlgorithm = dailyCostAlgorithm;
