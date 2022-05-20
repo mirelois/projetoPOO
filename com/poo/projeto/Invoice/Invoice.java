@@ -98,12 +98,11 @@ public class Invoice implements Comparable<Invoice>, Serializable {
 
     @Override
     public String toString() {
-        return "Invoice{" +
-                "start=" + start +
-                ", end=" + end +
-                ", consumption=" + consumption +
-                ", cost=" + cost +
-                '}';
+        return "Fatura-> " +
+                "inicio: " + this.start +
+                ", fim: " + this.end +
+                ", consumo : " + this.consumption +
+                ", custo: " + this.cost;
     }
 
     @Override

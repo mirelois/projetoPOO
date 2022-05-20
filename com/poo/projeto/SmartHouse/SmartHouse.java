@@ -307,10 +307,10 @@ public class SmartHouse implements Serializable {
     @Override
     public String toString() {
         return "Casa-> " +
-                "morada: " + address +
-                ", fornecedor: " + provider.getName() +
-                ", nome do dono: " + name +
-                ", nif do dono: " + nif +
+                "morada: " + this.address +
+                ", fornecedor: " + this.provider.getName() +
+                ", nome do dono: " + this.name +
+                ", nif do dono: " + this.nif +
                 "\n    " + divisions.values().stream().map(Division::toString).collect(Collectors.joining("\n    "));
     }
 
