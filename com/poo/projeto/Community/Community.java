@@ -242,4 +242,14 @@ public class Community implements Serializable {
     public String housesToString(){
         return "Todas as Casas:\n   " + this.smartHouseMap.values().stream().map(SmartHouse::toString).collect(Collectors.joining("\n    "));
     }
+
+    public String housesByNifString(String nif){
+        StringBuilder sb = new StringBuilder();
+        for(SmartHouse smartHouse: this.smartHouseMap.values()){
+            if(smartHouse.getNif().equals(nif)){
+                sb.append(smartHouse.toString());
+            }
+        }
+        return sb.toString();
+    }
 }

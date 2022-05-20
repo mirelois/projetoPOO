@@ -214,6 +214,10 @@ public class Controller {
         return this.model.providerToString(providerName);
     }
 
+    public String smartHousesByNif(String nif){
+        return this.model.smartHousesByNifString(nif);
+    }
+
     public String printAll() {
         return this.model.toString();
     }
