@@ -281,4 +281,12 @@ public class CommunityApp implements Serializable {
     public boolean isAutomaticSimulationOver() {
         return this.commands.size() == 0;
     }
+
+    public String providersToString(){
+        return this.community.providersToString();
+    }
+
+    public String housesToString(){
+        return this.community.housesToString();
+    }
 }

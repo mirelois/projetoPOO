@@ -215,6 +215,14 @@ public class Controller {
         return this.model.toString();
     }
 
+    public String printAllProviders(){
+        return this.model.providersToString();
+    }
+
+    public String printAllHouses(){
+        return this.model.housesToString();
+    }
+
     public String houseWithMostConsumption(String start, String end) throws NoHouseInPeriodException, DateTimeParseException {
         return this.model.houseWithMostConsumption(start, end);
     }

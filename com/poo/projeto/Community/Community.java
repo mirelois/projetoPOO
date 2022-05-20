@@ -169,11 +169,9 @@ public class Community implements Serializable {
 
     @Override
     public String toString() {
-        return "Community{" +
-                "providerMap=" + providerMap.values().stream().map(Provider::toString).collect(Collectors.joining("\n   ")) +
-                ", smartHouseMap=" + smartHouseMap.values().stream().map(SmartHouse::toString).collect(Collectors.joining("\n   ")) +
-                ", currentDate=" + currentDate.toString() +
-                '}';
+        return "Providers:" + "\n   " + providerMap.values().stream().map(Provider::toString).collect(Collectors.joining("\n    ")) + "\n\n" +
+                "SmartHouses:" + "\n    " + smartHouseMap.values().stream().map(SmartHouse::toString).collect(Collectors.joining("\n    ")) + "\n\n" +
+                "Current Date:" + "\n   " + currentDate.toString();
     }
 
     public void setProviderDiscountFactor(String providerName, Double discountFactor) throws ProviderDoesntExistException {
@@ -235,5 +233,13 @@ public class Community implements Serializable {
             house.invoiceEmission(this.getCurrentDate(), newDate);
         }
         this.setCurrentDate(newDate);
+    }
+
+    public String providersToString(){
+        return "All Providers:\n    " + this.providerMap.values().stream().map(Provider::toString).collect(Collectors.joining("\n    "));
+    }
+
+    public String housesToString(){
+        return "All Houses:\n   " + this.smartHouseMap.values().stream().map(SmartHouse::toString).collect(Collectors.joining("\n    "));
     }
 }
