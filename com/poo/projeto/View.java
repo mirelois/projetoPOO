@@ -629,10 +629,10 @@ public class View {
 
     public void run() {
         String initialDate;
-        /*do {
+        do {
             System.out.println("Introduza data inicial válida (YYYY-MM-DD)");
             initialDate = is.nextLine();
-        }while (!this.controller.setInitialDate(initialDate));*/
+        } while (!this.controller.setInitialDate(initialDate));
 
         executeMenuByName("startMenu", null);
         //Boot

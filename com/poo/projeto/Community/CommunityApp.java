@@ -116,7 +116,7 @@ public class CommunityApp implements Serializable {
     }
 
     public void addSmartBulb(String address, String division, String tone, String diameter, String baseConsumption) throws AddressDoesntExistException {
-        double installationCost = 5.99;
+        double installationCost = 1;
         //TODO ler addSmartCamera
         SmartBulb smartBulb = new SmartBulb(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), tone, Integer.parseInt(diameter));
         this.idDevice++;
@@ -124,7 +124,7 @@ public class CommunityApp implements Serializable {
     }
 
     public void addSmartSpeaker(String address, String division, String volume, String brand, String radio, String baseConsumption) throws AddressDoesntExistException {
-        double installationCost = 20.99;
+        double installationCost = 10;
         //TODO ler addSmartCamera
         SmartSpeaker smartSpeaker = new SmartSpeaker(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), Integer.parseInt(volume), brand, radio);
         this.idDevice++;
@@ -138,7 +138,7 @@ public class CommunityApp implements Serializable {
         //TODO isto vale tanto para o create como para o add
         resolutionInt[0] = Integer.parseInt(temp[0]);
         resolutionInt[1] = Integer.parseInt(temp[1]);
-        double installationCost = 50.99;
+        double installationCost = 100;
         SmartCamera smartCamera = new SmartCamera(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), resolutionInt, Integer.parseInt(dimension));
         this.idDevice++;
         this.community.addSmartDevice(address, division, smartCamera);
