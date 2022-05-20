@@ -310,7 +310,7 @@ public class SmartHouse implements Serializable {
                 "morada: " + address +
                 ", fornecedor: " + provider.getName() +
                 ", nome do dono: " + name +
-                ", nif do dono " + nif +
+                ", nif do dono: " + nif +
                 "\n    " + divisions.values().stream().map(Division::toString).collect(Collectors.joining("\n    "));
     }
 
