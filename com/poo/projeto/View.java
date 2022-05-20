@@ -404,7 +404,9 @@ public class View {
     private void addProviderView() {
         System.out.println("Introduza o nome do fornecedor:");
         String name = is.nextLine();
-        System.out.println("Introduza o fator de desconto:");
+        do {
+            System.out.println("Introduza o fator de desconto:");
+        }while (is.hasNextDouble());
         Double discountFactor = is.nextDouble();
         is.nextLine();
         //TODO adicionar mais coisas ao provider

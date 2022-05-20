@@ -108,6 +108,7 @@ public class Community implements Serializable {
         if (max.isEmpty()) {
             throw new NoHouseInPeriodException("No houses with faturation in period " + start.toString() + " to " + end.toString());
         }
+        System.out.println(max.get().toString());
         return max.get().clone();
     }
 

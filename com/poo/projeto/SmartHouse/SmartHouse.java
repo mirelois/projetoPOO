@@ -227,7 +227,6 @@ public class SmartHouse implements Serializable {
                 break;
             }
         }
-
         /*Iterator<Invoice> iterator = invoices.iterator();
         Invoice invoice;
         for(invoice = iterator.next(); iterator.hasNext() && !isBetween(start, invoice.getStart(), invoice.getEnd()); invoice = iterator.next());
