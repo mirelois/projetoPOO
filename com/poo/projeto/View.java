@@ -240,7 +240,7 @@ public class View {
                             return 1;
                         },
                         (args)->{ //imprime casa
-                            System.out.println("Introduza a morada da casa:");
+                            System.out.println("Introduza nome da casa:");
                             String houseName = is.nextLine();
                             try {
                                 System.out.println(this.controller.printHouse(houseName));

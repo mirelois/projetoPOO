@@ -83,12 +83,6 @@ public class SmartSpeaker extends SmartDevice implements Serializable {
     }
 
     @Override
-    public String toString(){
-        return "SmartSpeaker-> " + super.toString() + ", volume: " + this.volume +
-                ", marca: " + this.brand + ", radio: " + this.radio;
-    }
-
-    @Override
     public double dailyConsumption() {
         return this.getOn() ? 1+this.volume/100.0 : 0;
     }

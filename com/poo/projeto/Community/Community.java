@@ -236,10 +236,10 @@ public class Community implements Serializable {
     }
 
     public String providersToString(){
-        return "Todos os Fornecedores:\n    " + this.providerMap.values().stream().map(Provider::toString).collect(Collectors.joining("\n    "));
+        return "All Providers:\n    " + this.providerMap.values().stream().map(Provider::toString).collect(Collectors.joining("\n    "));
     }
 
     public String housesToString(){
-        return "Todas as Casas:\n   " + this.smartHouseMap.values().stream().map(SmartHouse::toString).collect(Collectors.joining("\n    "));
+        return "All Houses:\n   " + this.smartHouseMap.values().stream().map(SmartHouse::toString).collect(Collectors.joining("\n    "));
     }
 }
