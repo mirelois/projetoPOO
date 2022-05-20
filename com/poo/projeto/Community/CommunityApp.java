@@ -306,4 +306,8 @@ public class CommunityApp implements Serializable {
             command.execute(this.community);
         }
     }
+
+    public String smartHousesByNifString(String nif){
+        return this.community.housesByNifString(nif);
+    }
 }

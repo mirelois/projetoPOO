@@ -230,7 +230,7 @@ public class View {
 
     public Menu createPrintMenu() {
         return  new Menu("printMenu",
-                new String[]{"Imprime Tudo", "Imprime Todos os Fornecedores", "Imprime Todas as Casas", "Imprime Casa", "Imprime Fornecedor", "Casa que mais gastou",
+                new String[]{"Imprime Tudo", "Imprime Todos os Fornecedores", "Imprime Todas as Casas", "Imprime Casa", "Imprime Casas por nif", "Imprime Fornecedor", "Casa que mais gastou",
                         "Fornecedor com maior volume de faturação", "Faturas emitidas por um fornecedor",
                         "Ordenação dos maiores consumidores de energia", "Menu Anterior"},
                 new Menu.Handler[]{
@@ -254,6 +254,15 @@ public class View {
                             } catch (AddressDoesntExistException e) {
                                 e.printStackTrace();
                             }
+                            return 1;
+                        },
+                        (args)->{ // imprime Casa por nif
+                            System.out.println("Introduz o nif:");
+                            String casas = this.controller.smartHousesByNif(is.nextLine());
+                            if(casas.equals(""))
+                                System.out.println("Não foram encontradas casas com o nif dado");
+                            else
+                                System.out.println(casas);
                             return 1;
                         },
                         (args)->{ //imprime fornecedor
@@ -313,6 +322,7 @@ public class View {
                         (args)->0
                 },
                 new Menu.PreCondition[]{
+                        ()->true,
                         ()->true,
                         ()->true,
                         ()->true,
