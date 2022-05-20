@@ -136,8 +136,8 @@ public class CommunityApp implements Serializable {
         String[] temp = resolution.split("x");
         //TODO não gosto deste parse, o controller devia logo atirar erro se não funcionasse e o Model não tem nada que saber parses
         //TODO isto vale tanto para o create como para o add
-        resolutionInt[0] = Integer.parseInt(temp[0]);
-        resolutionInt[1] = Integer.parseInt(temp[1]);
+        resolutionInt[0] = Integer.parseInt(temp[0].substring(1));
+        resolutionInt[1] = Integer.parseInt(temp[1].substring(0, temp[1].length()-1));
         double installationCost = 100;
         SmartCamera smartCamera = new SmartCamera(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), resolutionInt, Integer.parseInt(dimension));
         this.idDevice++;
