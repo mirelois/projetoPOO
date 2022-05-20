@@ -223,12 +223,20 @@ public class View {
 
     public Menu createPrintMenu() {
         return  new Menu("printMenu",
-                new String[]{"Imprime Tudo", "Imprime Casa", "Imprime Fornecedor", "Casa que mais gastou",
+                new String[]{"Imprime Tudo", "Imprime Todos os Fornecedores", "Imprime Todas as Casas", "Imprime Casa", "Imprime Fornecedor", "Casa que mais gastou",
                         "Fornecedor com maior volume de faturação", "Faturas emitidas por um fornecedor",
                         "Ordenação dos maiores consumidores de energia", "Menu Anterior"},
                 new Menu.Handler[]{
                         (args)->{ //imprime tudo
                             System.out.println(this.controller.printAll());
+                            return 1;
+                        },
+                        (args)->{ //imprime todos os fornecedores
+                            System.out.println(this.controller.printAllProviders());
+                            return 1;
+                        },
+                        (args)->{ //imprime todas as casas
+                            System.out.println(this.controller.printAllHouses());
                             return 1;
                         },
                         (args)->{ //imprime casa
@@ -298,6 +306,8 @@ public class View {
                         (args)->0
                 },
                 new Menu.PreCondition[]{
+                        ()->true,
+                        ()->true,
                         ()->true,
                         ()->true,
                         ()->true,
