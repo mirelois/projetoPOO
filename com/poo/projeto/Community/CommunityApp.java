@@ -152,9 +152,7 @@ public class CommunityApp implements Serializable {
     //TODO mudar este toString pensando em como mostrar a app toda
     @Override
     public String toString() {
-        return "CommunityApp{" +
-                "community=" + community.toString() +
-                '}';
+        return this.community.toString();
     }
 
     public String houseToString(String houseName) throws AddressDoesntExistException {
