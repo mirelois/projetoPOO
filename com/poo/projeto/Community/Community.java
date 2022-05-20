@@ -80,9 +80,9 @@ public class Community implements Serializable {
     }
 
     public List<SmartHouse> orderedHousesByConsumption(LocalDate start, LocalDate end) throws NoHouseInPeriodException {
-        //TODO tira completamente as casas que têm a mesma consumption lmao
         if (this.smartHouseMap.size() == 0) {
             //TODO não faz muito sentido este teste
+            //TODO esta exception é mentirosa
             throw new NoHouseInPeriodException("Nenhuma casa com consumo no período de " + start.toString() + " a " + end.toString());
         }
         return this.smartHouseMap.values().stream().sorted((SerializableComparator<SmartHouse>) (o1, o2) -> Double.compare(o2.consumptionByPeriod(start, end), o1.consumptionByPeriod(start, end))).collect(Collectors.toList());
@@ -106,7 +106,6 @@ public class Community implements Serializable {
     public SmartHouse houseWithMostConsumption(LocalDate start, LocalDate end) throws NoHouseInPeriodException {
         Optional<SmartHouse> max = this.smartHouseMap.values().stream().max(Comparator.comparingDouble(o -> o.consumptionByPeriod(start, end)));
         if (max.isEmpty()) {
-            //TODO return NoHouses exception
             throw new NoHouseInPeriodException("No houses with faturation in period " + start.toString() + " to " + end.toString());
         }
         return max.get().clone();

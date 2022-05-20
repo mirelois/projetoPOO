@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 public class Provider implements Comparable<Provider>, Serializable {
     private static double baseValueKWH = 2.4, taxFactor = 0.23;
     private String name;
-    private Map<SmartHouse, Set<Invoice>> invoiceMap;
     private Double discountFactor;
+    private Map<SmartHouse, Set<Invoice>> invoiceMap;
     private DailyCostAlgorithm dailyCostAlgorithm;
 
     public Provider() {
