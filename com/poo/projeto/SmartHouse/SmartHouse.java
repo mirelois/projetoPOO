@@ -306,15 +306,12 @@ public class SmartHouse implements Serializable {
 
     @Override
     public String toString() {
-        return "SmartHouse{" +
-                "address='" + address + '\'' +
-                ", provider=" + provider.getName() +
-                ", name='" + name + '\'' +
-                ", nif='" + nif + '\'' +
-                //", invoices=" + invoices +
-                //", devices=" + devices +
-                ", divisions=" + divisions.values().stream().map(Division::toString).collect(Collectors.joining("\n     ")) +
-                '}';
+        return "Casa-> " +
+                "morada: " + address +
+                ", fornecedor: " + provider.getName() +
+                ", nome do dono: " + name +
+                ", nif do dono " + nif +
+                "\n     " + divisions.values().stream().map(Division::toString).collect(Collectors.joining("\n     "));
     }
 
     public void setBaseConsumption(String device, Double baseConsumption) throws DeviceDoesntExistException {

@@ -90,6 +90,11 @@ public class SmartBulb extends SmartDevice implements Serializable {
     }
 
     @Override
+    public String toString(){
+        return "SmartBulb-> " + super.toString() + ", tom: " + this.tone + ", dimametro: " + this.diameter;
+    }
+
+    @Override
     public double dailyConsumption() {
         return this.getOn() ? (this.getBaseConsumption() + (this.tone+1)/3.0) : 0;
     }

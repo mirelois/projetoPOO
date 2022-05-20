@@ -100,10 +100,8 @@ public class Division implements Serializable {
 
     @Override
     public String toString() {
-        return "Division{" +
-                "name='" + name + '\'' +
-                ", devices=" + devices.values().stream().map(SmartDevice::toString).collect(Collectors.joining("\n  ")) +
-                '}';
+        return "Divisão-> " + this.name + "\n        " +
+                devices.values().stream().map(SmartDevice::toString).collect(Collectors.joining("\n        "));
     }
 
 }

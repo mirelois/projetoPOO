@@ -153,11 +153,7 @@ public class Provider implements Comparable<Provider>, Serializable {
 
     @Override
     public String toString() {
-        return "Provider{" +
-                "name='" + name + '\'' +
-                //", invoiceMap=" + invoiceMap +
-                ", discountFactor=" + discountFactor +
-                ", dailyCostAlgorithm=" + dailyCostAlgorithm.getName() +
-                '}';
+        return "Fornecedor-> " + this.name + ", fator de desconto: "
+                + this.discountFactor + ", algoritmo: " + this.dailyCostAlgorithm.getName();
     }
 }
