@@ -108,7 +108,6 @@ public class Community implements Serializable {
         if (max.isEmpty()) {
             throw new NoHouseInPeriodException("No houses with faturation in period " + start.toString() + " to " + end.toString());
         }
-        System.out.println(max.get().toString());
         return max.get().clone();
     }
 
@@ -230,9 +229,10 @@ public class Community implements Serializable {
     }
 
     public void advanceDate(LocalDate newDate) {
-        for(SmartHouse house : this.getSmartHouseMap().values()) {
+        for(SmartHouse house : this.smartHouseMap.values()) {
             house.invoiceEmission(this.getCurrentDate(), newDate);
         }
+
         this.setCurrentDate(newDate);
     }
 

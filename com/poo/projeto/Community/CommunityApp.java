@@ -275,7 +275,6 @@ public class CommunityApp implements Serializable {
         } catch (DateTimeParseException e) {
             return false;
         }
-        System.out.println(localDate.toString());
         this.community.setCurrentDate(localDate);
         return true;
     }

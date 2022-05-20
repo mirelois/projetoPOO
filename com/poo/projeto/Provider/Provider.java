@@ -15,7 +15,7 @@ public class Provider implements Comparable<Provider>, Serializable {
     private static double baseValueKWH = 2.4, taxFactor = 0.23;
     private String name;
     private Double discountFactor;
-    private Map<SmartHouse, Set<Invoice>> invoiceMap;
+    private Map<SmartHouse, List<Invoice>> invoiceMap;
     private DailyCostAlgorithm dailyCostAlgorithm;
 
     public Provider() {
@@ -61,10 +61,10 @@ public class Provider implements Comparable<Provider>, Serializable {
     //    this.name = name;
     //}
 
-    public Map<SmartHouse, Set<Invoice>> getInvoiceMap() {
-        HashMap<SmartHouse, Set<Invoice>> invoiceMap = new HashMap<>();
-        for (Map.Entry<SmartHouse, Set<Invoice>> m : this.invoiceMap.entrySet()) {
-            invoiceMap.put(m.getKey(), m.getValue().stream().map(Invoice::clone).collect(Collectors.toSet()));
+    public Map<SmartHouse, List<Invoice>> getInvoiceMap() {
+        HashMap<SmartHouse, List<Invoice>> invoiceMap = new HashMap<>();
+        for (Map.Entry<SmartHouse, List<Invoice>> m : this.invoiceMap.entrySet()) {
+            invoiceMap.put(m.getKey(), m.getValue().stream().map(Invoice::clone).collect(Collectors.toList()));
         }
         return invoiceMap;
     }
@@ -124,7 +124,7 @@ public class Provider implements Comparable<Provider>, Serializable {
 
     public Double invoicingVolume() {
         double r = 0;
-        for (Set<Invoice> invoices : this.invoiceMap.values()) {
+        for (List<Invoice> invoices : this.invoiceMap.values()) {
             for (Invoice invoice : invoices) {
                 r += invoice.getCost();
             }
@@ -135,19 +135,12 @@ public class Provider implements Comparable<Provider>, Serializable {
     public Invoice invoiceEmission(SmartHouse house, LocalDate start, LocalDate end) {
         long days = ChronoUnit.DAYS.between(start, end);
         Invoice invoice = new Invoice(start, end, house.totalConsumption()*days, this.dailyCost(house)*days + house.getInstalationCosts(), house.getAddress(), this.getName());
-        Set<Invoice> set = this.invoiceMap.get(house);
-        if (set == null) {
-            set = new TreeSet<>(new SerializableComparator<Invoice>() {
-                @Override
-                public int compare(Invoice o1, Invoice o2) {
-                    return Double.compare(o1.getCost(), o2.getCost());
-                }
-            });
-            set.add(invoice);
-            this.invoiceMap.put(house, set);
-        } else {
-            set.add(invoice);
+        List<Invoice> list = this.invoiceMap.get(house);
+        if (list == null) {
+            list = new ArrayList<>();
+            this.invoiceMap.put(house, list);
         }
+        list.add(invoice);
         return invoice.clone();
     }
 

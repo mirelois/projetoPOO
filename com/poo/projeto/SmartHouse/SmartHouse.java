@@ -208,26 +208,26 @@ public class SmartHouse implements Serializable {
     private Boolean isBetween(LocalDate t, LocalDate t1, LocalDate t2) {
         return t.compareTo(t1) >= 0 && t.compareTo(t2) <= 0;
     }
-    public Double consumptionByPeriod() {
-        return this.invoices.get(invoices.size() - 1).getConsumption();
-    }
 
     public Double consumptionByPeriod(LocalDate start, LocalDate end){
         //TODO testar isto num ficheiro à parte a ver se funciona
-        double cost = 0;
+        double consumption = 0;
         for(Invoice invoice : invoices){
             if(isBetween(start, invoice.getStart(), invoice.getEnd())){
-                cost += ((double) ChronoUnit.DAYS.between(start, invoice.getEnd()) / ChronoUnit.DAYS.between(invoice.getStart(), invoice.getEnd())) * invoice.getCost();
+                consumption += ((double) ChronoUnit.DAYS.between(start, invoice.getEnd()) / ChronoUnit.DAYS.between(invoice.getStart(), invoice.getEnd())) * invoice.getConsumption();
             }
             if(isBetween(invoice.getStart(), start, end) && isBetween(invoice.getEnd(), start, end)){
-                cost += invoice.getCost();
+                consumption += invoice.getConsumption();
             }
             if (isBetween(invoice.getStart(), start, end) && !isBetween(invoice.getEnd(), start, end)) {
-                cost += ((double) ChronoUnit.DAYS.between(invoice.getStart(), end) / ChronoUnit.DAYS.between(invoice.getStart(), invoice.getEnd())) * invoice.getCost();
+                consumption += ((double) ChronoUnit.DAYS.between(invoice.getStart(), end) / ChronoUnit.DAYS.between(invoice.getStart(), invoice.getEnd())) * invoice.getConsumption();
                 break;
             }
         }
-        /*Iterator<Invoice> iterator = invoices.iterator();
+
+
+        /*
+        Iterator<Invoice> iterator = invoices.iterator();
         Invoice invoice;
         for(invoice = iterator.next(); iterator.hasNext() && !isBetween(start, invoice.getStart(), invoice.getEnd()); invoice = iterator.next());
         if (isBetween(end, invoice.getStart(), invoice.getEnd())) {
@@ -238,7 +238,7 @@ public class SmartHouse implements Serializable {
                 cost += invoice.getCost();
             cost += ((double) ChronoUnit.DAYS.between(invoice.getStart(), end) / ChronoUnit.DAYS.between(invoice.getStart(), invoice.getEnd())) * invoice.getCost();
         }*/
-        return cost;
+        return consumption;
     }
 
     public Integer numberOfDevices(){
@@ -308,6 +308,7 @@ public class SmartHouse implements Serializable {
         return "Casa-> " +
                 "morada: " + this.address +
                 ", fornecedor: " + this.provider.getName() +
+                ", invoice: " + this.invoices.stream().map(Invoice::toString).collect(Collectors.joining("\n    ")) +
                 ", nome do dono: " + this.name +
                 ", nif do dono: " + this.nif +
                 "\n    " + divisions.values().stream().map(Division::toString).collect(Collectors.joining("\n    "));
