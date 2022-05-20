@@ -277,4 +277,8 @@ public class CommunityApp implements Serializable {
         this.community.setCurrentDate(localDate);
         return true;
     }
+
+    public boolean isAutomaticSimulationOver() {
+        return this.commands.size() == 0;
+    }
 }
