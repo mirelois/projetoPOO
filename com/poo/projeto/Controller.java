@@ -27,11 +27,11 @@ public class Controller {
     //lista de comandos que pode estar vazia
 
     public CommunityApp getModel() {
-        return model;
+        return model.clone();
     }
 
     public void setModel(CommunityApp model) {
-        this.model = model;
+        this.model = model.clone();
     }
 
     public Controller(CommunityApp community) {

@@ -42,11 +42,11 @@ public class View {
     }
 
     public Controller getController() {
-        return controller;
+        return controller.clone();
     }
 
     public void setController(Controller controller) {
-        this.controller = controller;
+        this.controller = controller.clone();
     }
 
     public Map<String, Menu> getMenus() {

@@ -138,4 +138,8 @@ public class Menu implements Serializable{
     //public void setMenuMap(Map<String, Menu> menuMap) {
     //    this.menuMap = new HashMap<>(menuMap);
     //}
+
+    public Menu clone() {
+        return new Menu(this);
+    }
 }
