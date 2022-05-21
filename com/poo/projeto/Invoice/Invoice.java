@@ -87,15 +87,6 @@ public class Invoice implements Comparable<Invoice>, Serializable {
         this.provider = provider;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Invoice invoice = (Invoice) o;
-        return Objects.equals(start, invoice.start) && Objects.equals(end, invoice.end) && Objects.equals(consumption, invoice.consumption) && Objects.equals(cost, invoice.cost);
-    }
-
     @Override
     public String toString() {
         return "Fatura-> " +
@@ -115,5 +106,13 @@ public class Invoice implements Comparable<Invoice>, Serializable {
     @Override
     public int compareTo(Invoice o) {
         return Double.compare(this.getConsumption(), o.getConsumption());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Invoice invoice = (Invoice) o;
+        return Objects.equals(start, invoice.start) && Objects.equals(end, invoice.end) && Objects.equals(consumption, invoice.consumption) && Objects.equals(cost, invoice.cost) && Objects.equals(smartHouse, invoice.smartHouse);
     }
 }
