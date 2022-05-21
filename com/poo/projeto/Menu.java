@@ -90,7 +90,6 @@ public class Menu implements Serializable{
     public int readOption() {
         while (!is.hasNextInt()) {
             is.nextLine();
-            System.out.println("teste");
         }
         int read = is.nextInt();
         is.nextLine();
