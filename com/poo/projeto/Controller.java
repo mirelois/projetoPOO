@@ -362,8 +362,11 @@ public class Controller {
         this.model.addSmartCamera(address, division, resolution, dimension, baseConsumption, Double.parseDouble(installationCost));
     }
 
-    public void addSmartHouse(String address, String name, String nif, String provider) throws ProviderDoesntExistException, AddressAlreadyExistsException{
-        this.model.addSmartHouse(address, name, nif, provider);
+    public String addSmartHouse(String name, String nif, String provider) throws ProviderDoesntExistException, AddressAlreadyExistsException{
+        String newAddress = this.addressGenerate.toString();
+        this.addressGenerate++;
+        this.model.addSmartHouse(newAddress, name, nif, provider);
+        return newAddress;
     }
 
     public void addProvider(String name, String discountFactor) throws ProviderAlreadyExistsException {
