@@ -102,7 +102,9 @@ public class Invoice implements Comparable<Invoice>, Serializable {
                 "inicio: " + this.start +
                 ", fim: " + this.end +
                 ", consumo : " + this.consumption +
-                ", custo: " + this.cost;
+                ", custo: " + this.cost +
+                ", casa: " + this.smartHouse +
+                ", provider: " + this.provider;
     }
 
     @Override

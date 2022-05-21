@@ -15,7 +15,7 @@ public class Provider implements Comparable<Provider>, Serializable {
     private static double baseValueKWH = 2.4, taxFactor = 0.23;
     private String name;
     private Double discountFactor;
-    private Map<SmartHouse, List<Invoice>> invoiceMap;
+    private Map<String, List<Invoice>> invoiceMap;
     private DailyCostAlgorithm dailyCostAlgorithm;
 
     public Provider() {
@@ -61,9 +61,9 @@ public class Provider implements Comparable<Provider>, Serializable {
     //    this.name = name;
     //}
 
-    public Map<SmartHouse, List<Invoice>> getInvoiceMap() {
-        HashMap<SmartHouse, List<Invoice>> invoiceMap = new HashMap<>();
-        for (Map.Entry<SmartHouse, List<Invoice>> m : this.invoiceMap.entrySet()) {
+    public Map<String, List<Invoice>> getInvoiceMap() {
+        HashMap<String, List<Invoice>> invoiceMap = new HashMap<>();
+        for (Map.Entry<String, List<Invoice>> m : this.invoiceMap.entrySet()) {
             invoiceMap.put(m.getKey(), m.getValue().stream().map(Invoice::clone).collect(Collectors.toList()));
         }
         return invoiceMap;
@@ -135,10 +135,10 @@ public class Provider implements Comparable<Provider>, Serializable {
     public Invoice invoiceEmission(SmartHouse house, LocalDate start, LocalDate end) {
         long days = ChronoUnit.DAYS.between(start, end);
         Invoice invoice = new Invoice(start, end, house.totalConsumption()*days, this.dailyCost(house)*days + house.getInstalationCosts(), house.getAddress(), this.getName());
-        List<Invoice> list = this.invoiceMap.get(house);
+        List<Invoice> list = this.invoiceMap.get(house.getAddress());
         if (list == null) {
             list = new ArrayList<>();
-            this.invoiceMap.put(house, list);
+            this.invoiceMap.put(house.getAddress(), list);
         }
         list.add(invoice);
         return invoice.clone();
