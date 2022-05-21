@@ -8,5 +8,8 @@
 2022.04.13, 101, Cozinha, divSetOn
 2022.04.15, 101, 3412, setOff
 2022.04.17, 101, Cozinha, divSetOff
+2022.04.18, 101, 3411, setOn
 2022.04.19, Luzboa, alteraValorDesconto, 0
 2022.04.20, 100, Luzboa
+2022.05.01, 4, YIce
+2022.05.02, 4, 167, setOff
