@@ -17,6 +17,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Controller {
 
@@ -26,6 +27,20 @@ public class Controller {
 
     //lista de comandos que pode estar vazia
 
+    public Controller(CommunityApp community) {
+        this.setModel(community);
+        this.addressGenerate = 0;
+        this.lastAddress = "0";
+        this.lastDivision = "cozinha";
+    }
+
+    public Controller(Controller controller){
+        this.model = controller.getModel();
+        this.lastAddress = controller.getLastAddress();
+        this.lastDivision = controller.getLastDivision();
+        this.addressGenerate = controller.getAddressGenerate();
+    }
+
     public CommunityApp getModel() {
         return model.clone();
     }
@@ -34,11 +49,28 @@ public class Controller {
         this.model = model.clone();
     }
 
-    public Controller(CommunityApp community) {
-        this.setModel(community);
-        this.addressGenerate = 0;
-        this.lastAddress = "0";
-        this.lastDivision = "cozinha";
+    public Integer getAddressGenerate() {
+        return addressGenerate;
+    }
+
+    public void setAddressGenerate(Integer addressGenerate) {
+        this.addressGenerate = addressGenerate;
+    }
+
+    public String getLastDivision() {
+        return lastDivision;
+    }
+
+    public void setLastDivision(String lastDivision) {
+        this.lastDivision = lastDivision;
+    }
+
+    public String getLastAddress() {
+        return lastAddress;
+    }
+
+    public void setLastAddress(String lastAddress) {
+        this.lastAddress = lastAddress;
     }
 
     public void saveState(String fileName) throws FileNotFoundException, IOException {
@@ -340,5 +372,28 @@ public class Controller {
 
     public Boolean setInitialDate(String initialDate) {
         return  this.model.setInitialDate(initialDate);
+    }
+
+    @Override
+    public Controller clone(){
+        return new Controller(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Controller{" +
+                "addressGenerate=" + this.addressGenerate +
+                ", lastDivision='" + this.lastDivision + '\'' +
+                ", lastAddress='" + this.lastAddress + '\'' +
+                ", model=" + this.model +
+                '}';
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Controller that = (Controller) o;
+        return Objects.equals(addressGenerate, that.addressGenerate) && Objects.equals(lastDivision, that.lastDivision) && Objects.equals(lastAddress, that.lastAddress) && Objects.equals(model, that.model);
     }
 }
