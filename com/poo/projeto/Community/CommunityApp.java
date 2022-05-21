@@ -38,6 +38,28 @@ public class CommunityApp implements Serializable {
         this.commands = new ArrayList<>();
     }
 
+    public CommunityApp(CommunityApp communityApp){
+        this.community = communityApp.getCommunity();
+        this.idDevice = communityApp.getIdDevice();
+        this.commands = communityApp.getCommands();
+    }
+
+    public List<Command> getCommands() {
+        return this.commands.stream().map(Command::clone).collect(Collectors.toList());
+    }
+
+    public void setCommands(List<Command> commands) {
+        this.commands = commands.stream().map(Command::clone).collect(Collectors.toList());
+    }
+
+    public Community getCommunity() {
+        return this.community.clone();
+    }
+
+    public void setCommunity(Community community) {
+        this.community = community.clone();
+    }
+
     public Integer getIdDevice() {
         return idDevice;
     }
@@ -213,7 +235,7 @@ public class CommunityApp implements Serializable {
         LocalDate localDate = this.community.getCurrentDate();
         if (date != null)
             localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy.MM.dd"));
-        this.commands.add(new setBaseConsumptionCommand(localDate, address, deviceName, baseConsumption));
+        this.commands.add(new SetBaseConsumptionCommand(localDate, address, deviceName, baseConsumption));
     }
 
     public LocalDate getDate(String date) {
@@ -233,23 +255,23 @@ public class CommunityApp implements Serializable {
                 dailyCostAlgorithm = DailyCostAlgorithmOne.getInstance();
                 break;
         }
-        this.commands.add(new setProviderAlgorthmCommand(getDate(date), providerName, dailyCostAlgorithm));
+        this.commands.add(new SetProviderAlgorthmCommand(getDate(date), providerName, dailyCostAlgorithm));
     }
 
     public void setProviderDiscountFactor(String date, String providerName, Double discountFactor) {
-        this.commands.add(new setProviderDiscountFactorCommand(getDate(date), providerName, discountFactor));
+        this.commands.add(new SetProviderDiscountFactorCommand(getDate(date), providerName, discountFactor));
     }
 
     public void setSmartHouseProvider(String date, String address, String provider) {
-        this.commands.add(new setSmartHouseProviderCommand(getDate(date), address, provider));
+        this.commands.add(new SetSmartHouseProviderCommand(getDate(date), address, provider));
     }
 
     public void turnDivision(String date, String address, String division, Boolean b) {
-        this.commands.add(new turnDivisionCommand(getDate(date), address, division, b));
+        this.commands.add(new TurnDivisionCommand(getDate(date), address, division, b));
     }
 
     public void turnSmartDevice(String date, String address, String smartDevice, Boolean b) {
-        this.commands.add(new turnSmartDeviceCommand(getDate(date), address, smartDevice, b));
+        this.commands.add(new TurnSmartDeviceCommand(getDate(date), address, smartDevice, b));
     }
 
     public void advanceXCicles(int numberOfCicles) throws AddressDoesntExistException, DivisionDoesntExistException, ProviderAlreadyExistsException, DeviceDoesntExistException, AddressAlreadyExistsException, ProviderDoesntExistException, DivisionAlreadyExistsException {
@@ -330,5 +352,9 @@ public class CommunityApp implements Serializable {
         }
         //TODO Lucena limpar estes tostrings seu nabo
         return stringBuilder.toString();
+    }
+
+    public CommunityApp clone(){
+        return new CommunityApp(this);
     }
 }

@@ -253,4 +253,9 @@ public class Community implements Serializable {
         }
         return sb.toString();
     }
+
+    @Override
+    public Community clone(){
+        return new Community(this);
+    }
 }

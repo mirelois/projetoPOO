@@ -388,7 +388,7 @@ public class Controller {
                 ", model=" + this.model +
                 '}';
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
