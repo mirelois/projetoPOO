@@ -598,11 +598,11 @@ public class View {
                 new Menu.Handler[]{
                         (args) -> {
                             this.controller.changeProviderAlgorithm(args.get(0), 1);
-                            return 1;
+                            return 0;
                         },
                         (args) -> {
                             this.controller.changeProviderAlgorithm(args.get(0), 2);
-                            return 1;
+                            return 0;
                         },
                         (args) -> 0
                 },

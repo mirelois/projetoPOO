@@ -5,5 +5,8 @@
 2022.04.10, 4, 167, setOn
 2022.04.11, 3, EDP Comercial
 2022.04.11, 5, 247, alteraConsumoBase, 1
-2022.04.12, Iberdrola, alteraValorDesconto, 3
+2022.04.11, 0, Garagem, divSetOn
+2022.04.11, 0, 18, setOff
+2022.04.12, 0, 22, setOn
 2022.04.13, Iberdrola, alteraAlgoritmo, 2
+2022.04.14, Iberdrola, alteraValorDesconto, 3

@@ -291,7 +291,7 @@ public class Controller {
     }
 
     public void changeDiscountFactor(String provider, String discountFactor) {
-        this.model.setProviderDiscountFactor(null, provider, Double.parseDouble(discountFactor)/100);
+        this.model.setProviderDiscountFactor(null, provider, Double.parseDouble(discountFactor));
         //não esquecer de dividir por 100 o factor
     }
 

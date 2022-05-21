@@ -256,7 +256,7 @@ public class CommunityApp implements Serializable {
     }
 
     public void setProviderDiscountFactor(String date, String providerName, Double discountFactor) {
-        this.commands.add(new SetProviderDiscountFactorCommand(getDate(date), providerName, discountFactor));
+        this.commands.add(new SetProviderDiscountFactorCommand(getDate(date), providerName, discountFactor/100));
     }
 
     public void setSmartHouseProvider(String date, String address, String provider) {
@@ -276,8 +276,6 @@ public class CommunityApp implements Serializable {
         int i = 0;
         Iterator<Command> iterator = commands.iterator();
         Command command;
-        System.out.println(commands.size());
-        System.out.println(this.community.getCurrentDate().toString());
         while (iterator.hasNext() && i < numberOfCicles) {
             command = iterator.next();
             if (!command.getExecutionTime().equals(current)) {

@@ -1,0 +1,9 @@
+2022.05.01, 6, Escritorio1, divSetOn
+2022.05.01, Muon, alteraAlgoritmo, 1
+2022.05.01, Muon, alteraValorDesconto, 30
+2022.05.01, 6, 297, alteraConsumoBase, 1
+2022.05.01, 6, 297, setOn
+2022.05.02, 6, 291, setOff
+2022.05.02, 6, 294, setOff
+2022.05.03, 7, Jardim, divSetOn
+2022.05.02, 8, Sala de Jantar 1, divSetOn
