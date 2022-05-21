@@ -308,10 +308,11 @@ public class SmartHouse implements Serializable {
         return "Casa-> " +
                 "morada: " + this.address +
                 ", fornecedor: " + this.provider.getName() +
-                ", invoice: " + this.invoices.stream().map(Invoice::toString).collect(Collectors.joining("\n    ")) +
                 ", nome do dono: " + this.name +
                 ", NIF do dono: " + this.nif +
-                "\n    " + divisions.values().stream().map(Division::toString).collect(Collectors.joining("\n    "));
+                "\n\n    Faturas:" + "\n    "
+                + this.invoices.stream().map(Invoice::toString).collect(Collectors.joining("\n    ")) +
+                "\n\n    " + divisions.values().stream().map(Division::toString).collect(Collectors.joining("\n    "));
     }
 
     public void setBaseConsumption(String device, Double baseConsumption) throws DeviceDoesntExistException {
