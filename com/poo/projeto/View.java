@@ -663,6 +663,8 @@ public class View {
         do {
             System.out.println("Introduza data inicial válida (YYYY-MM-DD)");
             initialDate = is.nextLine();
+            //não sabemos a implementação das datas dentro do model
+            //esperamos e recebemos a informação se a data foi aceite ou não
         } while (!this.controller.setInitialDate(initialDate));
         executeMenuByName("startMenu", null);
     }
