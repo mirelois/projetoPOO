@@ -375,6 +375,7 @@ public class View {
                             String discountFactor = is.nextLine();
                             System.out.println("Algoritmos Disponíveis:");
                             System.out.println(this.controller.showDailyCostAlgorithms());
+                            System.out.println("\nIntroduza o número:");
                             String number;
                             if(!is.hasNextInt()){
                                 System.out.println("Valor inválido");
