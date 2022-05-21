@@ -306,7 +306,7 @@ public class SmartHouse implements Serializable {
     @Override
     public String toString() {
         return "Casa-> " +
-                "morada: " + this.address +
+                "código: " + this.address +
                 ", fornecedor: " + this.provider.getName() +
                 ", nome do dono: " + this.name +
                 ", NIF do dono: " + this.nif +
