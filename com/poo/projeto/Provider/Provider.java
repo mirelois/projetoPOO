@@ -15,6 +15,7 @@ public class Provider implements Comparable<Provider>, Serializable {
     private static double baseValueKWH = 1, taxFactor = 0;
     private String name;
     private Double discountFactor;
+    //a lista é útil para aceder cronologicamente às faturas
     private Map<String, List<Invoice>> invoiceMap;
     private DailyCostAlgorithm dailyCostAlgorithm;
 

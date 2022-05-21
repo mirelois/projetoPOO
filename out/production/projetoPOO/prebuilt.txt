@@ -1,0 +1,22 @@
+2022.04.10, 1, Sala de Jantar 1, divSetOn
+2022.04.10, 2, 88, setOn
+2022.04.10, 3, Garagem, divSetOn
+2022.04.10, 4, 198, setOn
+2022.04.10, 4, 198, alteraConsumoBase, 30
+2022.04.10, 4, 167, setOn
+2022.04.10, 4, 167, alteraConsumoBase, 20
+2022.04.10, 5, Jardim, divSetOn
+2022.04.10, 6, Quarto, divSetOn
+2022.04.10, 7, Jardim, divSetOn
+2022.04.10, 8, 374, setOn
+2022.04.10, 8, 378, setOn
+2022.04.10, 9, Sala de Estar, divSetOn
+2022.04.10, 10, Quarto, divSetOn
+2022.04.10, 100, Escritorio, divSetOn
+2022.04.10, 150, Garagem 2, divSetOn
+2022.04.10, Iberdrola, alteraValorDesconto, 10
+2022.04.10, Iberdrola, alteraAlgoritmo, 2
+2022.04.10, Muon, alteraValorDesconto, 5
+2022.04.10, YIce, alteraValorDesconto, 50
+2022.04.10, Luzboa, alteraAlgoritmo, 2
+2022.04.10, Luzboa, alteraValorDesconto, 10

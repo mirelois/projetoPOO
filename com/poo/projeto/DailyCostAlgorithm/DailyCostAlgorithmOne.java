@@ -19,7 +19,7 @@ public class DailyCostAlgorithmOne extends DailyCostAlgorithm implements Seriali
 
     @Override
     public Double apply(Provider provider, SmartHouse smartHouse) {
-        return Provider.getBaseValueKWH() * smartHouse.totalConsumption() * (1 + Provider.getTaxFactor());
+        return Provider.getBaseValueKWH() * smartHouse.totalConsumption() * (1 + Provider.getTaxFactor()) * Math.min((1 - provider.getDiscountFactor()), 0.01);
     }
 
     @Override
