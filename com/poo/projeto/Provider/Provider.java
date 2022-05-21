@@ -152,4 +152,13 @@ public class Provider implements Comparable<Provider>, Serializable {
         return "Fornecedor-> " + this.name + ", fator de desconto: "
                 + this.discountFactor + ", algoritmo: " + this.dailyCostAlgorithm.getName();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Provider provider = (Provider) o;
+        return this.name.equals(provider.name);
+    }
+
 }
