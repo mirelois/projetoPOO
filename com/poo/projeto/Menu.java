@@ -8,13 +8,11 @@ import java.util.Scanner;
 
 public class Menu implements Serializable{
 
-    /** Functional interface para handlers. */
-    public interface Handler extends Serializable {  // método de tratamento
+    public interface Handler extends Serializable {
         public int execute(List<String> args);
     }
 
-    /** Functional interface para pré-condições. */
-    public interface PreCondition extends Serializable {  // Predicate ?
+    public interface PreCondition extends Serializable {
         public boolean validate();
     }
 
@@ -140,4 +138,8 @@ public class Menu implements Serializable{
     //public void setMenuMap(Map<String, Menu> menuMap) {
     //    this.menuMap = new HashMap<>(menuMap);
     //}
+
+    public Menu clone() {
+        return new Menu(this);
+    }
 }
