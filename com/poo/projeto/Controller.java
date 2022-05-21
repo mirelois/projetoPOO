@@ -262,6 +262,8 @@ public class Controller {
         return this.model.housesToString();
     }
 
+    public String printDateNow(){return this.model.getCurrentDate().toString();}
+
     public String houseWithMostConsumption(String start, String end) throws NoHouseInPeriodException, DateTimeParseException {
         return this.model.houseWithMostConsumption(start, end);
     }

@@ -228,7 +228,7 @@ public class View {
 
     public Menu createPrintMenu() {
         return  new Menu("printMenu",
-                new String[]{"Imprime Tudo", "Imprime Todos os Fornecedores", "Imprime Todas as Casas", "Imprime Casa", "Imprime Casas por NIF", "Imprime Fornecedor", "Casa que mais gastou",
+                new String[]{"Imprime Tudo", "Imprime Todos os Fornecedores", "Imprime Todas as Casas", "Imprime Data atual", "Imprime Casa", "Imprime Casas por NIF", "Imprime Fornecedor", "Casa que mais gastou",
                         "Fornecedor com maior volume de faturação", "Faturas emitidas por um fornecedor",
                         "Ordenação dos maiores consumidores de energia", "Menu Anterior"},
                 new Menu.Handler[]{
@@ -242,6 +242,10 @@ public class View {
                         },
                         (args)->{ //imprime todas as casas
                             System.out.println(this.controller.printAllHouses());
+                            return 1;
+                        },
+                        (args)->{ // imprime data Atual
+                            System.out.println(this.controller.printDateNow());
                             return 1;
                         },
                         (args)->{ //imprime casa
@@ -330,6 +334,7 @@ public class View {
                         ()->true,
                         ()->true,
                         ()->true,
+                        ()->true,
                         ()->true
                 });
     }
@@ -375,6 +380,7 @@ public class View {
                             String discountFactor = is.nextLine();
                             System.out.println("Algoritmos Disponíveis:");
                             System.out.println(this.controller.showDailyCostAlgorithms());
+                            System.out.println("\nIntroduza o número:");
                             String number;
                             if(!is.hasNextInt()){
                                 System.out.println("Valor inválido");
