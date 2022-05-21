@@ -142,12 +142,8 @@ public class View {
                                 return 1;
                             },
                             (args) -> {
-                                int days;
-                                do {
-                                    System.out.println("Quantos dias pretende avançar?");
-                                }while(!is.hasNextInt());
-                                days = is.nextInt();
-                                is.nextLine();
+                                System.out.println("Quantos dias pretende avançar?");
+                                String days = is.nextLine();
                                 try {
                                     this.controller.advanceDays(days);
                                 } catch (Exception e) {
@@ -415,10 +411,8 @@ public class View {
     private void addProviderView() {
         System.out.println("Introduza o nome do fornecedor:");
         String name = is.nextLine();
-        do {
-            System.out.println("Introduza o fator de desconto:");
-        }while (!is.hasNextDouble());
-        Double discountFactor = is.nextDouble();
+        System.out.println("Introduza o fator de desconto:");
+        String discountFactor = is.nextLine();
         is.nextLine();
         try {
             this.controller.addProvider(name, discountFactor);
@@ -555,8 +549,7 @@ public class View {
                         args -> {
                             System.out.println("Introduza o novo fator de desconto em percentagem.");
                             if (is.hasNextInt()) {
-                                Double discountFactor = is.nextDouble();
-                                is.nextLine();
+                                String discountFactor = is.nextLine();
                                 this.controller.changeDiscountFactor(args.get(0), discountFactor);
                             } else {
                                 System.out.println("Valor inválido.");

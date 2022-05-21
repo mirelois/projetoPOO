@@ -12,11 +12,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -128,8 +126,8 @@ public class Controller {
         return everyClass;
     }
 
-    public void advanceDays(Integer days) throws AddressDoesntExistException, DivisionAlreadyExistsException, DivisionDoesntExistException, ProviderAlreadyExistsException, AddressAlreadyExistsException, ProviderDoesntExistException, DeviceDoesntExistException {
-        this.model.advanceDate(ChronoUnit.DAYS.addTo(this.model.getCurrentDate(), days));
+    public void advanceDays(String days) throws AddressDoesntExistException, DivisionAlreadyExistsException, DivisionDoesntExistException, ProviderAlreadyExistsException, AddressAlreadyExistsException, ProviderDoesntExistException, DeviceDoesntExistException {
+        this.model.advanceDate(ChronoUnit.DAYS.addTo(this.model.getCurrentDate(), Integer.parseInt(days)));
     }
     public void parser(List<String> lines) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String[] brokenLine;
@@ -260,8 +258,8 @@ public class Controller {
         this.model.setSmartHouseProvider(null, address, provider);
     }
 
-    public void changeDiscountFactor(String provider, Double discountFactor) {
-        this.model.setProviderDiscountFactor(null, provider, discountFactor/100);
+    public void changeDiscountFactor(String provider, String discountFactor) {
+        this.model.setProviderDiscountFactor(null, provider, Double.parseDouble(discountFactor)/100);
         //não esquecer de dividir por 100 o factor
     }
 
@@ -336,8 +334,8 @@ public class Controller {
         this.model.addSmartHouse(address, name, nif, provider);
     }
 
-    public void addProvider(String name, Double discountFactor) throws ProviderAlreadyExistsException {
-        this.model.addProvider(name, discountFactor);
+    public void addProvider(String name, String discountFactor) throws ProviderAlreadyExistsException {
+        this.model.addProvider(name, Double.parseDouble(discountFactor));
     }
 
     public Boolean setInitialDate(String initialDate) {

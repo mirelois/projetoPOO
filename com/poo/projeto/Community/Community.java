@@ -7,7 +7,7 @@ import com.poo.projeto.Provider.Exceptions.NoProvidersException;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
 import com.poo.projeto.Provider.Provider;
-import com.poo.projeto.Provider.SerializableComparator;
+import com.poo.projeto.SerializableComparator;
 import com.poo.projeto.SmartHouse.Division;
 import com.poo.projeto.SmartHouse.Exceptions.*;
 import com.poo.projeto.SmartHouse.SmartDevice;

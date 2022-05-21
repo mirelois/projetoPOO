@@ -1,4 +1,4 @@
-package com.poo.projeto.Provider;
+package com.poo.projeto;
 
 import java.io.Serializable;
 import java.util.Comparator;
