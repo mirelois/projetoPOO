@@ -29,4 +29,9 @@ public class DailyCostAlgorithmTwo extends DailyCostAlgorithm implements Seriali
     public String getName() {
         return "DailyCostAlgorithmTwo";
     }
+
+    @Override
+    public String toString(){
+        return "DailyCostAlgorithmTwo";
+    }
 }

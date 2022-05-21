@@ -8,4 +8,6 @@ import java.util.function.BiFunction;
 
 public abstract class DailyCostAlgorithm implements BiFunction<Provider, SmartHouse, Double> , Serializable {
     public abstract String getName();
+    @Override
+    public abstract String toString();
 }

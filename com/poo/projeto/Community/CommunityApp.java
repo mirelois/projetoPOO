@@ -5,6 +5,7 @@ import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithm;
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithmOne;
 import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithmTwo;
+import com.poo.projeto.DailyCostAlgorithm.Exceptions.AlgorithmDoesntExistException;
 import com.poo.projeto.Invoice.Invoice;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
@@ -127,10 +128,44 @@ public class CommunityApp implements Serializable {
         this.community.addSmartHouse(house, provider);
     }
 
-    public void addProvider(String provider, Double discountFactor) throws ProviderAlreadyExistsException {
+    private Map<Integer, DailyCostAlgorithm> createAlgoMap(){
+        DailyCostAlgorithm[] algorithms = {DailyCostAlgorithmOne.getInstance(), DailyCostAlgorithmTwo.getInstance()};
+        Map<Integer, DailyCostAlgorithm> algoMap = new HashMap<>();
+        int i = 1;
+        for(DailyCostAlgorithm daily: algorithms){
+            algoMap.put(i, daily);
+            i++;
+        }
+
+        return algoMap;
+    }
+
+    private DailyCostAlgorithm chooseAlgorithm(Integer algorithm) throws AlgorithmDoesntExistException {
+        Map<Integer, DailyCostAlgorithm> algoMap = createAlgoMap();
+        DailyCostAlgorithm algo = algoMap.get(algorithm);
+        if(algoMap.get(algorithm) == null){
+            throw new AlgorithmDoesntExistException("The algorithm doesn't exist!");
+        }
+
+        return algoMap.get(algorithm);
+    }
+
+    public String showDailyCostAlgorithms(){
+        StringBuilder sb = new StringBuilder();
+        int i = 1;
+        for(DailyCostAlgorithm algorithm: createAlgoMap().values()){
+            sb.append('\n');
+            sb.append(i).append(": ").append(algorithm.toString());
+            i++;
+        }
+
+        return sb.toString();
+    }
+
+    public void addProvider(String provider, Double discountFactor, Integer algorithm) throws ProviderAlreadyExistsException, AlgorithmDoesntExistException {
         if (discountFactor == null)
             discountFactor = 0.0;
-        this.community.addProvider(new Provider(provider, discountFactor));
+        this.community.addProvider(new Provider(provider, discountFactor, chooseAlgorithm(algorithm)));
     }
 
     public void addSmartBulb(String address, String division, String tone, String diameter, String baseConsumption, Double installationCost) throws AddressDoesntExistException {

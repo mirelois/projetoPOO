@@ -1,6 +1,7 @@
 package com.poo.projeto;
 
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
+import com.poo.projeto.DailyCostAlgorithm.Exceptions.AlgorithmDoesntExistException;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
@@ -362,21 +363,31 @@ public class View {
                             return 1;
                         },
                         (args) -> {
+                            String name;
                             System.out.println("Introduza o nome do fornecedor:");
                             if(is.hasNextInt()){
                                 System.out.println("Nome de fornecedor inválido");
-                                String name = is.nextLine();
+                                name = is.nextLine();
                                 return 1;
                             }
-                            String name = is.nextLine();
+                            name = is.nextLine();
                             System.out.println("Introduza o fator de desconto:");
                             String discountFactor = is.nextLine();
+                            System.out.println("Algoritmos Disponíveis:");
+                            System.out.println(this.controller.showDailyCostAlgorithms());
+                            String number;
+                            if(!is.hasNextInt()){
+                                System.out.println("Valor inválido");
+                                number = is.nextLine();
+                                return 1;
+                            }
+                            number = is.nextLine();
                             try {
-                                this.controller.addProvider(name, discountFactor);
+                                this.controller.addProvider(name, discountFactor, number);
                                 ArrayList<String> arrayList = new ArrayList<>();
                                 arrayList.add(name);
                                 this.executeMenuByName("alterSimulationDetailsProvider", arrayList);
-                            } catch (ProviderAlreadyExistsException e) {
+                            } catch (ProviderAlreadyExistsException | AlgorithmDoesntExistException e) {
                                 e.printStackTrace();
                             }
                             return 1;
@@ -425,11 +436,11 @@ public class View {
         System.out.println("Introduza o fator de desconto:");
         String discountFactor = is.nextLine();
         try {
-            this.controller.addProvider(name, discountFactor);
+            this.controller.addProvider(name, discountFactor, "1");
             ArrayList<String> arrayList = new ArrayList<>();
             arrayList.add(name);
             this.executeMenuByName("alterSimulationDetailsProvider", arrayList);
-        } catch (ProviderAlreadyExistsException e) {
+        } catch (ProviderAlreadyExistsException | AlgorithmDoesntExistException e) {
             e.printStackTrace();
         }
     }

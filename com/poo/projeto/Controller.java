@@ -3,6 +3,8 @@ package com.poo.projeto;
 import com.poo.projeto.Command.Command;
 import com.poo.projeto.Community.CommunityApp;
 import com.poo.projeto.Community.Exceptions.NoHouseInPeriodException;
+import com.poo.projeto.DailyCostAlgorithm.DailyCostAlgorithm;
+import com.poo.projeto.DailyCostAlgorithm.Exceptions.AlgorithmDoesntExistException;
 import com.poo.projeto.Provider.Exceptions.NoProvidersException;
 import com.poo.projeto.Provider.Exceptions.ProviderAlreadyExistsException;
 import com.poo.projeto.Provider.Exceptions.ProviderDoesntExistException;
@@ -129,12 +131,12 @@ public class Controller {
         return this.lastAddress;
     }
 
-    public boolean createProvider(String line) throws ProviderAlreadyExistsException {
+    public boolean createProvider(String line) throws ProviderAlreadyExistsException, AlgorithmDoesntExistException {
         String[] args = line.split(",");
         if(args.length!=1)
             return false;
         String provider = args[0];
-        this.model.addProvider(provider, null);
+        this.model.addProvider(provider, null, 1);
         return true;
     }
 
@@ -369,12 +371,16 @@ public class Controller {
         return newAddress;
     }
 
-    public void addProvider(String name, String discountFactor) throws ProviderAlreadyExistsException {
-        this.model.addProvider(name, Double.parseDouble(discountFactor));
+    public void addProvider(String name, String discountFactor, String algorithm) throws ProviderAlreadyExistsException, AlgorithmDoesntExistException {
+        this.model.addProvider(name, Double.parseDouble(discountFactor), Integer.parseInt(algorithm));
     }
 
     public Boolean setInitialDate(String initialDate) {
         return  this.model.setInitialDate(initialDate);
+    }
+
+    public String showDailyCostAlgorithms(){
+        return this.model.showDailyCostAlgorithms();
     }
 
     @Override
