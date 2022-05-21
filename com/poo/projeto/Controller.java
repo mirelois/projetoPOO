@@ -282,7 +282,7 @@ public class Controller {
                         case "setOff":
                             this.model.turnSmartDevice(brokenLine[0], brokenLine[1], brokenLine[2], false);
                             break;
-                        case "changeBaseConsumption":
+                        case "alteraConsumoBase":
                             //TODO porcaria
                             Double baseConsumption = Double.parseDouble(brokenLine[4]);
                             this.model.setBaseConsumption(brokenLine[0], brokenLine[1], brokenLine[2], baseConsumption);

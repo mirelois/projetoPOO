@@ -1,4 +1,9 @@
 2022.04.10, 1, Sala de Jantar 1, setOn
-2022.04.10, 2, 1, setOff
+2022.04.10, 2, 88, setOn
+2022.04.10, 3, Garagem, setOn
+2022.04.10, 4, 198, setOn
+2022.04.10, 4, 167, setOn
 2022.04.11, 3, EDP Comercial
+2022.04.11, 5, 247, alteraConsumoBase, 1
 2022.04.12, Iberdrola, alteraValorDesconto, 3
+2022.04.13, Iberdrola, alteraAlgoritmo, 2

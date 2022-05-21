@@ -119,6 +119,7 @@ public abstract class SmartDevice implements Serializable {
     @Override
     public String toString() {
         return "id: " + this.id +
-                ", on: " + this.on;
+                ", on: " + this.on +
+                ", consumoBase: " + this.baseConsumption;
     }
 }
