@@ -310,7 +310,7 @@ public class SmartHouse implements Serializable {
                 ", fornecedor: " + this.provider.getName() +
                 ", invoice: " + this.invoices.stream().map(Invoice::toString).collect(Collectors.joining("\n    ")) +
                 ", nome do dono: " + this.name +
-                ", nif do dono: " + this.nif +
+                ", NIF do dono: " + this.nif +
                 "\n    " + divisions.values().stream().map(Division::toString).collect(Collectors.joining("\n    "));
     }
 
