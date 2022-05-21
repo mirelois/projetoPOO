@@ -115,16 +115,18 @@ public class CommunityApp implements Serializable {
         this.community.addProvider(new Provider(provider, discountFactor));
     }
 
-    public void addSmartBulb(String address, String division, String tone, String diameter, String baseConsumption) throws AddressDoesntExistException {
-        double installationCost = 1;
+    public void addSmartBulb(String address, String division, String tone, String diameter, String baseConsumption, Double installationCost) throws AddressDoesntExistException {
+        if (installationCost == null)
+            installationCost = 1.0;
         //TODO ler addSmartCamera
         SmartBulb smartBulb = new SmartBulb(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), tone, Integer.parseInt(diameter));
         this.idDevice++;
         this.community.addSmartDevice(address, division, smartBulb);
     }
 
-    public void addSmartSpeaker(String address, String division, String volume, String brand, String radio, String baseConsumption) throws AddressDoesntExistException {
-        double installationCost = 10;
+    public void addSmartSpeaker(String address, String division, String volume, String brand, String radio, String baseConsumption, Double installationCost) throws AddressDoesntExistException {
+        if (installationCost == null)
+            installationCost = 10.0;
         //TODO ler addSmartCamera
         SmartSpeaker smartSpeaker = new SmartSpeaker(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), Integer.parseInt(volume), brand, radio);
         this.idDevice++;
@@ -132,14 +134,15 @@ public class CommunityApp implements Serializable {
     }
 
     // TODO idDevice++?
-    public void addSmartCamera(String address, String division, String resolution, String dimension, String baseConsumption) throws AddressDoesntExistException {
+    public void addSmartCamera(String address, String division, String resolution, String dimension, String baseConsumption, Double installationCost) throws AddressDoesntExistException {
         Integer[] resolutionInt = new Integer[2];
         String[] temp = resolution.split("x");
         //TODO não gosto deste parse, o controller devia logo atirar erro se não funcionasse e o Model não tem nada que saber parses
         //TODO isto vale tanto para o create como para o add
         resolutionInt[0] = Integer.parseInt(temp[0].substring(1));
         resolutionInt[1] = Integer.parseInt(temp[1].substring(0, temp[1].length() - 1));
-        double installationCost = 100;
+        if (installationCost == null)
+            installationCost = 100.0;
         SmartCamera smartCamera = new SmartCamera(this.idDevice.toString(), false, installationCost, Double.parseDouble(baseConsumption), resolutionInt, Integer.parseInt(dimension));
         this.idDevice++;
         this.community.addSmartDevice(address, division, smartCamera);

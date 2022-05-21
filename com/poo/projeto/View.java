@@ -613,8 +613,10 @@ public class View {
                             String diameter = is.nextLine();
                             System.out.println("Introduza o consumo base da SmartBulb");
                             String baseConsumption = is.nextLine();
+                            System.out.println("Introduza o custo de instalação da SmartBulb");
+                            String installationCost = is.nextLine();
                             try {
-                                this.controller.addSmartBulb(args.get(0), args.get(1), tone, diameter, baseConsumption);
+                                this.controller.addSmartBulb(args.get(0), args.get(1), tone, diameter, baseConsumption, installationCost);
                             } catch (AddressDoesntExistException e) {
                                 e.printStackTrace();
                             }
@@ -627,8 +629,10 @@ public class View {
                             String dimension = is.nextLine();
                             System.out.println("Introduza o consumo base da SmartCamera");
                             String baseConsumption = is.nextLine();
+                            System.out.println("Introduza o custo de instalação da SmartCamera");
+                            String installationCost = is.nextLine();
                             try {
-                                this.controller.addSmartCamera(args.get(0), args.get(1), resolution, dimension, baseConsumption);
+                                this.controller.addSmartCamera(args.get(0), args.get(1), resolution, dimension, baseConsumption, installationCost);
                             } catch (AddressDoesntExistException e) {
                                 e.printStackTrace();
                             }
@@ -643,8 +647,10 @@ public class View {
                             String radio = is.nextLine();
                             System.out.println("Introduza o consumo base da SmartSpeaker");
                             String baseConsumption = is.nextLine();
+                            System.out.println("Introduza o custo de instalação da SmartSpeaker");
+                            String installationCost = is.nextLine();
                             try {
-                                this.controller.addSmartSpeaker(args.get(0), args.get(1), volume, brand, radio, baseConsumption);
+                                this.controller.addSmartSpeaker(args.get(0), args.get(1), volume, brand, radio, baseConsumption, installationCost);
                             } catch (AddressDoesntExistException e) {
                                 e.printStackTrace();
                             }

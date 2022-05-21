@@ -58,7 +58,7 @@ public class Controller {
         String tone = args[0];
         String diameter = args[1];
         String baseConsumption = args[2];
-        this.model.addSmartBulb(this.lastAddress, this.lastDivision ,tone, diameter, baseConsumption);
+        this.model.addSmartBulb(this.lastAddress, this.lastDivision ,tone, diameter, baseConsumption, null);
         return true;
     }
 
@@ -69,7 +69,7 @@ public class Controller {
         String resolution = args[0];
         String dimention = args[1];
         String baseConsumption = args[2];
-        this.model.addSmartCamera(this.lastAddress, this.lastDivision ,resolution, dimention, baseConsumption);
+        this.model.addSmartCamera(this.lastAddress, this.lastDivision ,resolution, dimention, baseConsumption, null);
 
         return true;
     }
@@ -82,7 +82,7 @@ public class Controller {
         String brand = args[1];
         String radio = args[2];
         String baseConsumption = args[3];
-        this.model.addSmartSpeaker(this.lastAddress, this.lastDivision ,volume, brand, radio, baseConsumption);
+        this.model.addSmartSpeaker(this.lastAddress, this.lastDivision ,volume, brand, radio, baseConsumption, null);
 
         return true;
     }
@@ -320,16 +320,16 @@ public class Controller {
         this.model.addDivision(address, divisionName);
     }
 
-    public void addSmartSpeaker(String address, String division, String volume, String brand, String radio, String baseConsumption) throws AddressDoesntExistException {
-        this.model.addSmartSpeaker(address, division, volume, brand, radio, baseConsumption);
+    public void addSmartSpeaker(String address, String division, String volume, String brand, String radio, String baseConsumption, String installationCost) throws AddressDoesntExistException {
+        this.model.addSmartSpeaker(address, division, volume, brand, radio, baseConsumption, Double.parseDouble(installationCost));
     }
 
-    public void addSmartBulb(String address, String division, String tone, String diameter, String baseConsumption) throws AddressDoesntExistException {
-        this.model.addSmartBulb(address, division, tone, diameter, baseConsumption);
+    public void addSmartBulb(String address, String division, String tone, String diameter, String baseConsumption, String installationCost) throws AddressDoesntExistException {
+        this.model.addSmartBulb(address, division, tone, diameter, baseConsumption, Double.parseDouble(installationCost));
     }
 
-    public void addSmartCamera(String address, String division, String resolution, String dimension, String baseConsumption) throws AddressDoesntExistException {
-        this.model.addSmartCamera(address, division, resolution, dimension, baseConsumption);
+    public void addSmartCamera(String address, String division, String resolution, String dimension, String baseConsumption, String installationCost) throws AddressDoesntExistException {
+        this.model.addSmartCamera(address, division, resolution, dimension, baseConsumption, Double.parseDouble(installationCost));
     }
 
     public void addSmartHouse(String address, String name, String nif, String provider) throws ProviderDoesntExistException, AddressAlreadyExistsException{
