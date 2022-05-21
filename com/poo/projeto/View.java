@@ -474,7 +474,6 @@ public class View {
                                 String response = is.nextLine();
                                 try {
                                     if (response.equals("y")) {
-                                        System.out.println("hello");
                                         this.controller.turnSmartDevice(args.get(0), smartDevice, true);
                                     } else if (response.equals("n")) {
                                         this.controller.turnSmartDevice(args.get(0), smartDevice, false);
