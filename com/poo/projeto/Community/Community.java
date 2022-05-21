@@ -258,4 +258,12 @@ public class Community implements Serializable {
     public Community clone(){
         return new Community(this);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Community community = (Community) o;
+        return Objects.equals(providerMap, community.providerMap) && Objects.equals(smartHouseMap, community.smartHouseMap) && Objects.equals(currentDate, community.currentDate);
+    }
 }
