@@ -8,13 +8,11 @@ import java.util.Scanner;
 
 public class Menu implements Serializable{
 
-    /** Functional interface para handlers. */
-    public interface Handler extends Serializable {  // método de tratamento
+    public interface Handler extends Serializable {
         public int execute(List<String> args);
     }
 
-    /** Functional interface para pré-condições. */
-    public interface PreCondition extends Serializable {  // Predicate ?
+    public interface PreCondition extends Serializable {
         public boolean validate();
     }
 
