@@ -417,7 +417,7 @@ public class View {
         String name = is.nextLine();
         do {
             System.out.println("Introduza o fator de desconto:");
-        }while (is.hasNextDouble());
+        }while (!is.hasNextDouble());
         Double discountFactor = is.nextDouble();
         is.nextLine();
         try {
