@@ -322,10 +322,10 @@ public class Controller {
                     this.model.setSmartHouseProvider(brokenLine[0], brokenLine[1], brokenLine[2]);
                 } else if (this.model.existsDivision(brokenLine[1], brokenLine[2])) {
                     switch (brokenLine[3]) {
-                        case "setOn":
+                        case "divSetOn":
                             this.model.turnDivision(brokenLine[0], brokenLine[1], brokenLine[2], true);
                             break;
-                        case "setOff":
+                        case "divSetOff":
                             this.model.turnDivision(brokenLine[0], brokenLine[1], brokenLine[2], false);
                             break;
                     }

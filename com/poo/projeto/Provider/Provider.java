@@ -115,6 +115,9 @@ public class Provider implements Comparable<Provider>, Serializable {
 
     @Override
     public int compareTo(Provider o) {
+        if (Double.compare(this.invoicingVolume(), o.invoicingVolume()) == 0) {
+            return this.getName().compareTo(o.getName());
+        }
         return Double.compare(this.invoicingVolume(), o.invoicingVolume());
     }
 
