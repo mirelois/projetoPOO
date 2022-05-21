@@ -1,0 +1,12 @@
+2022.04.11, 100, 3369, alteraConsumoBase, 0
+2022.04.11, 100, 3368, alteraConsumoBase, 0
+2022.04.11, 100, 3367, alteraConsumoBase, 0
+2022.04.11, 100, 3371, alteraConsumoBase, 0
+2022.04.11, 100, 3370, alteraConsumoBase, 1
+2022.04.12, 100, Sala de Estar, divSetOn
+2022.04.12, YIce, alteraAlgoritmo, 2
+2022.04.13, 101, Cozinha, divSetOn
+2022.04.15, 101, 3412, setOff
+2022.04.17, 101, Cozinha, divSetOff
+2022.04.19, Luzboa, alteraValorDesconto, 0
+2022.04.20, 100, Luzboa
