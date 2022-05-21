@@ -244,7 +244,7 @@ public class View {
                             return 1;
                         },
                         (args)->{ //imprime casa
-                            System.out.println("Introduza a morada da casa:");
+                            System.out.println("Introduza o código da casa:");
                             String houseName = is.nextLine();
                             try {
                                 System.out.println(this.controller.printHouse(houseName));
@@ -254,7 +254,7 @@ public class View {
                             return 1;
                         },
                         (args)->{ // imprime Casa por nif
-                            System.out.println("Introduz o nif:");
+                            System.out.println("Introduza o NIF:");
                             String casas = this.controller.smartHousesByNif(is.nextLine());
                             if(casas.equals(""))
                                 System.out.println("Não foram encontradas casas com o nif dado");
@@ -338,7 +338,7 @@ public class View {
                 new String[]{"Alterar Detalhes Casa", "Alterar Detalhes Fornecedor", "Adicionar Fornecedor", "Adicionar Casa", "Menu anterior"},
                 new Menu.Handler[]{
                         (args) -> {
-                            System.out.println("Introduza a morada da casa:");
+                            System.out.println("Introduza o código da casa:");
                             String houseAddress = is.nextLine();
                             if (this.controller.existsSmartHouse(houseAddress)) {
                                 ArrayList<String> arrayList = new ArrayList<>();
@@ -385,11 +385,7 @@ public class View {
     }
 
     private void addSmartHouseView() {
-        String address, name, nif, provider;
-        do {
-            System.out.println("Introduza morada:");
-            address = is.nextLine();
-        }while (this.controller.existsSmartHouse(address));
+        String name, nif, provider;
         System.out.println("Introduza o nome do dono:");
         name = is.nextLine();
         System.out.println("Introduza o nif do dono:");
@@ -399,9 +395,8 @@ public class View {
             provider = is.nextLine();
         }while(!this.controller.existsProvider(provider));
         try {
-            this.controller.addSmartHouse(address, name, nif, provider);
             ArrayList<String> arrayList = new ArrayList<>();
-            arrayList.add(address);
+            arrayList.add(this.controller.addSmartHouse(name, nif, provider));
             this.executeMenuByName("alterSimulationDetailsHouse", arrayList);
         } catch (ProviderDoesntExistException | AddressAlreadyExistsException e) {
             e.printStackTrace();
@@ -413,7 +408,6 @@ public class View {
         String name = is.nextLine();
         System.out.println("Introduza o fator de desconto:");
         String discountFactor = is.nextLine();
-        is.nextLine();
         try {
             this.controller.addProvider(name, discountFactor);
             ArrayList<String> arrayList = new ArrayList<>();
