@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Provider implements Comparable<Provider>, Serializable {
-    private static double baseValueKWH = 2.4, taxFactor = 0.23;
+    private static double baseValueKWH = 1, taxFactor = 0;
     private String name;
     private Double discountFactor;
     private Map<String, List<Invoice>> invoiceMap;

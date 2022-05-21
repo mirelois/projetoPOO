@@ -655,7 +655,7 @@ public class View {
                             String installationCost = is.nextLine();
                             try {
                                 this.controller.addSmartCamera(args.get(0), args.get(1), resolution, dimension, baseConsumption, installationCost);
-                            } catch (AddressDoesntExistException e) {
+                            } catch (AddressDoesntExistException | NumberFormatException e) {
                                 e.printStackTrace();
                             }
                             return 1;

@@ -187,7 +187,7 @@ public class CommunityApp implements Serializable {
     }
 
     // TODO idDevice++?
-    public void addSmartCamera(String address, String division, String resolution, String dimension, String baseConsumption, Double installationCost) throws AddressDoesntExistException {
+    public void addSmartCamera(String address, String division, String resolution, String dimension, String baseConsumption, Double installationCost) throws AddressDoesntExistException, NumberFormatException {
         Integer[] resolutionInt = new Integer[2];
         String[] temp = resolution.split("x");
         //TODO não gosto deste parse, o controller devia logo atirar erro se não funcionasse e o Model não tem nada que saber parses

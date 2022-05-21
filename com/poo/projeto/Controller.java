@@ -94,7 +94,7 @@ public class Controller {
         return true;
     }
 
-    public boolean createSmartCamera(String line) throws AddressDoesntExistException {
+    public boolean createSmartCamera(String line) throws AddressDoesntExistException, NumberFormatException {
         String[] args = line.split(",");
         if(args.length!=3)
             return false;
@@ -360,7 +360,7 @@ public class Controller {
         this.model.addSmartBulb(address, division, tone, diameter, baseConsumption, Double.parseDouble(installationCost));
     }
 
-    public void addSmartCamera(String address, String division, String resolution, String dimension, String baseConsumption, String installationCost) throws AddressDoesntExistException {
+    public void addSmartCamera(String address, String division, String resolution, String dimension, String baseConsumption, String installationCost) throws AddressDoesntExistException, NumberFormatException {
         this.model.addSmartCamera(address, division, resolution, dimension, baseConsumption, Double.parseDouble(installationCost));
     }
 
