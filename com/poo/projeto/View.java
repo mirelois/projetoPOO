@@ -362,7 +362,23 @@ public class View {
                             return 1;
                         },
                         (args) -> {
-                            addProviderView();
+                            System.out.println("Introduza o nome do fornecedor:");
+                            if(is.hasNextInt()){
+                                System.out.println("Nome de fornecedor inválido");
+                                String name = is.nextLine();
+                                return 1;
+                            }
+                            String name = is.nextLine();
+                            System.out.println("Introduza o fator de desconto:");
+                            String discountFactor = is.nextLine();
+                            try {
+                                this.controller.addProvider(name, discountFactor);
+                                ArrayList<String> arrayList = new ArrayList<>();
+                                arrayList.add(name);
+                                this.executeMenuByName("alterSimulationDetailsProvider", arrayList);
+                            } catch (ProviderAlreadyExistsException e) {
+                                e.printStackTrace();
+                            }
                             return 1;
                         },
                         (args) -> {
@@ -427,6 +443,7 @@ public class View {
                             System.out.println("Introduza o nome da divisão onde adicionar.");
                             if(is.hasNextInt()){
                                 System.out.println("Nome de divisão inválido");
+                                String read = is.nextLine();
                                 return 1;
                             }
                             String division = is.nextLine();
@@ -453,6 +470,7 @@ public class View {
                             System.out.println("Introduza o nome da divisão.");
                             if(is.hasNextInt()){
                                 System.out.println("Nome de divisão inválido");
+                                String read = is.nextLine();
                                 return 1;
                             }
                             String divisionName = is.nextLine();
