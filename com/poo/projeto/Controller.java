@@ -269,7 +269,7 @@ public class Controller {
         this.model.setProviderAlgorithm(null, provider, i);
     }
 
-    public void parseActions(List<String> lines) throws AddressDoesntExistException, NumberFormatException, ProviderDoesntExistException, DeviceDoesntExistException, DivisionDoesntExistException {
+    public String parseActions(List<String> lines) throws AddressDoesntExistException, NumberFormatException, ProviderDoesntExistException, DeviceDoesntExistException, DivisionDoesntExistException {
         String[] brokenLine;
         for (String line : lines) {
             brokenLine = line.split(", ");
@@ -293,10 +293,10 @@ public class Controller {
                 } else if (this.model.existsDivision(brokenLine[1], brokenLine[2])) {
                     switch (brokenLine[3]) {
                         case "setOn":
-                            this.model.turnDivision(brokenLine[0], brokenLine[1], brokenLine[3], true);
+                            this.model.turnDivision(brokenLine[0], brokenLine[1], brokenLine[2], true);
                             break;
                         case "setOff":
-                            this.model.turnDivision(brokenLine[0], brokenLine[1], brokenLine[3], false);
+                            this.model.turnDivision(brokenLine[0], brokenLine[1], brokenLine[2], false);
                             break;
                     }
                 }
@@ -313,6 +313,7 @@ public class Controller {
                 }
             }
         }
+        return this.model.commandToString();
     }
 
     public void addDivision(String address, String divisionName) throws AddressDoesntExistException, DivisionAlreadyExistsException {

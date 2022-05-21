@@ -56,6 +56,7 @@ public class CommunityApp implements Serializable {
             //TODO se um command falhar não vai executar os outros nem limpar a lista
             //TODO ver se o comando é para ser executado no próximo ciclo ou não
             command = iterator.next();
+            System.out.println(commands.size());
             if (command.getExecutionTime().compareTo(newDate) < 0) {
                 command.execute(this.community);
                 iterator.remove();
@@ -255,6 +256,8 @@ public class CommunityApp implements Serializable {
         int i = 0;
         Iterator<Command> iterator = commands.iterator();
         Command command;
+        System.out.println(commands.size());
+        System.out.println(this.community.getCurrentDate().toString());
         while (iterator.hasNext() && i < numberOfCicles) {
             command = iterator.next();
             if (!command.getExecutionTime().equals(current)) {
@@ -262,8 +265,15 @@ public class CommunityApp implements Serializable {
                 this.community.advanceDate(command.getExecutionTime());
                 current = command.getExecutionTime();
             }
-            if (i < numberOfCicles)
+            if (i < numberOfCicles) {
                 command.execute(this.community);
+                iterator.remove();
+            }
+            System.out.println(commands.size());
+            System.out.println(this.community.getCurrentDate().toString());
+        }
+        if (!iterator.hasNext() && i < numberOfCicles) {
+            this.community.advanceDate(this.community.getCurrentDate().plusDays(1));
         }
     }
 
@@ -303,10 +313,21 @@ public class CommunityApp implements Serializable {
                 current = command.getExecutionTime();
             }
             command.execute(this.community);
+            iterator.remove();
         }
     }
 
     public String smartHousesByNifString(String nif){
         return this.community.housesByNifString(nif);
+    }
+
+    public String commandToString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Command command : commands) {
+            stringBuilder.append(command.toString());
+            stringBuilder.append("\n");
+        }
+        //TODO Lucena limpar estes tostrings seu nabo
+        return stringBuilder.toString();
     }
 }

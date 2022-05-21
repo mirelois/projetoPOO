@@ -130,7 +130,7 @@ public class View {
                                 String filename = is.nextLine();
                                 try {
                                     List<String> lines = this.readLog(filename);
-                                    this.controller.parseActions(lines);
+                                    System.out.println(this.controller.parseActions(lines));
                                     this.executeMenuByName("automaticSimulationMenu", null);
                                 } catch (DivisionDoesntExistException | DeviceDoesntExistException | NumberFormatException | AddressDoesntExistException | ProviderDoesntExistException | IOException e) {
                                     e.printStackTrace();
@@ -224,7 +224,7 @@ public class View {
                 new Menu.PreCondition[]{
                         () -> true,
                         () -> true,
-                        () -> this.controller.isSimulationEmpty()
+                        () -> !this.controller.isSimulationEmpty()
                 });
     }
 

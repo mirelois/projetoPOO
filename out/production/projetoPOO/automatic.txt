@@ -1,0 +1,4 @@
+2022.04.10, 1, Sala de Jantar 1, setOn
+2022.04.10, 2, 1, setOff
+2022.04.11, 3, EDP Comercial
+2022.04.12, Iberdrola, alteraValorDesconto, 3
