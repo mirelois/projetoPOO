@@ -54,7 +54,6 @@ public class CommunityApp implements Serializable {
         Command command;
         while (iterator.hasNext()) {
             //TODO se um command falhar não vai executar os outros nem limpar a lista
-            //TODO ver se o comando é para ser executado no próximo ciclo ou não
             command = iterator.next();
             System.out.println(commands.size());
             if (command.getExecutionTime().compareTo(newDate) < 0) {

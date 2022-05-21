@@ -80,12 +80,13 @@ public class Community implements Serializable {
     }
 
     public List<SmartHouse> orderedHousesByConsumption(LocalDate start, LocalDate end) throws NoHouseInPeriodException {
-        if (this.smartHouseMap.size() == 0) {
+        List<SmartHouse> list = this.smartHouseMap.values().stream().sorted((SerializableComparator<SmartHouse>) (o1, o2) -> Double.compare(o2.consumptionByPeriod(start, end), o1.consumptionByPeriod(start, end))).collect(Collectors.toList());
+        if (list.size() == 0) {
             //TODO não faz muito sentido este teste
-            //TODO esta exception é mentirosa
+
             throw new NoHouseInPeriodException("Nenhuma casa com consumo no período de " + start.toString() + " a " + end.toString());
         }
-        return this.smartHouseMap.values().stream().sorted((SerializableComparator<SmartHouse>) (o1, o2) -> Double.compare(o2.consumptionByPeriod(start, end), o1.consumptionByPeriod(start, end))).collect(Collectors.toList());
+        return list;
     }
 
     public List<Invoice> invoicesByProvider(String provider) throws ProviderDoesntExistException {

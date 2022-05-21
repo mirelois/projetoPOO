@@ -213,6 +213,7 @@ public class View {
                                      ProviderDoesntExistException | DivisionDoesntExistException |
                                      DivisionAlreadyExistsException e) {
                                 e.printStackTrace();
+                                return 1;
                             }
                             return 0;
                         },
@@ -419,7 +420,6 @@ public class View {
         }while (is.hasNextDouble());
         Double discountFactor = is.nextDouble();
         is.nextLine();
-        //TODO adicionar mais coisas ao provider
         try {
             this.controller.addProvider(name, discountFactor);
             ArrayList<String> arrayList = new ArrayList<>();
@@ -666,10 +666,7 @@ public class View {
             System.out.println("Introduza data inicial válida (YYYY-MM-DD)");
             initialDate = is.nextLine();
         } while (!this.controller.setInitialDate(initialDate));
-
         executeMenuByName("startMenu", null);
-        //Boot
-        //Introduzir data inicial
     }
 
 }
