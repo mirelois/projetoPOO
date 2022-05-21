@@ -1,8 +1,5 @@
 # projetoPOO
 
-Relatório editável em:
-https://www.overleaf.com/1891564644yrkzggykmgdh
-
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
