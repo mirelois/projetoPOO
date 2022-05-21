@@ -18,10 +18,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CommunityApp implements Serializable {
@@ -356,5 +353,13 @@ public class CommunityApp implements Serializable {
 
     public CommunityApp clone(){
         return new CommunityApp(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CommunityApp that = (CommunityApp) o;
+        return Objects.equals(community, that.community) && Objects.equals(idDevice, that.idDevice) && Objects.equals(commands, that.commands);
     }
 }
