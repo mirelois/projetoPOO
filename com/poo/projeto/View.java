@@ -227,7 +227,7 @@ public class View {
 
     public Menu createPrintMenu() {
         return  new Menu("printMenu",
-                new String[]{"Imprime Tudo", "Imprime Todos os Fornecedores", "Imprime Todas as Casas", "Imprime Casa", "Imprime Casas por nif", "Imprime Fornecedor", "Casa que mais gastou",
+                new String[]{"Imprime Tudo", "Imprime Todos os Fornecedores", "Imprime Todas as Casas", "Imprime Casa", "Imprime Casas por NIF", "Imprime Fornecedor", "Casa que mais gastou",
                         "Fornecedor com maior volume de faturação", "Faturas emitidas por um fornecedor",
                         "Ordenação dos maiores consumidores de energia", "Menu Anterior"},
                 new Menu.Handler[]{
@@ -431,8 +431,11 @@ public class View {
                 new Menu.Handler[]{
                         (args) -> {
                             System.out.println("Introduza o nome da divisão onde adicionar.");
+                            if(is.hasNextInt()){
+                                System.out.println("Nome de divisão inválido");
+                                return 1;
+                            }
                             String division = is.nextLine();
-
                             if (!this.controller.existsDivision(args.get(0), division)) {
                                 System.out.println("Divisão não existente.");
                                 System.out.println("Deseja criar? (y/n)");
@@ -454,6 +457,10 @@ public class View {
                         },
                         (args) -> {
                             System.out.println("Introduza o nome da divisão.");
+                            if(is.hasNextInt()){
+                                System.out.println("Nome de divisão inválido");
+                                return 1;
+                            }
                             String divisionName = is.nextLine();
                             if (this.controller.existsDivision(args.get(0), divisionName)) {
                                 System.out.println("Divisão já existente.");
